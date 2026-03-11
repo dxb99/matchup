@@ -16,10 +16,17 @@ function isMobile() {
 
 window.onload = function() {
 
+    const path = window.location.pathname;
+
+    // Prevent redirect loop
+    if (path.includes("mobile.html") || path.includes("desktop.html")) {
+        return;
+    }
+
     if (isMobile()) {
-        window.location.replace("mobile.html");
+        window.location.href = "mobile.html";
     } else {
-        window.location.replace("desktop.html");
+        window.location.href = "desktop.html";
     }
 
 };
@@ -39,7 +46,6 @@ body{
 </style>
 
 </head>
-
 <body>
 
 Loading DXB99...
