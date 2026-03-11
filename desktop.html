@@ -1,0 +1,2813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" href="data:,">
+  <meta name="viewport" content="width=1000" />
+  <title>DXB99 Matchup Generator</title>
+  <style>
+    :root{
+      --bg:#000000;
+      --panel:#0b1225;
+      --text:#ffffff;
+      --muted: rgba(255,255,255,0.75);
+    }
+    *{ box-sizing:border-box; }
+     /* SAFE: prevent left-right scrolling */
+    body{
+      margin:0;
+      font-family: Arial, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      padding: clamp(12px, 3vw, 20px);
+      font-size:clamp(13px,1.6vw,14px);
+    }
+    .container{ max-width: 1200px; margin: 0 auto; width:100%; }
+
+.tabs{
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  margin-bottom:18px;
+}
+.tabs button{
+  padding:10px 16px;
+  border-radius:12px;
+  background:rgba(156,163,175,0.18);
+  border:2px solid #9ca3af;
+  color:white;
+  cursor:pointer;
+  font-size: clamp(14px, 1.8vw, 16px);
+  min-width:120px;
+  transition: all .15s ease;
+  --hoverGlow:#9ca3af;
+}
+h2, h3{
+  margin:10px 0;
+  font-size:clamp(18px, 2.4vw, 20px);
+  font-weight:900;
+}
+
+    /* Picker */
+    #pickerSelect{
+      display:block;
+      margin: 0 auto;
+      padding: 12px 14px;
+      border-radius: 12px;
+      border:none;
+      width: min(420px, 92vw); /* SAFE: avoid overflow */
+      max-width: 100%;
+      font-size: clamp(16px, 2.3vw, 18px);
+      text-align: center;
+    }
+
+    /* Selected banner (sticky splash) */
+    .selected-banner{
+  margin-top: 14px;
+  padding: clamp(10px, 2.5vw, 14px);
+  border-radius: 14px;
+
+  background:
+    radial-gradient(circle at 20% 50%, rgba(37,99,235,0.35), transparent 40%),
+    radial-gradient(circle at 80% 50%, rgba(220,38,38,0.35), transparent 40%),
+    linear-gradient(
+      135deg,
+      rgba(37,99,235,0.18),
+      rgba(255,255,255,0.04),
+      rgba(220,38,38,0.18)
+    );
+
+  border: 2px solid rgba(255,255,255,0.35);
+
+  box-shadow:
+    0 8px 24px rgba(0,0,0,0.6),
+    inset 0 0 25px rgba(255,255,255,0.05);
+
+  border-top: 4px solid #3b82f6;
+
+  position: sticky;
+  top: 10px;
+  z-index: 1000;
+  width: 100%;
+}
+  .selected-title{
+  text-align:center;
+  font-weight: 900;
+  font-size: clamp(20px, 3.4vw, 24px);
+  letter-spacing: 0.6px;
+  margin-bottom: 6px;
+  text-shadow:0 2px 6px rgba(0,0,0,0.75);
+}
+  .selected-pickedby{
+  text-align:center;
+  font-weight: 800;
+  font-size: clamp(13px, 2vw, 15px);
+  color: var(--muted);
+  margin-bottom: 10px;
+  text-shadow:0 1px 4px rgba(0,0,0,0.75);
+}
+  .selected-lines{
+  text-align:center;
+  font-weight: 800;
+  font-size: clamp(13px, 2.2vw, 16px);
+  line-height: 1.45;
+  text-shadow:0 1px 4px rgba(0,0,0,0.75);
+}
+
+    /* Selected team columns */
+
+.selected-team-col{
+  text-align:center;
+  font-weight:800;
+}
+
+.selected-team-title{
+  font-size:clamp(14px,2vw,16px);
+  margin-bottom:6px;
+}
+
+.selected-team-players{
+  font-size:clamp(16px,2.6vw,19px);
+  line-height:1.5;
+}
+
+.selected-footer{
+  text-align:center;
+  font-weight:800;
+  margin-top:8px;
+  font-size:clamp(13px,2vw,15px);
+}
+
+#matchExpiry{
+  position:absolute;
+  bottom:6px;
+  right:10px;
+  font-size:10px;
+  opacity:0.7;
+  font-weight:700;
+}
+
+/* Selected teams boxes */
+.selected-teams-grid{
+  position:relative;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:24px;
+  margin-top:10px;
+  max-width:520px;
+  margin-left:auto;
+  margin-right:auto;
+  align-items:stretch;
+}
+
+.selected-teams-grid::before{
+  content:"VS";
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+
+  font-size:54px;
+  font-weight:900;
+  letter-spacing:4px;
+
+  color:white;
+
+  text-shadow:
+    0 0 16px #3b82f6,
+    0 0 28px #60a5fa,
+    0 0 28px #f87171,
+    0 0 16px #dc2626,
+    0 0 35px rgba(255,255,255,0.8);
+
+  opacity:0.85;
+
+  pointer-events:none;
+}
+
+.selected-team-box{
+  padding:14px;
+  border-radius:12px;
+  font-weight:700;
+  text-align:center;
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  height:100%;
+  transition: all .18s ease;
+
+  border:1px solid rgba(255,255,255,0.15);
+  box-shadow:0 6px 16px rgba(0,0,0,0.35);
+}
+
+.selected-blue{
+  background:#1e40af;
+  color:white;
+
+  box-shadow:
+    0 0 14px rgba(37,99,235,0.6),
+    inset 0 0 18px rgba(37,99,235,0.25);
+}
+
+.selected-red{
+  background:#b91c1c;
+  color:white;
+
+  box-shadow:
+    0 0 14px rgba(220,38,38,0.6),
+    inset 0 0 18px rgba(220,38,38,0.25);
+}
+
+/* Optional enhanced scoreboard style */
+.scoreboard-style .selected-team-box{
+  border:1px solid rgba(255,255,255,0.15);
+  box-shadow:0 6px 16px rgba(0,0,0,0.35);
+}
+
+.scoreboard-style .selected-blue{
+  background:#1e40af;
+}
+
+.scoreboard-style .selected-red{
+  background:#b91c1c;
+}
+    
+.selected-team-title{
+  font-weight:900;
+  font-size:16px;
+  margin-bottom:6px;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+    /* One-line team text with tap-to-expand */
+    .team-line{
+      display:block;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      line-height: 1.35;
+      max-width: 100%;
+    }
+    .team-line.truncatable{
+      cursor:pointer;
+      text-decoration: underline;
+      text-decoration-style: dotted;
+      text-underline-offset: 3px;
+    }
+
+    /* Today's players */
+    .player-grid{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:10px;
+  margin-top:10px;
+}
+    .player-grid label{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      justify-content:center;
+      padding: 10px 10px;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.08);
+      font-size: clamp(13px, 1.6vw, 14px);
+      font-weight: 700;
+      user-select:none;
+      min-width:0; /* SAFE */
+      width:170px;
+    }
+    .player-grid input[type="checkbox"]{
+      width: 18px;
+      height: 18px;
+      accent-color: #22c55e;
+      flex: 0 0 auto;
+    }
+
+    /* Controls */
+    .controls{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:12px;
+      margin-top:14px;
+      width:100%;
+    }
+
+    .controls > label{
+      display:inline-flex;
+    }
+
+.controls .radio-row{
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+  gap:6px;
+  width:100%;
+}
+
+.controls .radio-row label{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  font-size:clamp(10px,2vw,13px);
+  white-space:nowrap;
+  min-width:0;
+}
+
+.controls label{
+ display:flex;
+ justify-content:center;
+ align-items:center;
+ font-size:clamp(11px,2.5vw,14px);
+ white-space:nowrap;
+ user-select:none;
+ cursor:pointer;
+ width:100%;
+}
+    .controls label.disabled-label{
+      opacity: 0.35;
+      cursor:not-allowed;
+    }
+
+button.primary{
+  background:rgba(22,163,74,0.18);
+  border:2px solid #16a34a;
+  color:white;
+  font-weight:900;
+  padding:16px 14px;
+  border-radius:12px;
+  cursor:pointer;
+  font-size:inherit;
+  flex:0 0 auto;
+  width:auto;
+  transition: all .15s ease;
+  --hoverGlow:#16a34a;
+}
+
+button.primary.selected{
+  background:#facc15;
+  color:#111827;
+  box-shadow:0 0 14px rgba(250,204,21,0.9);
+  cursor:default;
+}
+
+.generate-btn{
+  width:100%;
+  display:block;
+}
+
+button.danger{
+  background:rgba(220,38,38,0.18);
+  border:2px solid #dc2626;
+  color:white;
+  font-weight:900;
+  padding:10px 16px;
+  border-radius:12px;
+  cursor:pointer;
+  font-size:inherit;
+  --hoverGlow:#dc2626;
+}
+
+button.orange{
+  background:rgba(234,88,12,0.18);
+  border:2px solid #ea580c;
+  color:white;
+  font-weight:900;
+  padding:10px 16px;
+  border-radius:12px;
+  cursor:pointer;
+  font-size:inherit;
+  --hoverGlow:#ea580c;
+}
+
+button.blue{
+  background:rgba(37,99,235,0.18);
+  border:2px solid #2563eb;
+  color:white;
+  font-weight:900;
+  padding:10px 16px;
+  border-radius:12px;
+  cursor:pointer;
+  font-size:inherit;
+  --hoverGlow:#2563eb;
+}
+
+    /* Admin section */
+    #adminSection{
+      margin-top: 14px;
+      padding: 12px;
+      border-radius: 14px;
+      border: 2px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.04);
+      width:100%;
+      overflow-x:hidden; /* SAFE */
+    }
+    .admin-row{
+      display:flex;
+      gap: 8px;
+      flex-wrap:wrap;
+      align-items:center;
+      margin: 8px 0;
+    }
+    .admin-row input{
+      padding: 10px 10px;
+      border:none;
+      border-radius: 10px;
+      font-size: 14px;
+      min-width: 170px;
+      max-width: 100%;
+    }
+    .admin-row input[type="number"]{ min-width: 100px; width: 110px; }
+    .admin-row button{
+  padding: 10px 12px;
+  border:none;
+  border-radius: 10px;
+  cursor:pointer;
+  font-weight: 900;
+  color:white;
+}
+    .admin-actions{
+      display:flex;
+      justify-content:flex-end;
+      gap:10px;
+      margin-top: 10px;
+      flex-wrap:wrap;
+    }
+
+    /* Results */
+    .group-title{
+      margin-top: 22px;
+      font-weight: 900;
+      font-size: clamp(16px, 2.2vw, 18px);
+      width:100%;
+    }
+    .group-grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 10px;
+      width:100%;
+    }
+    @media (max-width: 800px){
+      .group-grid{ grid-template-columns: 1fr; }
+    }
+
+    .team-row{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap: 12px;
+      padding: 12px;
+      border-radius: 14px;
+      transition: outline 0.12s ease, transform 0.1s ease, box-shadow 0.12s ease;
+      font-size: inherit;
+      width:100%;
+      min-width:0;
+    }
+    
+.team-row.selected-option{
+  outline: 3px solid rgba(255,255,255,0.9);
+  transform: translateY(-1px);
+  box-shadow: 0 0 14px rgba(255,255,255,0.6);
+  animation: selectGlow 0.4s ease;
+}
+
+@keyframes selectGlow{
+  0%{
+    box-shadow: 0 0 0 rgba(255,255,255,0);
+  }
+  50%{
+    box-shadow: 0 0 24px rgba(255,255,255,0.9);
+  }
+  100%{
+    box-shadow: 0 0 14px rgba(255,255,255,0.6);
+  }
+}
+
+/* ADD THE NEW CODE RIGHT HERE */
+
+@keyframes selectButtonPulse{
+  0%{
+    box-shadow:0 0 0 rgba(22,163,74,0);
+    transform:scale(1);
+  }
+  50%{
+    box-shadow:0 0 18px rgba(22,163,74,0.9);
+    transform:scale(1.05);
+  }
+  100%{
+    box-shadow:0 0 0 rgba(22,163,74,0);
+    transform:scale(1);
+  }
+}
+
+button.primary:active{
+  animation:selectButtonPulse 0.35s ease;
+}
+
+/* Matchup banner glow animation */
+
+@keyframes matchupBannerGlow{
+  0%{
+    transform: scale(1);
+    box-shadow:0 0 0 rgba(0,0,0,0);
+  }
+  40%{
+    transform: scale(1.04);
+    box-shadow:
+      0 0 20px rgba(37,99,235,0.9),
+      0 0 20px rgba(220,38,38,0.9);
+  }
+  100%{
+    transform: scale(1);
+    box-shadow:0 0 12px rgba(255,255,255,0.25);
+  }
+}
+
+.matchup-banner-glow{
+  animation: matchupBannerGlow 0.7s ease;
+}
+
+.matchup-flash{
+  animation: matchupFlash 0.6s ease;
+}    
+
+    .diff-0.selected-option { box-shadow: 0 0 14px #581c87; }
+    .diff-1.selected-option { box-shadow: 0 0 14px #1e3a8a; }
+    .diff-2.selected-option { box-shadow: 0 0 14px #14532d; }
+    .diff-3.selected-option { box-shadow: 0 0 14px #a16207; }
+    .diff-4.selected-option { box-shadow: 0 0 14px #9a3412; }
+    .diff-5.selected-option { box-shadow: 0 0 14px #7f1d1d; }
+    
+    .team-info{
+      width: 100%;
+      min-width: 0;
+    } /* SAFE: prevents overflow in flex */
+    
+    @media (max-width: 600px){
+
+      #historyList .team-info strong{
+        display:block;
+        margin-bottom:2px;
+      }
+
+}
+    
+.button-area{
+  min-width:120px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:6px;
+  flex:0 0 auto;
+}
+    
+.picked-count{
+  font-size:10px;
+  font-weight:800;
+  background:rgba(0,0,0,0.35);
+  padding:2px 6px;
+  border-radius:6px;
+  border:1px solid rgba(255,255,255,0.15);
+  letter-spacing:0.3px;
+}
+
+    /* On very small screens, stack button area under team text to avoid any side-scroll */
+    @media (max-width: 520px){
+      .team-row{ flex-wrap:wrap; align-items:flex-start; }
+      .button-area{ width:100%; align-items:flex-start; }
+      .button-area button.primary{ width:100%; }
+      .picked-count{ width:100%; }
+    }
+
+    /* Diff colors */
+.diff-0 {
+  background:rgba(37,99,235,0.18);
+  border-left:6px solid #2563eb;
+  color:white;
+}
+
+.diff-1 {
+  background:rgba(22,163,74,0.18);
+  border-left:6px solid #16a34a;
+  color:white;
+}
+
+.diff-2 {
+  background:rgba(250,204,21,0.20);
+  border-left:6px solid #facc15;
+  color:white;
+}
+
+.diff-3 {
+  background:rgba(234,88,12,0.18);
+  border-left:6px solid #ea580c;
+  color:white;
+}
+
+.diff-4 {
+  background:rgba(220,38,38,0.18);
+  border-left:6px solid #dc2626;
+  color:white;
+}
+
+.diff-5 {
+  background:rgba(127,29,29,0.25);
+  border-left:6px solid #7f1d1d;
+  color:white;
+}
+
+    /* History timeline style */
+
+#historyList .team-row{
+  background: rgba(255,255,255,0.04);
+  border-left: 8px solid transparent;
+}
+
+/* Colored timeline bars */
+
+#historyList .diff-0 { border-left-color:#2563eb; }  /* Blue */
+#historyList .diff-1 { border-left-color:#16a34a; }  /* Green */
+#historyList .diff-2 { border-left-color:#facc15; }  /* Yellow */
+#historyList .diff-3 { border-left-color:#ea580c; }  /* Orange */
+#historyList .diff-4 { border-left-color:#dc2626; }  /* Red */
+
+/* Mobile history layout */
+@media (max-width:600px){
+
+  .history-meta{
+    display:block;
+    margin-top:2px;
+  }
+
+  .history-sep{
+    display:none;
+  }
+
+  .history-blue,
+  .history-red{
+    display:block;
+  }
+
+}
+
+/* Difference radio colors */
+
+#labelAll {
+  background:rgba(156,163,175,0.25);
+  border:2px solid #9ca3af;
+  color:white;
+  --hoverGlow:#9ca3af;
+}
+
+#label0 {
+  background:rgba(37,99,235,0.18);
+  border:2px solid #2563eb;
+  color:white;
+  --hoverGlow:#2563eb;
+}
+
+#label1 {
+  background:rgba(22,163,74,0.18);
+  border:2px solid #16a34a;
+  color:white;
+  --hoverGlow:#16a34a;
+}
+
+#label2 {
+  background:rgba(250,204,21,0.20);
+  border:2px solid #facc15;
+  color:white;
+  --hoverGlow:#facc15;
+}
+
+#label3 {
+  background:rgba(234,88,12,0.18);
+  border:2px solid #ea580c;
+  color:white;
+  --hoverGlow:#ea580c;
+}
+
+#label4 {
+  background:rgba(220,38,38,0.18);
+  border:2px solid #dc2626;
+  color:white;
+  --hoverGlow:#dc2626;
+}
+
+.controls label{
+  padding:8px 10px;
+  border-radius:8px;
+}
+
+.controls input[type="radio"]{
+  display:inline-block;
+  accent-color:white;
+  margin-right:6px;
+}
+
+.controls label{
+  cursor:pointer;
+  transition: all .15s ease;
+}
+
+/* Universal hover glow system */
+
+button,
+.tabs button,
+.controls label{
+  transition: all .15s ease;
+}
+
+button:hover,
+.tabs button:hover,
+.controls label:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 0 14px var(--hoverGlow, rgba(255,255,255,0.6));
+}
+    
+    /* History */
+    #historyFilter{
+  padding: 0 44px 0 12px;
+  border:none;
+  border-radius: 12px;
+  font-size: clamp(14px, 2vw, 16px);
+  width:100%;
+  margin-top: 6px;
+}
+
+    /* Modal */
+    .modal-overlay{
+      position:fixed;
+      inset:0;
+      background: rgba(0,0,0,0.6);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding: 16px;
+      z-index: 999;
+    }
+
+.history-controls{
+  display:flex;
+  gap:10px;
+  margin-top:6px;
+  align-items:stretch;
+}
+
+.history-controls select,
+.history-controls button{
+  flex:1;
+  padding:10px 12px;
+  font-size:clamp(14px, 2vw, 16px);
+  border-radius:12px;
+  margin:0;
+}
+
+.history-controls button{
+  line-height:44px;           /* ensure button text is centered */
+  padding:0 16px;             /* horizontal only */
+}
+
+.history-controls select{
+  padding:0 44px 0 12px;      /* room for the dropdown arrow */
+  line-height:44px;           /* centers select text consistently */
+}
+    .modal{
+      width: min(720px, 96vw);
+      background: #0b1225;
+      border: 2px solid rgba(255,255,255,0.18);
+      border-radius: 14px;
+      padding: 14px;
+      max-width: 100%;
+    }
+    .modal h4{ margin: 0 0 10px 0; font-size: 18px; }
+    .modal .modal-text{
+      font-size: 16px;
+      line-height: 1.45;
+      word-break: break-word;
+      white-space: normal;
+    }
+    .modal .modal-actions{
+      display:flex;
+      justify-content:flex-end;
+      margin-top: 12px;
+    }
+    .modal .close-btn{
+      background:#334155;
+      color:white;
+      border:none;
+      border-radius:12px;
+      padding:10px 14px;
+      cursor:pointer;
+      font-weight: 900;
+    }
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.info-example{
+  display:flex;
+  gap:12px;
+  margin:12px 0;
+}
+
+.info-team{
+  flex:1;
+  padding:10px;
+  border-radius:8px;
+  font-weight:700;
+  text-align:center;
+}
+
+.info-blue{
+  background:#1d4ed8;
+  color:white;
+}
+
+.info-red{
+  background:#dc2626;
+  color:white;
+}
+
+.info-balance{
+  margin-top:6px;
+  font-weight:700;
+}
+
+#infoPage h2,
+#infoPage h3{
+  margin:10px 0;
+  font-size:clamp(18px, 2.4vw, 20px);
+  font-weight:900;
+}
+
+#infoPage p{
+  font-size:14px;
+  line-height:1.6;
+}
+
+.info-card{
+  background:#111;
+  padding:35px;
+  border-radius:14px;
+  border:1px solid #333;
+  max-width:650px;
+  margin:40px auto;
+}
+
+#loadingScreen{
+  position:fixed;
+  inset:0;
+  background:#000;
+  color:white;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-start;
+  padding-top:10px;
+  z-index:99999;
+  text-align:center;
+}
+
+#loadingLogo{
+  width:520px;
+  max-width:92vw;
+  height:auto;
+  margin-bottom:0px;
+}
+
+#loadingText{
+  font-size:26px;
+  font-weight:900;
+  letter-spacing:3px;
+  margin-top:120px;
+}
+
+#savingScreen{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.65);
+  backdrop-filter: blur(3px);
+  color:white;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  z-index:99998;
+  text-align:center;
+}
+
+#savingText{
+  font-size:28px;
+  font-weight:900;
+  letter-spacing:3px;
+}
+
+#savingSpinner{
+  margin-top:20px;
+  width:40px;
+  height:40px;
+  border:4px solid rgba(255,255,255,0.25);
+  border-top:4px solid white;
+  border-radius:50%;
+  animation: spin 0.8s linear infinite;
+}
+
+/* Sponsor footer */
+
+#sponsorFooter{
+  position:fixed;
+  bottom:6px;
+  left:50%;
+  transform:translateX(-50%);
+  font-size:11px;
+  font-weight:700;
+  opacity:0.55;
+  letter-spacing:0.5px;
+  color:#9ca3af;
+  pointer-events:none;
+  z-index:5;
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="loadingScreen">
+  <img id="loadingLogo" src="DXB99MATCHUP.png" alt="DXB99 Matchup Logo">
+
+  <div id="loadingText">LOADING</div>
+</div>
+  
+<div id="savingScreen" style="display:none;">
+  <div id="savingText">SAVING MATCHUP</div>
+  <div id="savingSpinner"></div>
+</div>
+  
+<div class="container">
+<div id="statusBar" style="display:none; position:fixed; top:15px; left:50%; transform:translateX(-50%); padding:12px 18px; border-radius:12px; font-weight:700; text-align:center; z-index:9999; box-shadow:0 6px 18px rgba(0,0,0,0.35);"></div>
+    
+<div class="tabs">
+  <button id="matchTab">Matchup</button>
+  <button id="genTab">Generator</button>
+  <button id="histTab">History</button>
+  <button id="infoTab">Info</button>
+  <button id="adminTab">Admin</button>
+</div>
+
+<!-- Matchup -->
+<div id="matchupPage">
+
+<div id="matchupBanner" class="selected-banner scoreboard-style" style="max-width:600px; margin:20px auto;">
+  <div class="selected-title">NO ACTIVE MATCHUP</div>
+  <div id="matchupContent" class="selected-lines">
+  Click Generator to get started
+</div>
+
+  <div id="matchExpiry"></div>
+  
+</div>
+
+</div>
+
+<!-- Generator -->
+<div id="generatorPage">
+
+<div id="selectedTeamBanner" class="selected-banner scoreboard-style" style="display:none; max-width:600px; margin:20px auto;">
+  <div id="generatorBannerTitle" class="selected-title">CURRENT MATCHUP</div>
+  <div id="selectedPickedBy" class="selected-pickedby"></div>
+  <div id="selectedTeamLines" class="selected-lines"></div>
+  <div id="selectedTimeAgo" class="selected-footer"></div>
+
+</div>
+
+<div id="generatorContent">
+      <h3 style="text-align:center;">Match Maker</h3>
+      <select id="pickerSelect"></select>
+
+      <h3 style="margin-top:26px; text-align:center;">Players (<span id="playerCount">0</span>)</h3>
+      <div id="attendance" class="player-grid"></div>
+
+      <div class="controls">
+<button id="generateBtn" class="primary generate-btn">GENERATE MATCHUP</button>
+        
+
+        <div class="radio-row">
+<label id="labelAll"><input type="radio" name="diffFilter" value="all" checked><span>All Options</span></label>
+<label id="label0"><input type="radio" name="diffFilter" value="0"><span>Skill Gap 0</span></label>
+<label id="label1"><input type="radio" name="diffFilter" value="1"><span>Skill Gap 1</span></label>
+<label id="label2"><input type="radio" name="diffFilter" value="2"><span>Skill Gap 2</span></label>
+<label id="label3"><input type="radio" name="diffFilter" value="3"><span>Skill Gap 3</span></label>
+<label id="label4"><input type="radio" name="diffFilter" value="4"><span>Skill Gap 4</span></label>
+        </div>
+      </div>
+
+      
+      <div id="result"></div>
+        </div>
+    </div>
+
+<div id="infoPage" style="display:none; max-width:700px; margin:auto; line-height:1.6; text-align:center;">
+
+<div class="info-card">  
+
+<h2>Blue Advantage</h2>
+
+<p>
+Blue Advantage only exists in <b>BLITZ</b> when teams have an <b>uneven number of players</b>.
+</p>
+
+<p>
+In BLITZ, when a team is defending, <b>each player has 5 lives</b>. If one team has fewer players, that team also has fewer total lives, which can create an unfair disadvantage.
+</p>
+
+<p>
+To help balance the match, the team with fewer players is always assigned to <b>Blue Team</b>. This team may receive a small skill advantage so it can better compete despite having fewer players and fewer total lives.
+</p>
+
+<p>
+Because of this rule, the generator only shows matchups where <b>Blue Team has the advantage</b>. Matchups where <b>Red Team would have the advantage are excluded</b>, since Red already has more players and showing those combinations would defeat the purpose of balancing the teams.
+</p>
+
+<p>
+Blue Advantage is only applied when using the <b>Skill Gap 1 or higher</b> filter. Selecting the <b>Skill Gap 0</b> will display every possible matchup without applying this balancing rule. Even if one team has fewer players.
+</p>
+
+<p>
+The goal is to keep matches <b>competitive, fair, and balanced</b> even when teams do not have the same number of players.
+</p>
+
+</div>  
+  
+</div>
+
+    <!-- Admin -->
+    <div id="adminPage" style="display:none;">
+      <h3 style="text-align:center;">Admin Panel</h3>
+      <div id="adminSection"></div>
+</div>
+
+    <!-- History -->
+    <div id="historyPage" style="display:none;">
+      <h3 style="text-align:center;">History</h3>
+
+<div class="history-controls">
+  <select id="historyFilter"></select>
+  <button id="clearHistoryBtn" class="danger">Clear History</button>
+</div>
+
+<div id="historyList" style="margin-top:15px;"></div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div id="modalOverlay" class="modal-overlay" role="dialog" aria-modal="true">
+    <div class="modal">
+      <h4>Full Text</h4>
+      <div id="modalText" class="modal-text"></div>
+      <div class="modal-actions">
+        <button id="closeModalBtn" class="close-btn">Close</button>
+      </div>
+    </div>
+  </div>
+
+<script>
+/* =========================
+   CONFIG / STORAGE
+========================= */
+
+const MATCHUP_LIFETIME = 7200000; // 2 hours
+
+function showStatus(message, type = "info", persistent = false) {
+  const bar = document.getElementById("statusBar");
+  if (!bar) return;
+
+  const spinner = `
+    <span style="
+      display:inline-block;
+      width:14px;
+      height:14px;
+      border:2px solid rgba(255,255,255,0.4);
+      border-top:2px solid white;
+      border-radius:50%;
+      margin-right:8px;
+      animation: spin 0.7s linear infinite;
+      vertical-align:middle;
+    "></span>
+  `;
+
+  if (type === "loading") {
+    bar.innerHTML = spinner + message;
+    bar.style.background = "#334155";
+    bar.style.color = "white";
+  } else if (type === "success") {
+    bar.textContent = message;
+    bar.style.background = "#16a34a";
+    bar.style.color = "white";
+  } else if (type === "error") {
+    bar.textContent = message;
+    bar.style.background = "#dc2626";
+    bar.style.color = "white";
+  } else {
+    bar.textContent = message;
+    bar.style.background = "#334155";
+    bar.style.color = "white";
+  }
+
+  bar.style.display = "block";
+
+  if (!persistent && type !== "loading") {
+    setTimeout(() => {
+      bar.style.display = "none";
+    }, 2500);
+  }
+}
+
+function showSavingScreen(){
+  const el = document.getElementById("savingScreen");
+  if(el){
+    el.style.display = "flex";
+  }
+}
+
+function hideSavingScreen(){
+  const el = document.getElementById("savingScreen");
+  if(el){
+    el.style.display = "none";
+  }
+}
+
+const defaultPlayers = [
+  {name:"Garry",skill:3},
+  {name:"Ibrahim",skill:4},
+  {name:"Fawad",skill:4},
+  {name:"Hamad",skill:5},
+  {name:"Basith",skill:5},
+  {name:"Bijo",skill:6},
+  {name:"Clayton",skill:6},
+  {name:"Arshad",skill:7},
+  {name:"Sameer",skill:8},
+  {name:"Ron",skill:8},
+];
+
+function loadPlayers(){
+  const saved = JSON.parse(localStorage.getItem("players") || "null");
+  const arr = Array.isArray(saved) && saved.length ? saved : defaultPlayers;
+  return arr
+    .map(p => ({   name: String(p.name||"").trim(),   skill: Number(p.skill),   pin: p.pin ? String(p.pin) : "" }))
+    .filter(p => p.name && Number.isFinite(p.skill))
+    .sort((a,b)=>{
+  if(b.skill !== a.skill) return b.skill - a.skill;
+  return a.name.localeCompare(b.name);
+});
+}
+
+function loadHistory(){
+  const saved = JSON.parse(localStorage.getItem("matchHistory") || "[]");
+  return Array.isArray(saved) ? saved : [];
+}
+
+let players = loadPlayers();
+let history = loadHistory();
+let isAdminEditing = false;
+let adminDirty = false;
+
+let playerSkillMap = Object.fromEntries(players.map(p => [p.name, p.skill]));
+
+/* =========================
+   PIN STORAGE (4-6 DIGITS)
+========================= */
+function requirePin(playerName){
+  const player = players.find(p => p.name === playerName);
+  if(!player) return false;
+
+  if(!player.pin){
+    const newPin = prompt(playerName + " - Set a 4 to 6 digit PIN:");
+    if(!/^[0-9]{4,6}$/.test(newPin)){
+      alert("PIN must be 4 to 6 digits only.");
+      return false;
+    }
+    player.pin = newPin;
+    localStorage.setItem("players", JSON.stringify(players));
+
+fetch(GOOGLE_API_URL, {
+  method: "POST",
+  mode: "no-cors",
+  body: new URLSearchParams({
+    action: "savePlayers",
+    payload: JSON.stringify(players)
+  })
+});
+    
+    alert("PIN set successfully.");
+    return true;
+  }
+
+  const entered = prompt(playerName + " - Enter your PIN:");
+  if(entered === player.pin){
+    return true;
+  } else {
+    alert("Incorrect PIN.");
+    return false;
+  }
+}
+
+function isValidPin(pin){
+  return /^[0-9]{4,6}$/.test(pin);
+}
+
+/* =========================
+   ELEMENTS
+========================= */
+const pickerSelect = document.getElementById("pickerSelect");
+const attendanceDiv = document.getElementById("attendance");
+const resultDiv = document.getElementById("result");
+const adminSection = document.getElementById("adminSection");
+const playerCountEl = document.getElementById("playerCount");
+
+const selectedTeamBanner = document.getElementById("selectedTeamBanner");
+const selectedPickedBy = document.getElementById("selectedPickedBy");
+const selectedTimeAgo = document.getElementById("selectedTimeAgo");
+const selectedTeamLines = document.getElementById("selectedTeamLines");
+
+const matchupBanner = document.getElementById("matchupBanner");
+const matchupContent = document.getElementById("matchupContent");
+
+const historyPage = document.getElementById("historyPage");
+const generatorPage = document.getElementById("generatorPage");
+const historyFilter = document.getElementById("historyFilter");
+const historyList = document.getElementById("historyList");
+const adminPage = document.getElementById("adminPage");
+const infoPage = document.getElementById("infoPage");
+
+/* Modal */
+const modalOverlay = document.getElementById("modalOverlay");
+const modalText = document.getElementById("modalText");
+const closeModalBtn = document.getElementById("closeModalBtn");
+
+/* Radios */
+const diffRadios = Array.from(document.querySelectorAll('input[name="diffFilter"]'));
+
+/* =========================
+   STATE
+========================= */
+let lastGeneratedGroups = null;  // groups[0..4] of options
+let selectedTeamKey = null;      // highlight + splash
+let isRenderingAttendance = false;
+let isSelectingMatch = false;
+let lastMatchSelectionTime = 0;
+
+let currentMatchup = null;
+let lastCloudTimestamp = null;
+
+const deviceId = localStorage.getItem("deviceId") || crypto.randomUUID();
+localStorage.setItem("deviceId", deviceId);
+
+/* =========================
+   UTIL
+========================= */
+
+function dubaiTimeString(){
+  const d = new Date();
+
+  const datePart = d.toLocaleDateString("en-US", {
+  timeZone: "Asia/Dubai",
+  year: "numeric",
+  month: "short",
+  day: "numeric"
+});
+
+  const timePart = d.toLocaleTimeString("en-US", {
+    timeZone: "Asia/Dubai",
+    hour: "numeric",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: true
+  });
+
+  return `${datePart} • ${timePart} GST`;
+}
+
+function updateMatchupTimer(){
+
+  if(!currentMatchup || !selectedTimeAgo) return;
+
+    const timeString = new Date(currentMatchup.timestamp).toLocaleTimeString("en-US", {
+    timeZone: "Asia/Dubai",
+    hour: "numeric",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: true
+  });
+
+  selectedTimeAgo.textContent = "Matchup selected at " + timeString + " GST";
+
+  const diff = Date.now() - currentMatchup.timestamp;
+  const remaining = MATCHUP_LIFETIME - diff;
+
+    const expiry = document.getElementById("matchExpiry");
+  if(!expiry) return;
+
+  if(remaining <= 0){
+    expiry.textContent = "";
+    location.reload();
+    return;
+  }
+
+const hrs = Math.floor(remaining / 3600000);
+const min = Math.floor((remaining % 3600000) / 60000);
+const sec = Math.floor((remaining % 60000) / 1000);
+
+expiry.textContent =
+  `Matchup expires in ${hrs}:${min.toString().padStart(2,"0")}:${sec.toString().padStart(2,"0")}`;
+}  
+  
+function getSelectedPlayers(){
+  const selected = [];
+  players.forEach((p,i)=>{
+    const cb = document.getElementById("p"+i);
+    if(cb && cb.checked) selected.push(p);
+  });
+  return selected;
+}
+
+function updatePlayerCount(){
+  const c = getSelectedPlayers().length;
+  playerCountEl.textContent = String(c);
+  return c;
+}
+
+function combinations(arr, k){
+  const res = [];
+  function helper(start, combo){
+    if(combo.length === k){ res.push(combo); return; }
+    for(let i=start;i<arr.length;i++) helper(i+1, combo.concat(arr[i]));
+  }
+  helper(0, []);
+  return res;
+}
+
+function teamKeyCanonical(blueNames, redNames){
+  const b = [...blueNames].sort().join(",");
+  const r = [...redNames].sort().join(",");
+  return (b < r) ? (b + "|" + r) : (r + "|" + b);
+}
+
+function blueAdvantageAllowed(option){
+  const uneven = (option.blue.length !== option.red.length);
+
+  // Even teams (e.g., 5v5) → allow ALL combinations
+  if(!uneven) return true;
+
+  // Uneven teams → only allow blue advantage (including diff 0)
+  return option.skillBlue >= option.skillRed;
+}
+
+function displayCountForDiff(groups, d){
+  if(!groups || !groups[d]) return 0;
+  if(d === 0) return groups[d].length;
+  return groups[d].filter(blueAdvantageAllowed).length;
+}
+
+function getPickCountByKey(key){
+  history = loadHistory();
+  return history.filter(h => h.teamKey === key).length;
+}
+
+function matchupExpired(match){
+  if(!match || !match.timestamp) return true;
+  return (Date.now() - match.timestamp) > MATCHUP_LIFETIME;
+}
+
+/* =========================
+   ONE-LINE FIT + TRUNCATE MODAL
+========================= */
+function fitOneLine(el, maxSizePx, minSizePx){
+  if(!el) return;
+  el.style.fontSize = maxSizePx + "px";
+  if(el.scrollWidth <= el.clientWidth) return;
+  for(let s=maxSizePx; s>=minSizePx; s--){
+    el.style.fontSize = s + "px";
+    if(el.scrollWidth <= el.clientWidth) return;
+  }
+  el.style.fontSize = minSizePx + "px";
+}
+
+function markTruncatable(el){
+  if(!el) return;
+  const truncated = el.scrollWidth > el.clientWidth + 1;
+  if(truncated){
+    el.classList.add("truncatable");
+    el.title = "Tap to view full text";
+  }else{
+    el.classList.remove("truncatable");
+    el.removeAttribute("title");
+  }
+}
+
+function fitAndMarkAllTeamLines(){
+  document.querySelectorAll(".team-info .team-line").forEach(line=>{
+    fitOneLine(line, 14, 10);
+    markTruncatable(line);
+  });
+  document.querySelectorAll("#selectedTeamLines .team-line").forEach(line=>{
+    fitOneLine(line, 16, 11);
+    markTruncatable(line);
+  });
+}
+
+function openModal(text){
+  modalText.textContent = text;
+  modalOverlay.style.display = "flex";
+}
+function closeModal(){
+  modalOverlay.style.display = "none";
+  modalText.textContent = "";
+}
+
+closeModalBtn.addEventListener("click", closeModal);
+modalOverlay.addEventListener("click", (e)=>{ if(e.target === modalOverlay) closeModal(); });
+document.addEventListener("keydown", (e)=>{ if(e.key === "Escape" && modalOverlay.style.display === "flex") closeModal(); });
+
+/* Event delegation: tap truncated lines */
+document.addEventListener("click", (e)=>{
+  const el = e.target;
+  if(el && el.classList && el.classList.contains("team-line") && el.classList.contains("truncatable")){
+    openModal(el.textContent.trim());
+  }
+});
+window.addEventListener("resize", ()=>{ if(lastGeneratedGroups) fitAndMarkAllTeamLines(); });
+
+/* =========================
+   RENDER: PICKER + PLAYERS
+========================= */
+function renderPicker(){
+  const current = pickerSelect.value;
+  pickerSelect.innerHTML = '<option value="" disabled>-- Select Match Maker --</option>';
+  players.forEach(p=>{
+    const opt = document.createElement("option");
+    opt.value = p.name;
+    opt.textContent = p.name;
+    pickerSelect.appendChild(opt);
+  });
+
+  // default: blank
+  if(current && players.some(p=>p.name===current)){
+    pickerSelect.value = current;
+  }else{
+    pickerSelect.selectedIndex = 0;
+  }
+}
+
+function renderAttendance(resetAll = false){
+  isRenderingAttendance = true;
+  attendanceDiv.innerHTML = "";
+  players.forEach((p,i)=>{
+    const label = document.createElement("label");
+
+    const cb = document.createElement("input");
+    cb.type = "checkbox";
+    cb.id = "p"+i;
+    cb.disabled = !pickerSelect.value;
+    
+if (resetAll) {
+  cb.checked = true;
+} else {
+  const previous = document.getElementById("p"+i);
+  cb.checked = previous ? previous.checked : true;
+}
+
+    cb.addEventListener("change", ()=>{
+  updatePlayerCount();
+  if(!isRenderingAttendance){
+    resetGeneratedTeams();
+  }
+});
+
+    const text = document.createElement("span");
+    text.textContent = `${p.name} (${p.skill})`;
+
+    label.appendChild(cb);
+    label.appendChild(text);
+    attendanceDiv.appendChild(label);
+  });
+  updatePlayerCount();
+  isRenderingAttendance = false;
+}
+
+/* =========================
+   RESET
+========================= */
+function clearSelectedBanner(clearSelection = false){
+  selectedTeamBanner.style.display = "none";
+  selectedPickedBy.innerHTML = "";
+  selectedTeamLines.innerHTML = "";
+
+  if(clearSelection){
+    selectedTeamKey = null;
+  }
+}
+
+function updatePickedByLine(){
+  const picker = pickerSelect.value || "—";
+  selectedPickedBy.innerHTML = `Match Maker: <strong>${picker}</strong>`;
+}
+
+function resetGeneratedTeams(){
+
+  if(lastGeneratedGroups){
+  resultDiv.innerHTML = "";
+}
+
+lastGeneratedGroups = null;
+selectedTeamKey = null;
+
+  // reset radios to all
+  const allRadio = document.querySelector('input[name="diffFilter"][value="all"]');
+  if(allRadio) allRadio.checked = true;
+  
+  // reset radio state
+document.querySelectorAll('input[name="diffFilter"]').forEach(r=>{
+  if(r.value === "all"){
+    r.disabled = false;
+  } else {
+    r.disabled = true;
+  }
+});
+}
+
+/* When picker changes: reset page (but keep attendance selection) */
+pickerSelect.addEventListener("change", ()=>{
+
+  // Reset selected team
+  selectedTeamKey = null;
+  currentMatchup = null;
+  localStorage.removeItem("currentMatchup");
+
+  // Clear generated teams
+  resultDiv.innerHTML = "";
+  lastGeneratedGroups = null;
+
+  // Reset radios
+  const allRadio = document.querySelector('input[name="diffFilter"][value="all"]');
+  if(allRadio) allRadio.checked = true;
+
+  document.querySelectorAll('input[name="diffFilter"]').forEach(r=>{
+  const label = r.closest("label");
+
+  if(r.value === "all"){
+    r.disabled = false;
+    if(label) label.classList.remove("disabled-label");
+  } else {
+    r.disabled = true;
+    if(label) label.classList.add("disabled-label");
+  }
+});
+    
+  updateRadioCounts({0:[],1:[],2:[],3:[],4:[]});
+  
+  // Reset player attendance
+  renderAttendance(true);
+
+document.querySelectorAll('#attendance input[type="checkbox"]').forEach(cb=>{
+  cb.disabled = !pickerSelect.value;
+});  
+
+});
+
+/* =========================
+   RADIO FILTER BEHAVIOR
+========================= */
+diffRadios.forEach(r=>{
+  r.addEventListener("change", ()=>{
+    if(lastGeneratedGroups){
+      renderOptions(lastGeneratedGroups); // just re-filter display, do not reset anything
+    }
+  });
+});
+
+function getSelectedDiff(){
+  return document.querySelector('input[name="diffFilter"]:checked')?.value || "all";
+}
+
+
+function updateRadioCounts(groups){
+  if(!groups) return;
+
+  const counts = {0:0,1:0,2:0,3:0,4:0};
+
+  [0,1,2,3,4].forEach(d=>{
+    if(!groups[d]) return;
+    if(d === 0){
+      counts[d] = groups[d].length;
+    } else {
+      counts[d] = groups[d].filter(blueAdvantageAllowed).length;
+    }
+  });
+
+  const total = counts[0]+counts[1]+counts[2]+counts[3]+counts[4];
+
+  const labels = [
+  {id:"labelAll", text:` All Options (${total})`},
+  {id:"label0", text:` Skill Gap 0 (${counts[0]})`},
+  {id:"label1", text:` Skill Gap 1 (${counts[1]})`},
+  {id:"label2", text:` Skill Gap 2 (${counts[2]})`},
+  {id:"label3", text:` Skill Gap 3 (${counts[3]})`},
+  {id:"label4", text:` Skill Gap 4 (${counts[4]})`}
+];
+
+  labels.forEach(item=>{
+  const label = document.getElementById(item.id);
+  if(!label) return;
+
+  const span = label.querySelector("span");
+  if(span) span.textContent = item.text;
+});
+}
+
+function updateDiffAvailability(groups){
+  [0,1,2,3,4].forEach(d=>{
+    const radio = document.querySelector('input[name="diffFilter"][value="'+d+'"]');
+    if(!radio) return;
+    const label = radio.parentElement;
+
+    const available = displayCountForDiff(groups, d) > 0;
+    radio.disabled = !available;
+
+    if(!available) label.classList.add("disabled-label");
+    else label.classList.remove("disabled-label");
+  });
+}
+
+/* =========================
+   GENERATION
+========================= */
+document.getElementById("generateBtn").addEventListener("click", generateTeams);
+
+function generateTeams(){
+
+    if(isSelectingMatch) return;
+
+    const picker = pickerSelect.value;
+
+  if(currentMatchup && matchupExpired(currentMatchup)){
+    selectedTeamKey = null;
+    currentMatchup = null;
+  }
+  
+  if(!picker){
+showStatus("Select the Match Maker before generating matchups.", "error");
+    return;
+  }
+
+  const selected = getSelectedPlayers();
+  const playersCount = selected.length;
+
+  if(playersCount < 2){
+    alert("Select at least 2 players.");
+    return;
+  }
+
+  const half = Math.floor(playersCount / 2);
+  const combos = combinations(selected, half);
+
+  const groups = {0:[],1:[],2:[],3:[],4:[]};
+  const seen = new Set();
+
+  combos.forEach(teamA=>{
+    const teamB = selected.filter(p=>!teamA.includes(p));
+
+    const skillA = teamA.reduce((s,p)=>s+p.skill,0);
+    const skillB = teamB.reduce((s,p)=>s+p.skill,0);
+
+    let blue, red, skillBlue, skillRed;
+
+    // smaller team always BLUE
+    if(teamA.length <= teamB.length){
+      blue = teamA.map(p=>p.name);
+      red  = teamB.map(p=>p.name);
+      skillBlue = skillA; skillRed = skillB;
+    }else{
+      blue = teamB.map(p=>p.name);
+      red  = teamA.map(p=>p.name);
+      skillBlue = skillB; skillRed = skillA;
+    }
+
+    const key = teamKeyCanonical(blue, red);
+
+if(seen.has(key)){
+  return;
+}
+
+seen.add(key);
+
+const diff = Math.abs(skillBlue - skillRed);
+
+if(diff <= 4){
+  groups[diff].push({
+    blue, red,
+    skillBlue, skillRed,
+    diff,
+    teamKey: key,
+    playersCount
+  });
+}
+  });
+
+  lastGeneratedGroups = groups;
+  updateDiffAvailability(groups);
+  updateRadioCounts(groups);
+
+  // if currently selected diff became unavailable, revert to all
+  const sel = getSelectedDiff();
+  if(sel !== "all"){
+    const d = Number(sel);
+    if(displayCountForDiff(groups, d) === 0){
+      document.querySelector('input[name="diffFilter"][value="all"]').checked = true;
+    }
+  }
+
+  // if a previously selected team doesn't exist anymore, clear highlight/banner
+  if(selectedTeamKey){
+    const exists = Object.values(groups).some(arr => arr.some(opt => opt.teamKey === selectedTeamKey));
+    if(!exists) clearSelectedBanner();
+  }
+
+  renderOptions(groups);
+}
+
+/* =========================
+   RENDER OPTIONS + SELECT + COUNTERS
+========================= */
+function showSelectedBanner(option, picker, flash=false){
+
+  if(currentMatchup && matchupExpired(currentMatchup)){
+    clearSelectedBanner();
+    return;
+  }
+
+updateMatchupTimer();
+
+document.getElementById("generatorBannerTitle").textContent = "CURRENT MATCHUP";
+
+selectedPickedBy.innerHTML = `Match Maker: <strong>${picker}</strong>`;
+
+  const bluePlayers = [...option.blue].sort((a,b)=>{
+  const sa = playerSkillMap[a];
+  const sb = playerSkillMap[b];
+
+  if(sb !== sa) return sb - sa;
+  return a.localeCompare(b);
+});
+
+const redPlayers = [...option.red].sort((a,b)=>{
+  const pa = players.find(p=>p.name===a);
+  const pb = players.find(p=>p.name===b);
+
+  if(pb.skill !== pa.skill) return pb.skill - pa.skill;
+  return a.localeCompare(b);
+});
+
+  const blueHTML = bluePlayers.map(p => `<div>${p} (${playerSkillMap[p]})</div>`).join("");
+const redHTML  = redPlayers.map(p => `<div>${p} (${playerSkillMap[p]})</div>`).join("");
+
+  selectedTeamLines.innerHTML = `
+
+    <div class="selected-teams-grid">
+
+      <div class="selected-team-box selected-blue">
+        <div class="selected-team-title">BLUE TEAM (${option.skillBlue})</div>
+        ${blueHTML}
+      </div>
+
+      <div class="selected-team-box selected-red">
+        <div class="selected-team-title">RED TEAM (${option.skillRed})</div>
+        ${redHTML}
+      </div>
+
+    </div>
+
+    <div class="selected-footer">
+      Skill Gap: ${option.diff} | ${option.playersCount} Players
+    </div>
+  `;
+
+  selectedTeamBanner.style.display = "block";
+}
+
+function renderOptions(groups){
+  resultDiv.innerHTML = "";
+  history = loadHistory();
+
+  const selectedDiff = getSelectedDiff();
+const playersCount = updatePlayerCount();
+
+[0,1,2,3,4].forEach(diff=>{
+  if(!groups[diff] || groups[diff].length === 0) return;
+
+    if(selectedDiff !== "all" && Number(selectedDiff) !== diff) return;
+
+    const displayList = (diff === 0) ? groups[diff] : groups[diff].filter(blueAdvantageAllowed);
+    if(displayList.length === 0) return;
+
+    const title = document.createElement("div");
+      title.className = "group-title";
+      title.textContent = `Team Difference: ${diff}  |  ${playersCount} Players`;
+      resultDiv.appendChild(title);
+
+      const comboLine = document.createElement("div");
+      comboLine.style.fontWeight = "900";
+      comboLine.style.margin = "4px 0 8px 0";
+      comboLine.textContent = `Available Team Combinations: ${displayList.length}`;
+      resultDiv.appendChild(comboLine);
+
+    const grid = document.createElement("div");
+    grid.className = "group-grid";
+
+    displayList.forEach(option=>{
+      const row = document.createElement("div");
+      row.className = `team-row diff-${option.diff >= 5 ? 5 : option.diff}`;
+      row.dataset.teamKey = option.teamKey;
+      
+if(selectedTeamKey && option.teamKey === selectedTeamKey){
+  row.classList.add("selected-option");
+}
+
+      const info = document.createElement("div");
+info.className = "team-info";
+
+const sortedBlue = [...option.blue].sort((a,b)=>{
+  const sa = playerSkillMap[a];
+  const sb = playerSkillMap[b];
+
+  if(sb !== sa) return sb - sa;
+  return a.localeCompare(b);
+});
+
+const sortedRed = [...option.red].sort((a,b)=>{
+  const pa = players.find(p=>p.name===a);
+  const pb = players.find(p=>p.name===b);
+
+  if(pb.skill !== pa.skill) return pb.skill - pa.skill;
+  return a.localeCompare(b);
+});
+
+info.innerHTML = `
+  <span class="team-line">🔵 BLUE TEAM (${option.skillBlue}): ${sortedBlue.join(", ")}</span>
+  <span class="team-line">🔴 RED TEAM (${option.skillRed}): ${sortedRed.join(", ")}</span>
+  <span class="team-line">Skill Gap: ${option.diff}</span>
+`;
+
+      const buttonArea = document.createElement("div");
+      buttonArea.className = "button-area";
+
+      const btn = document.createElement("button");
+      btn.className = "primary";
+      btn.textContent = "SELECT";
+      btn.addEventListener("click", ()=>onSelectOption(option));
+
+if(
+  selectedTeamKey &&
+  option.teamKey === selectedTeamKey
+){
+  btn.classList.add("selected");
+  btn.textContent = "✓ SELECTED";
+  btn.disabled = true;
+}  
+
+      const count = document.createElement("div");
+      count.className = "picked-count";
+      count.textContent = `Times Selected: ${getPickCountByKey(option.teamKey)}`;
+
+      buttonArea.appendChild(btn);
+      buttonArea.appendChild(count);
+
+      row.appendChild(info);
+      row.appendChild(buttonArea);
+      grid.appendChild(row);
+    });
+
+    resultDiv.appendChild(grid);
+  });
+
+  requestAnimationFrame(fitAndMarkAllTeamLines);
+}
+
+function onSelectOption(option){
+
+  const picker = pickerSelect.value;
+
+// Verify or create PIN first
+if(!requirePin(picker)) return;
+
+isSelectingMatch = true;
+lastMatchSelectionTime = Date.now();
+
+// KEEP generator on screen (do not clear results)
+// resultDiv.innerHTML = "";
+// lastGeneratedGroups = null;
+
+selectedTeamKey = option.teamKey;
+
+// Highlight the selected team
+document.querySelectorAll(".team-row").forEach(row=>{
+  row.classList.remove("selected-option");
+});
+
+// Reset all select buttons
+document.querySelectorAll(".team-row button.primary").forEach(btn=>{
+  btn.classList.remove("selected");
+  btn.textContent = "SELECT";
+  btn.disabled = false;
+});
+
+const selectedRow = document.querySelector(`.team-row[data-team-key="${option.teamKey}"]`);
+
+if(selectedRow){
+  selectedRow.classList.add("selected-option");
+
+  const button = selectedRow.querySelector("button.primary");
+
+  if(button){
+    button.classList.add("selected");
+    button.textContent = "✓ SELECTED";
+    button.disabled = true;
+  }
+}
+
+// Save match BEFORE resetting picker
+
+localStorage.setItem("lastMatchDeviceId", deviceId);
+
+// 🔧 Show banner instantly before cloud save
+showSelectedBanner(option, picker, true);
+
+document.getElementById("matchupContent").innerHTML = selectedTeamBanner.innerHTML;
+document.querySelector("#matchupBanner .selected-title").textContent = "CURRENT MATCHUP";
+
+const banner = document.getElementById("matchupBanner");
+banner.classList.add("matchup-banner-glow");
+
+setTimeout(()=>{
+  banner.classList.remove("matchup-banner-glow");
+},700);
+
+saveMatch(option);
+
+// Update the counter for this team
+const rows = document.querySelectorAll(".team-row");
+rows.forEach(row=>{
+  if(row.classList.contains("selected-option")){
+    const counter = row.querySelector(".picked-count");
+    if(counter){
+      const current = parseInt(counter.textContent.replace(/\D/g,'')) || 0;
+      counter.textContent = "Times Selected: " + (current + 1);
+    }
+  }
+});
+
+// Keep picker and player selection so teams stay visible
+// pickerSelect.selectedIndex = 0;
+
+// document.querySelectorAll("#attendance input[type='checkbox']").forEach(cb=>{
+//   cb.checked = true;
+// });
+// updatePlayerCount();
+
+setTimeout(()=>{
+  isSelectingMatch = false;
+},1500);
+
+}
+
+function saveMatch(option){
+
+document.getElementById("savingText").textContent = "SAVING MATCHUP";
+showSavingScreen();
+
+showStatus("Processing team selection...", "loading", true);
+  
+  const picker = pickerSelect.value;
+  const entry = {
+  time: dubaiTimeString(),
+  timestamp: Date.now(),
+  picker,
+  blue: option.blue,
+  red: option.red,
+  skillBlue: option.skillBlue,
+  skillRed: option.skillRed,
+  diff: option.diff,
+  playersCount: option.playersCount,
+  teamKey: option.teamKey,
+  deviceId: deviceId
+};
+
+  currentMatchup = entry;
+localStorage.setItem("currentMatchup", JSON.stringify(entry));
+
+  history = loadHistory();
+  history.unshift(entry);
+  localStorage.setItem("matchHistory", JSON.stringify(history));
+
+  // Send to Google
+fetch(GOOGLE_API_URL, {
+  method: "POST",
+  body: new URLSearchParams({
+    action: "saveMatch",
+    payload: JSON.stringify(entry)
+  })
+})
+.then(() => {
+
+  showStatus("Team selection saved successfully.", "success");
+
+  showSelectedBanner(option, picker, false);
+
+  document.getElementById("matchupContent").innerHTML = selectedTeamBanner.innerHTML;
+  document.querySelector("#matchupBanner .selected-title").textContent = "CURRENT MATCHUP";
+
+  const banner = document.getElementById("matchupBanner");
+banner.classList.add("matchup-banner-glow");
+
+setTimeout(()=>{
+  banner.classList.remove("matchup-banner-glow");
+},700);
+
+  hideSavingScreen();
+
+  cloudSync(true);
+
+})
+.catch(err => {
+  console.warn("Cloud save failed:", err);
+  showStatus("Unable to save team selection.", "error");
+  hideSavingScreen();
+});
+  
+  if(historyPage.style.display !== "none"){
+    populateHistoryFilter();
+    renderHistory();
+}
+
+}
+
+/* =========================
+   HISTORY: FILTER BY PICKER
+========================= */
+function populateHistoryFilter(){
+  history = loadHistory();
+  const prev = historyFilter.value || "all";
+
+  historyFilter.innerHTML = "";
+
+  const optAll = document.createElement("option");
+  optAll.value = "all";
+  optAll.textContent = "All Match Makers (Newest First)";
+  historyFilter.appendChild(optAll);
+
+  const pickers = [...new Set(history.map(h => String(h.picker||"").trim()).filter(Boolean))]
+    .sort((a,b)=>a.localeCompare(b));
+
+  pickers.forEach(name=>{
+    const opt = document.createElement("option");
+    opt.value = name;
+    opt.textContent = name;
+    historyFilter.appendChild(opt);
+  });
+
+  if(prev && [...historyFilter.options].some(o=>o.value===prev)){
+    historyFilter.value = prev;
+  }else{
+    historyFilter.value = "all";
+  }
+}
+
+historyFilter.addEventListener("change", ()=>{
+  renderHistory();
+});
+
+function inferPlayersCount(entry){
+  if(Number.isFinite(entry.playersCount)) return entry.playersCount;
+  const b = Array.isArray(entry.blue) ? entry.blue.length : 0;
+  const r = Array.isArray(entry.red) ? entry.red.length : 0;
+  return b + r;
+}
+
+function renderHistory(){
+  history = loadHistory();
+  historyList.innerHTML = "";
+
+  if(!history.length){
+    historyList.textContent = "No match history yet.";
+    return;
+  }
+
+  const filter = historyFilter.value || "all";
+  let filtered = [...history];
+  if(filter !== "all"){
+    filtered = filtered.filter(h => String(h.picker) === String(filter));
+  }
+
+  filtered.sort((a,b)=>b.timestamp-a.timestamp);
+
+  filtered.forEach(entry=>{
+    const pc = inferPlayersCount(entry);
+    const div = document.createElement("div");
+
+const diffClass = entry.diff >= 5 ? 5 : entry.diff;
+div.className = `team-row diff-${diffClass}`;
+div.innerHTML = `
+  <div class="team-info">
+    <strong>${entry.time}</strong>
+    <span class="history-meta"> | Match Maker: <b>${entry.picker}</b> | Skill Gap: ${entry.diff} | Players: ${pc}</span><br>
+    <span class="history-blue">🔵 ${(entry.blue||[]).join(", ")}</span>
+    <span class="history-sep"> | </span>
+    <span class="history-red">🔴 ${(entry.red||[]).join(", ")}</span>
+  </div>
+`;
+historyList.appendChild(div);
+  });
+}
+
+document.getElementById("clearHistoryBtn").addEventListener("click", async ()=>{
+
+  const pass = prompt("Enter Admin Password:");
+if(!pass) return;
+
+showStatus("Authenticating...", "loading", true);
+
+document.getElementById("savingText").textContent = "AUTHENTICATING";
+showSavingScreen();
+
+  try{
+
+    const res = await fetch(GOOGLE_API_URL,{
+      method:"POST",
+      body:new URLSearchParams({
+        action:"verifyAdmin",
+        payload: pass
+      })
+    });
+
+    const data = await res.json();
+
+    if(!data.valid){
+  hideSavingScreen();
+  showStatus("Incorrect admin password.", "error");
+  return;
+}
+
+  }catch(e){
+  hideSavingScreen();
+  showStatus("Unable to verify password.", "error");
+  return;
+}
+
+  if(confirm("Clear all history?")){
+ 
+  showStatus("Clearing history...", "loading", true);
+    
+  document.getElementById("savingText").textContent = "CLEARING HISTORY";
+  showSavingScreen();
+    
+  fetch(GOOGLE_API_URL, {
+    method: "POST",
+    body: new URLSearchParams({
+      action: "clearHistory"
+    })
+  })
+  .then(() => {
+    localStorage.removeItem("matchHistory");
+    history = [];
+    populateHistoryFilter();
+    renderHistory();
+
+    if(lastGeneratedGroups){
+      renderOptions(lastGeneratedGroups);
+    }
+
+showStatus("History cleared successfully.", "success");
+hideSavingScreen();
+  })
+  .catch(err => {
+  console.warn("Failed to clear history:", err);
+  hideSavingScreen();
+  showStatus("Unable to clear history. Please try again.", "error");
+});
+
+}
+});
+
+/* =========================
+   ADMIN MODE
+========================= */
+function renderAdminUI(){
+  adminSection.style.display = "block";
+  adminSection.innerHTML = "";
+
+  const title = document.createElement("div");
+title.style.fontWeight = "900";
+title.style.marginBottom = "4px";
+title.textContent = "Admin: Edit Players";
+adminSection.appendChild(title);
+
+const status = document.createElement("div");
+status.id = "adminStatus";
+status.style.fontSize = "13px";
+status.style.marginBottom = "10px";
+status.style.fontWeight = "700";
+status.style.color = adminDirty ? "#f59e0b" : "#22c55e";
+status.textContent = adminDirty ? "● Unsaved Changes" : "● All Changes Saved";
+adminSection.appendChild(status);
+
+  players.forEach((p,i)=>{
+    const row = document.createElement("div");
+    row.className = "admin-row";
+
+    const nameInput = document.createElement("input");
+    nameInput.value = p.name;
+    nameInput.placeholder = "Name";
+    nameInput.addEventListener("input", (e)=>{
+  players[i].name = e.target.value;
+  adminDirty = true;
+  renderAdminUI();
+});
+
+    const skillInput = document.createElement("input");
+    skillInput.type = "number";
+    skillInput.min = "1";
+    skillInput.max = "20";
+    skillInput.value = String(p.skill);
+    skillInput.placeholder = "Skill";
+    skillInput.addEventListener("input", (e)=>{
+  players[i].skill = Number(e.target.value);
+  adminDirty = true;
+  renderAdminUI();
+});
+
+    const removeBtn = document.createElement("button");
+    
+    const pinStatus = document.createElement("span");
+pinStatus.style.fontSize = "12px";
+pinStatus.style.marginLeft = "8px";
+pinStatus.style.fontWeight = "700";
+pinStatus.textContent = p.pin ? "PIN: ACTIVE" : "PIN: NOT SET";
+
+    const resetPinBtn = document.createElement("button");
+    resetPinBtn.textContent = "Reset PIN";
+    resetPinBtn.className = "orange";
+    resetPinBtn.style.marginLeft = "6px";
+    resetPinBtn.addEventListener("click", ()=>{
+  players[i].pin = "";
+  localStorage.setItem("players", JSON.stringify(players));
+
+  adminDirty = true;
+  renderAdminUI();
+
+  alert("PIN reset. Player will be prompted to set new PIN.");
+  renderAdminUI();
+});
+    
+    removeBtn.textContent = "Remove";
+    removeBtn.className = "danger";
+    removeBtn.addEventListener("click", ()=>{
+
+  const confirmDelete = confirm("Remove " + players[i].name + "?");
+  if(!confirmDelete) return;
+
+  players = players.filter((_, index) => index !== i);
+  adminDirty = true;
+
+  localStorage.setItem("players", JSON.stringify(players));
+
+  renderAdminUI(); // instant UI update
+
+  showStatus("Player removed successfully.", "success");
+
+  });
+
+row.appendChild(nameInput);
+row.appendChild(skillInput);
+row.appendChild(removeBtn);
+row.appendChild(resetPinBtn);
+row.appendChild(pinStatus);
+adminSection.appendChild(row);
+  });
+
+  const addRow = document.createElement("div");
+  addRow.className = "admin-row";
+  addRow.style.marginTop = "10px";
+
+  const newName = document.createElement("input");
+  newName.placeholder = "New player name";
+
+  const newSkill = document.createElement("input");
+  newSkill.type = "number";
+  newSkill.min = "1";
+  newSkill.max = "20";
+  newSkill.placeholder = "Skill";
+
+  const addBtn = document.createElement("button");
+addBtn.className = "blue";
+addBtn.textContent = "Add Player";
+  addBtn.addEventListener("click", ()=>{
+    const name = String(newName.value||"").trim();
+    const skill = Number(newSkill.value);
+    if(!name || !Number.isFinite(skill)){ alert("Enter valid name and skill."); return; }
+    if(players.some(p=>p.name.toLowerCase() === name.toLowerCase())){ alert("That name already exists."); return; }
+    players.push({name, skill});
+    adminDirty = true;
+    players.sort((a,b)=>{
+  if(b.skill !== a.skill) return b.skill - a.skill;
+  return a.name.localeCompare(b.name);
+});
+    renderAdminUI();
+    showStatus("Player added successfully.", "success");
+  });
+
+  addRow.appendChild(newName);
+  addRow.appendChild(newSkill);
+  addRow.appendChild(addBtn);
+  adminSection.appendChild(addRow);
+
+  const actions = document.createElement("div");
+  actions.className = "admin-actions";
+
+  const closeBtn = document.createElement("button");
+  closeBtn.textContent = "Close";
+  closeBtn.style.background = "#334155";
+  closeBtn.style.color = "white";
+  closeBtn.style.border = "none";
+  closeBtn.style.borderRadius = "12px";
+  closeBtn.style.padding = "10px 14px";
+  closeBtn.style.fontWeight = "900";
+  closeBtn.style.cursor = "pointer";
+  closeBtn.addEventListener("click", ()=>{
+    isAdminEditing = false;
+    
+    generatorPage.style.display = "block";
+    historyPage.style.display = "none";
+    infoPage.style.display = "none";
+    adminPage.style.display = "none";
+  });
+
+const saveBtn = document.createElement("button");
+saveBtn.className = "primary";
+saveBtn.textContent = "Save Changes";
+
+  if(!adminDirty){
+  saveBtn.disabled = true;
+  saveBtn.style.opacity = "0.5";
+  saveBtn.style.cursor = "not-allowed";
+}
+  
+  saveBtn.addEventListener("click", async ()=>{
+
+  players = players
+    .map(p => ({
+      name: String(p.name || "").trim(),
+      skill: Number(p.skill),
+      pin: p.pin || ""
+    }))
+    .filter(p => p.name && Number.isFinite(p.skill))
+    .sort((a,b)=>{
+  if(b.skill !== a.skill) return b.skill - a.skill;
+  return a.name.localeCompare(b.name);
+});
+
+localStorage.setItem("players", JSON.stringify(players));
+
+playerSkillMap = Object.fromEntries(players.map(p => [p.name, p.skill]));
+
+document.getElementById("savingText").textContent = "SAVING CHANGES";
+showSavingScreen();
+showStatus("Saving changes...", "loading", true);
+
+  try {
+    await fetch(GOOGLE_API_URL, {
+      method: "POST",
+      body: new URLSearchParams({
+        action: "savePlayers",
+        payload: JSON.stringify(players)
+      })
+    });
+
+showStatus("Changes saved successfully.", "success");
+hideSavingScreen();
+
+    adminDirty = false;
+    renderAdminUI();
+}
+catch (err) {
+  console.warn("Cloud update failed:", err);
+  hideSavingScreen();
+  showStatus("Unable to save changes. Please try again.", "error");
+}
+
+  resetGeneratedTeams();
+  renderPicker();
+  renderAttendance();
+});
+
+  actions.appendChild(closeBtn);
+  actions.appendChild(saveBtn);
+  adminSection.appendChild(actions);
+}
+
+document.getElementById("adminTab").addEventListener("click", async ()=>{
+
+document.getElementById("matchupBanner").style.display = "none";
+document.getElementById("selectedTeamBanner").style.display = "none";
+
+const pass = prompt("Enter Admin Password:");
+if(!pass) return;
+
+showStatus("Authenticating...", "loading", true);
+  
+document.getElementById("savingText").textContent = "AUTHENTICATING";
+showSavingScreen();
+
+  try{
+
+    const res = await fetch(GOOGLE_API_URL,{
+      method:"POST",
+      body:new URLSearchParams({
+        action:"verifyAdmin",
+        payload: pass
+      })
+    });
+
+    const data = await res.json();
+
+    if(!data.valid){
+  hideSavingScreen();
+  showStatus("Incorrect admin password.", "error");
+  return;
+}
+
+showStatus("Authentication successful.", "success");
+hideSavingScreen();
+
+  }catch(e){
+    alert("Unable to verify password.");
+    return;
+  }
+
+  isAdminEditing = true;
+
+  generatorPage.style.display = "none";
+  historyPage.style.display = "none";
+  infoPage.style.display = "none";
+  adminPage.style.display = "block";
+
+  renderAdminUI();
+});
+
+/* =========================
+   TABS
+========================= */
+document.getElementById("matchTab").addEventListener("click", ()=>{
+
+  document.getElementById("matchupBanner").style.display = "block";
+
+  document.getElementById("matchupPage").style.display = "block";
+  generatorPage.style.display = "none";
+  historyPage.style.display = "none";
+  adminPage.style.display = "none";
+  infoPage.style.display = "none";
+});
+  
+document.getElementById("genTab").addEventListener("click", ()=>{
+
+  document.getElementById("matchupBanner").style.display = "none";
+
+  generatorPage.style.display = "block";
+  historyPage.style.display = "none";
+  adminPage.style.display = "none";
+  infoPage.style.display = "none";
+  document.getElementById("matchupPage").style.display = "none";
+
+  // Reset Generator page completely
+  if(!lastGeneratedGroups){
+  pickerSelect.selectedIndex = 0;
+  renderAttendance(true);
+} else {
+  renderOptions(lastGeneratedGroups);
+}
+
+  cloudSync(true);
+  
+});
+  
+document.getElementById("histTab").addEventListener("click", ()=>{
+
+  document.getElementById("matchupBanner").style.display = "none";
+
+  generatorPage.style.display = "none";
+  historyPage.style.display = "block";
+  adminPage.style.display = "none";
+  infoPage.style.display = "none";
+
+  populateHistoryFilter();
+  historyFilter.value = "all";
+  renderHistory();
+});
+
+
+  document.getElementById("infoTab").addEventListener("click", ()=>{
+
+  document.getElementById("matchupBanner").style.display = "none";
+
+  generatorPage.style.display = "none";
+  historyPage.style.display = "none";
+  adminPage.style.display = "none";
+  infoPage.style.display = "block";
+});
+
+  
+/* =========================
+   INITIALIZE
+========================= */
+renderPicker();
+renderAttendance();
+updateDiffAvailability({0:[],1:[],2:[],3:[],4:[]});
+updateRadioCounts({0:[],1:[],2:[],3:[],4:[]}); // disable until generated
+
+generatorPage.style.display = "none";
+historyPage.style.display = "none";
+adminPage.style.display = "none";
+infoPage.style.display = "none";
+document.getElementById("matchupPage").style.display = "block";
+
+function restoreCurrentMatchup(){
+
+  const savedMatchup = localStorage.getItem("currentMatchup");
+
+  if(!savedMatchup) return;
+
+  try{
+
+    currentMatchup = JSON.parse(savedMatchup);
+
+    const deviceMatch = localStorage.getItem("lastMatchDeviceId");
+    const sameDevice = deviceMatch && deviceMatch === deviceId;
+
+    selectedTeamKey = currentMatchup.teamKey;
+
+const restoredOption = {
+  blue: currentMatchup.blue,
+  red: currentMatchup.red,
+  skillBlue: currentMatchup.skillBlue,
+  skillRed: currentMatchup.skillRed,
+  diff: currentMatchup.diff,
+  playersCount: currentMatchup.playersCount
+};
+
+const generatorContent = document.getElementById("generatorContent");
+
+if(generatorContent && sameDevice){
+  generatorContent.style.display = "block";
+}
+
+} catch(e){
+  console.warn("Failed to restore matchup:", e);
+}
+  
+}
+  
+  /* ===========================
+   GOOGLE CLOUD SYNC LAYER
+=========================== */
+
+const GOOGLE_API_URL = "https://script.google.com/macros/s/AKfycbyBG8JeymAMrNj_x1wMyWl3sEn-0_G7P7PsHUtpNoLNA0adxpajNIFwF9RvXGLml3O5FA/exec";
+
+async function cloudSync(force=false) {
+
+  if(isSelectingMatch) return;
+
+  if(Date.now() - lastMatchSelectionTime < 2000){
+    return;
+  }
+
+  try {
+    const res = await fetch(GOOGLE_API_URL + "?action=getData&_=" + Date.now());
+    if (!res.ok) return;
+
+    let data;
+try {
+  data = await res.json();
+} catch (err) {
+  console.warn("Cloud returned non-JSON response");
+  return;
+}
+    if (!data.players || !data.history) return;
+
+const playersFromCloud = data.players.map(r => ({
+  name: String(r[0] || "").trim(),
+  skill: Number(r[1]),
+  pin: r[2] ? String(r[2]) : ""
+})).filter(p => p.name && !isNaN(p.skill));
+
+    const historyFromCloud = data.history.map(r => ({
+      timestamp: Number(r[0]),
+      picker: r[1],
+      blue: String(r[2] || "").split(",").map(s=>s.trim()).filter(Boolean),
+      red: String(r[3] || "").split(",").map(s=>s.trim()).filter(Boolean),
+
+      skillBlue: 0,
+      skillRed: 0,
+      
+      diff: Number(r[4]),
+      playersCount: Number(r[5]),
+      teamKey: r[6],
+
+time:
+  new Date(Number(r[0])).toLocaleDateString("en-US", {
+    timeZone:"Asia/Dubai",
+    year:"numeric",
+    month:"short",
+    day:"numeric"
+  }) +
+  " • " +
+  new Date(Number(r[0])).toLocaleTimeString("en-US", {
+    timeZone:"Asia/Dubai",
+    hour:"numeric",
+    minute:"2-digit",
+    second:"2-digit",
+    hour12:true
+  }) +
+  " GST"
+      
+    })).sort((a,b)=>b.timestamp-a.timestamp);
+
+const skillMap = Object.fromEntries(playersFromCloud.map(p => [p.name, p.skill]));
+
+historyFromCloud.forEach(match => {
+  match.skillBlue = match.blue.reduce((sum,name)=> sum + (skillMap[name] || 0),0);
+  match.skillRed = match.red.reduce((sum,name)=> sum + (skillMap[name] || 0),0);
+});
+
+// Normalize and compare players before overwriting
+const normalize = arr =>
+  [...arr]
+    .map(p => ({
+      name: String(p.name).trim(),
+      skill: Number(p.skill),
+      pin: p.pin || ""
+    }))
+    .sort((a,b)=>a.name.localeCompare(b.name));
+
+const normalizedCloud = normalize(playersFromCloud);
+const normalizedLocal = normalize(players);
+
+const playersChanged =
+  JSON.stringify(normalizedCloud) !== JSON.stringify(normalizedLocal);
+
+if (playersChanged && !isAdminEditing) {
+
+  const namesChanged =
+    JSON.stringify(normalizedCloud.map(p=>p.name)) !==
+    JSON.stringify(normalizedLocal.map(p=>p.name));
+
+  localStorage.setItem("players", JSON.stringify(normalizedCloud));
+  players = normalizedCloud;
+
+  playerSkillMap = Object.fromEntries(players.map(p => [p.name, p.skill]));
+
+  renderPicker();
+
+  // Only rebuild attendance if actual player list changed
+  if(namesChanged){
+    renderAttendance(false);
+  }
+}
+    
+    localStorage.setItem("matchHistory", JSON.stringify(historyFromCloud));
+
+    history = loadHistory();
+
+    // Determine current matchup from latest history entry
+if(history.length){
+
+  const latest = history[0];
+
+  if(matchupExpired(latest)){
+  currentMatchup = null;
+  clearSelectedBanner();
+  return;
+}
+  
+  if(!force && lastCloudTimestamp === latest.timestamp){
+  return;
+}
+
+lastCloudTimestamp = latest.timestamp;
+
+  currentMatchup = latest;
+
+  if(!lastGeneratedGroups){
+    selectedTeamKey = latest.teamKey;
+  }
+
+const restoredOption = {
+  blue: latest.blue,
+  red: latest.red,
+  skillBlue: latest.skillBlue,
+  skillRed: latest.skillRed,
+  diff: latest.diff,
+  playersCount: latest.playersCount
+};
+
+showSelectedBanner(restoredOption, latest.picker, false);
+
+document.getElementById("matchupContent").innerHTML = selectedTeamBanner.innerHTML;
+document.querySelector("#matchupBanner .selected-title").textContent = "";
+
+// trigger glow on matchup banner
+const banner = document.getElementById("matchupBanner");
+banner.classList.add("matchup-banner-glow");
+
+setTimeout(()=>{
+  banner.classList.remove("matchup-banner-glow");
+},700);
+
+}else{
+
+  currentMatchup = null;
+  clearSelectedBanner();
+
+  document.querySelector("#matchupBanner .selected-title").textContent = "NO ACTIVE MATCHUP";
+
+  document.getElementById("matchExpiry").textContent = "";
+
+  document.getElementById("matchupContent").innerHTML = `
+  <br><br><br>
+  Click Generator to get started
+`;
+
+}
+
+// Only show Generator banner if a matchup exists
+if(generatorPage.style.display !== "none" && currentMatchup){
+  selectedTeamBanner.style.display = "block";
+}
+
+// Update Matchup banner only if Matchup tab is open
+
+if (playersChanged && lastGeneratedGroups) {
+  renderOptions(lastGeneratedGroups);
+  updateRadioCounts(lastGeneratedGroups);
+}
+
+    if (typeof historyPage !== "undefined" && historyPage.style.display !== "none") {
+      populateHistoryFilter();
+      renderHistory();
+    }
+
+  } catch (e) {
+    console.warn("Cloud sync failed:", e);
+  }
+}
+
+setTimeout(async () => {
+
+  await cloudSync(true);
+
+  const loader = document.getElementById("loadingScreen");
+  if(loader) loader.style.display = "none";
+
+}, 500);
+
+setInterval(() => cloudSync(false), 5000);
+
+setInterval(updateMatchupTimer, 1000);
+
+
+/* Loading animation */
+let loadingDots = 0;
+
+setInterval(() => {
+
+  const el = document.getElementById("loadingText");
+  if(!el) return;
+
+  loadingDots = (loadingDots + 1) % 4;
+
+  el.textContent = "LOADING" + ".".repeat(loadingDots);
+
+}, 400);
+
+</script>
+
+<div id="sponsorFooter">
+  Custom-built exclusively for DXB99.
+</div>
+
+</body>
+</html>
