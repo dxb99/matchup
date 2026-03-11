@@ -14,11 +14,15 @@ function isMobile() {
     );
 }
 
-if (isMobile()) {
-    window.location.replace("mobile.html");
-} else {
-    window.location.replace("desktop.html");
-}
+window.onload = function() {
+
+    if (isMobile()) {
+        window.location.replace("mobile.html");
+    } else {
+        window.location.replace("desktop.html");
+    }
+
+};
 
 </script>
 
@@ -35,6 +39,7 @@ body{
 </style>
 
 </head>
+
 <body>
 
 Loading DXB99...
