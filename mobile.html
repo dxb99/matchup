@@ -519,8 +519,24 @@ button.blue{
 
 .team-col-title{
   font-weight:900;
-  font-size:13px;
-  margin-bottom:4px;
+  font-size:12px;
+  margin-bottom:6px;
+  padding:4px 8px;
+  border-radius:8px;
+  display:inline-block;
+  letter-spacing:.4px;
+}
+
+.team-blue{
+  background:rgba(37,99,235,0.25);
+  border:1px solid #2563eb;
+  color:#bfdbfe;
+}
+
+.team-red{
+  background:rgba(220,38,38,0.25);
+  border:1px solid #dc2626;
+  color:#fecaca;
 }
 
 .skill-gap{
@@ -1921,12 +1937,12 @@ info.innerHTML = `
   <div class="team-columns">
 
     <div class="team-col">
-      <div class="team-col-title">🔵 BLUE TEAM (${option.skillBlue}) 🔵</div>
+      <div class="team-col-title team-blue">BLUE TEAM (${option.skillBlue})</div>
       ${sortedBlue.map(p => `<div class="team-line">${p} (${playerSkillMap[p]})</div>`).join("")}
     </div>
 
     <div class="team-col">
-      <div class="team-col-title">🔴 RED TEAM (${option.skillRed}) 🔴</div>
+      <div class="team-col-title team-red">RED TEAM (${option.skillRed})</div>
       ${sortedRed.map(p => `<div class="team-line">${p} (${playerSkillMap[p]})</div>`).join("")}
     </div>
 
