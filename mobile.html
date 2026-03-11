@@ -1905,18 +1905,12 @@ info.innerHTML = `
     </div>
 
   </div>
-
-  <div class="team-stats">
-      <div class="skill-gap">Skill Gap: ${option.diff}</div>
-      <div class="picked-count">Times Selected: ${getPickCountByKey(option.teamKey)}</div>
-  </div>
 `;
 
 
 const buttonArea = document.createElement("div");
 buttonArea.className = "button-area";
 
-      
 const btn = document.createElement("button");
 btn.className = "primary";
 btn.textContent = "SELECT";
@@ -1929,6 +1923,15 @@ if(selectedTeamKey && option.teamKey === selectedTeamKey){
 }
 
 buttonArea.appendChild(btn);
+
+const statsRow = document.createElement("div");
+statsRow.className = "team-stats";
+statsRow.innerHTML = `
+  <div class="skill-gap">Skill Gap: ${option.diff}</div>
+  <div class="picked-count">Times Selected: ${getPickCountByKey(option.teamKey)}</div>
+`;
+
+buttonArea.appendChild(statsRow);
 
 
       row.appendChild(info);
