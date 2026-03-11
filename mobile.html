@@ -510,7 +510,18 @@ button.blue{
   margin-top:8px;
 }
 
+.team-stats{
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  margin-top:10px;
+}
 
+.team-stats .picked-count,
+.team-stats .skill-gap{
+  flex:1;
+  max-width:160px;
+}
 
     .team-line{
       display:block;
@@ -1888,17 +1899,17 @@ info.innerHTML = `
 
   </div>
 
-  <div class="skill-gap">Skill Gap: ${option.diff}</div>
+  <div class="team-stats">
+      <div class="skill-gap">Skill Gap: ${option.diff}</div>
+      <div class="picked-count">Times Selected: ${getPickCountByKey(option.teamKey)}</div>
+  </div>
 `;
 
 
 const buttonArea = document.createElement("div");
 buttonArea.className = "button-area";
 
-const count = document.createElement("div");
-count.className = "picked-count";
-count.textContent = `Times Selected: ${getPickCountByKey(option.teamKey)}`;
-
+      
 const btn = document.createElement("button");
 btn.className = "primary";
 btn.textContent = "SELECT";
@@ -1910,7 +1921,6 @@ if(selectedTeamKey && option.teamKey === selectedTeamKey){
   btn.disabled = true;
 }
 
-buttonArea.appendChild(count);
 buttonArea.appendChild(btn);
 
 
