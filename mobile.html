@@ -1892,27 +1892,27 @@ info.innerHTML = `
 `;
 
 
+const buttonArea = document.createElement("div");
+buttonArea.className = "button-area";
 
-      const buttonArea = document.createElement("div");
-      buttonArea.className = "button-area";
+const count = document.createElement("div");
+count.className = "picked-count";
+count.textContent = `Times Selected: ${getPickCountByKey(option.teamKey)}`;
 
-      const btn = document.createElement("button");
-      btn.className = "primary";
-      btn.textContent = "SELECT";
-      btn.addEventListener("click", ()=>onSelectOption(option));
+const btn = document.createElement("button");
+btn.className = "primary";
+btn.textContent = "SELECT";
+btn.addEventListener("click", ()=>onSelectOption(option));
 
-      if(selectedTeamKey && option.teamKey === selectedTeamKey){
-        btn.classList.add("selected");
-        btn.textContent = "✓ SELECTED";
-        btn.disabled = true;
-      }
+if(selectedTeamKey && option.teamKey === selectedTeamKey){
+  btn.classList.add("selected");
+  btn.textContent = "✓ SELECTED";
+  btn.disabled = true;
+}
 
-      const count = document.createElement("div");
-      count.className = "picked-count";
-      count.textContent = `Times Selected: ${getPickCountByKey(option.teamKey)}`;
+buttonArea.appendChild(count);
+buttonArea.appendChild(btn);
 
-      buttonArea.appendChild(btn);
-      buttonArea.appendChild(count);
 
       row.appendChild(info);
       row.appendChild(buttonArea);
