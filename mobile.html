@@ -1729,8 +1729,13 @@ diffRadios.forEach(r=>{
       renderOptions(lastGeneratedGroups);
 
       const firstGroup = document.querySelector("#result .group-title");
-      if(firstGroup){
-        firstGroup.scrollIntoView({behavior:"auto", block:"start"});
+      const page = document.getElementById("generatorPage");
+      const controls = document.querySelector(".controls");
+
+      if(firstGroup && page && controls){
+        const offset = controls.offsetHeight + 8;
+        const y = firstGroup.offsetTop - offset;
+        page.scrollTo({ top: y, behavior: "auto" });
       }
     }
   });
