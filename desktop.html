@@ -14,14 +14,15 @@
     }
     *{ box-sizing:border-box; }
      /* SAFE: prevent left-right scrolling */
-    body{
-      margin:0;
-      font-family: Arial, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-      background:var(--bg);
-      color:var(--text);
-      padding: clamp(12px, 3vw, 20px);
-      font-size:clamp(13px,1.6vw,14px);
-    }
+body{
+  margin:0;
+  font-family: Arial, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  padding: clamp(12px, 3vw, 20px);
+  font-size:clamp(13px,1.6vw,14px);
+  scroll-behavior:smooth;
+}
     .container{ max-width: 1200px; margin: 0 auto; width:100%; }
 #generatorPage{
  min-height:calc(100vh - 80px);
