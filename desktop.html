@@ -1681,14 +1681,26 @@ document.querySelectorAll('#attendance input[type="checkbox"]').forEach(cb=>{
 diffRadios.forEach(r=>{
   r.addEventListener("change", ()=>{
     if(lastGeneratedGroups){
+
+      const selected = r.value;
+
       renderOptions(lastGeneratedGroups);
 
-      const resultTop = document.getElementById("result");
-      if(resultTop){
-        resultTop.scrollIntoView({ behavior:"smooth", block:"start" });
+      if(selected !== "all"){
+        const target = document.getElementById("gap-" + selected);
+        if(target){
+          target.scrollIntoView({behavior:"smooth", block:"start"});
+        }
+      }else{
+        const resultTop = document.getElementById("result");
+        if(resultTop){
+          resultTop.scrollIntoView({behavior:"smooth", block:"start"});
+        }
       }
+      
     }
   });
+});
 });
 
 function getSelectedDiff(){
@@ -1915,10 +1927,11 @@ const playersCount = updatePlayerCount();
     const displayList = (diff === 0) ? groups[diff] : groups[diff].filter(blueAdvantageAllowed);
     if(displayList.length === 0) return;
 
-    const title = document.createElement("div");
-      title.className = "group-title";
-      title.textContent = `Skill Gap: ${diff}  |  ${playersCount} Players`;
-      resultDiv.appendChild(title);
+const title = document.createElement("div");
+title.className = "group-title";
+title.id = "gap-" + diff;
+title.textContent = `Skill Gap: ${diff}  |  ${playersCount} Players`;
+resultDiv.appendChild(title);
 
       const comboLine = document.createElement("div");
       comboLine.style.fontWeight = "900";
