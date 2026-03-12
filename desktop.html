@@ -861,6 +861,17 @@ button:hover,
       z-index: 999;
     }
 
+.sticky-history{
+  position:sticky;
+  top:120px;
+  z-index:900;
+  background:#000;
+  padding:6px 0;
+
+  border-bottom:1px solid #333;
+  box-shadow:0 6px 16px rgba(0,0,0,0.6);
+}
+    
 .history-controls{
   display:flex;
   gap:10px;
@@ -1175,11 +1186,15 @@ The generator also keeps a <b>history of previous matchups</b> and tracks how ma
 
     <!-- History -->
     <div id="historyPage" style="display:none;">
-      <h3 style="text-align:center;">History</h3>
+    <h3 style="text-align:center;">History</h3>
 
-<div class="history-controls">
-  <select id="historyFilter"></select>
-  <button id="clearHistoryBtn" class="danger">Clear History</button>
+<div class="sticky-history">
+
+  <div class="history-controls">
+    <select id="historyFilter"></select>
+    <button id="clearHistoryBtn" class="danger">Clear History</button>
+  </div>
+
 </div>
 
 <div id="historyList" style="margin-top:15px;"></div>
