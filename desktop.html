@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <link rel="icon" href="data:,">
-  <meta name="viewport" content="width=1000" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DXB99 Matchup Generator</title>
   <style>
     :root{
@@ -353,7 +353,7 @@ h2, h3{
   justify-content:center;
   gap:6px;
   width:100%;
-  flex-wrap:nowrap;
+  flex-wrap:wrap;
   padding:6px 4px;
   border-radius:10px;
   box-shadow:0 6px 16px rgba(0,0,0,0.6);
@@ -2658,9 +2658,7 @@ function scrollPageTop(){
   infoPage.style.display = "none";
 });
   
-  document.getElementById("genTab").addEventListener("click", ()=>{
-
-  document.querySelector(".sticky-filters")?.scrollIntoView({behavior:"smooth"});
+document.getElementById("genTab").addEventListener("click", ()=>{
 
   setActiveTab("genTab");
 
@@ -2672,6 +2670,10 @@ function scrollPageTop(){
   infoPage.style.display = "none";
   document.getElementById("matchupPage").style.display = "none";
 
+  setTimeout(()=>{
+    document.querySelector(".sticky-filters")?.scrollIntoView({behavior:"smooth"});
+  },50);
+  
   // Reset Generator page completely
   if(!lastGeneratedGroups){
   pickerSelect.selectedIndex = 0;
