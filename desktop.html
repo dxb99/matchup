@@ -348,6 +348,33 @@ h2, h3{
  cursor:pointer;
  width:100%;
 }
+
+.controls label{
+ display:flex;
+ justify-content:center;
+ align-items:center;
+ font-size:clamp(11px,2.5vw,14px);
+ white-space:nowrap;
+ user-select:none;
+ cursor:pointer;
+ width:100%;
+}
+
+.controls input[type="radio"]:checked + span{
+  font-weight:900;
+}
+
+.controls input[type="radio"]:checked{
+  transform:scale(1.1);
+}
+
+.controls label:has(input[type="radio"]:checked){
+  box-shadow:0 0 16px var(--hoverGlow, rgba(255,255,255,0.8));
+  transform: translateY(-1px);
+}
+
+.controls label.disabled-label{
+    
     .controls label.disabled-label{
       opacity: 0.35;
       cursor:not-allowed;
