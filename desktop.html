@@ -2569,6 +2569,8 @@ catch (err) {
 
 document.getElementById("adminTab").addEventListener("click", async ()=>{
 
+scrollPageTop();
+
 setActiveTab("adminTab");
 
 document.getElementById("matchupBanner").style.display = "none";
@@ -2621,7 +2623,14 @@ hideSavingScreen();
 /* =========================
    TABS
 ========================= */
-function setActiveTab(tabId){
+function scrollPageTop(){
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+}
+  
+  function setActiveTab(tabId){
 
   document.querySelectorAll(".tabs button").forEach(btn=>{
     btn.classList.remove("active-tab");
@@ -2636,6 +2645,8 @@ function setActiveTab(tabId){
   
   document.getElementById("matchTab").addEventListener("click", ()=>{
 
+  scrollPageTop();
+
   setActiveTab("matchTab");
 
   document.getElementById("matchupBanner").style.display = "block";
@@ -2648,6 +2659,8 @@ function setActiveTab(tabId){
 });
   
   document.getElementById("genTab").addEventListener("click", ()=>{
+
+  document.querySelector(".sticky-filters")?.scrollIntoView({behavior:"smooth"});
 
   setActiveTab("genTab");
 
@@ -2673,6 +2686,8 @@ function setActiveTab(tabId){
   
   document.getElementById("histTab").addEventListener("click", ()=>{
 
+  scrollPageTop();
+
   setActiveTab("histTab");
 
   document.getElementById("matchupBanner").style.display = "none";
@@ -2689,6 +2704,8 @@ function setActiveTab(tabId){
 
 
   document.getElementById("infoTab").addEventListener("click", ()=>{
+
+  scrollPageTop();
 
   setActiveTab("infoTab");
 
