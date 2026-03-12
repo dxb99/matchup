@@ -2542,7 +2542,10 @@ scrollToTop();
 
 function scrollToTop(){
   setTimeout(()=>{
-    window.scrollTo(0,0);
+    const activePage = document.querySelector(".page.active");
+    if(activePage){
+      activePage.scrollTop = 0;
+    }
   },0);
 }
   
