@@ -38,7 +38,9 @@
   top:0;
   z-index:1000;
   background:#000;
+  padding-top:8px;
   padding-bottom:10px;
+  border-bottom:1px solid #333;
   box-shadow:0 4px 12px rgba(0,0,0,0.6);
 }
 .tabs button{
@@ -53,6 +55,14 @@
   transition: all .15s ease;
   --hoverGlow:#9ca3af;
 }
+
+.tabs button.active-tab{
+  background:#facc15;
+  color:#111827;
+  border:2px solid #facc15;
+  box-shadow:0 0 14px rgba(250,204,21,0.9);
+}
+    
 h2, h3{
   margin:10px 0;
   font-size:clamp(18px, 2.4vw, 20px);
@@ -2432,6 +2442,8 @@ catch (err) {
 
 document.getElementById("adminTab").addEventListener("click", async ()=>{
 
+setActiveTab("adminTab");
+
 document.getElementById("matchupBanner").style.display = "none";
 document.getElementById("selectedTeamBanner").style.display = "none";
 
@@ -2482,7 +2494,22 @@ hideSavingScreen();
 /* =========================
    TABS
 ========================= */
-document.getElementById("matchTab").addEventListener("click", ()=>{
+function setActiveTab(tabId){
+
+  document.querySelectorAll(".tabs button").forEach(btn=>{
+    btn.classList.remove("active-tab");
+  });
+
+  const tab = document.getElementById(tabId);
+  if(tab){
+    tab.classList.add("active-tab");
+  }
+
+}
+  
+  document.getElementById("matchTab").addEventListener("click", ()=>{
+
+  setActiveTab("matchTab");
 
   document.getElementById("matchupBanner").style.display = "block";
 
@@ -2493,7 +2520,9 @@ document.getElementById("matchTab").addEventListener("click", ()=>{
   infoPage.style.display = "none";
 });
   
-document.getElementById("genTab").addEventListener("click", ()=>{
+  document.getElementById("genTab").addEventListener("click", ()=>{
+
+  setActiveTab("genTab");
 
   document.getElementById("matchupBanner").style.display = "none";
 
@@ -2515,7 +2544,9 @@ document.getElementById("genTab").addEventListener("click", ()=>{
   
 });
   
-document.getElementById("histTab").addEventListener("click", ()=>{
+  document.getElementById("histTab").addEventListener("click", ()=>{
+
+  setActiveTab("histTab");
 
   document.getElementById("matchupBanner").style.display = "none";
 
@@ -2531,6 +2562,8 @@ document.getElementById("histTab").addEventListener("click", ()=>{
 
 
   document.getElementById("infoTab").addEventListener("click", ()=>{
+
+  setActiveTab("infoTab");
 
   document.getElementById("matchupBanner").style.display = "none";
 
