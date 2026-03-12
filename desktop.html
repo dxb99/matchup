@@ -1681,7 +1681,12 @@ document.querySelectorAll('#attendance input[type="checkbox"]').forEach(cb=>{
 diffRadios.forEach(r=>{
   r.addEventListener("change", ()=>{
     if(lastGeneratedGroups){
-      renderOptions(lastGeneratedGroups); // just re-filter display, do not reset anything
+      renderOptions(lastGeneratedGroups);
+
+      const resultTop = document.getElementById("result");
+      if(resultTop){
+        resultTop.scrollIntoView({ behavior:"smooth", block:"start" });
+      }
     }
   });
 });
