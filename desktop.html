@@ -577,17 +577,6 @@ button.primary:active{
   border-radius:6px;
   border:1px solid rgba(255,255,255,0.15);
   letter-spacing:0.3px;
-  display:inline-block;
-}
-
-.skill-gap{
-  font-size:10px;
-  font-weight:800;
-  background:rgba(0,0,0,0.35);
-  padding:2px 6px;
-  border-radius:6px;
-  border:1px solid rgba(255,255,255,0.15);
-  letter-spacing:0.3px;
   min-width:90px;
   text-align:center;
 }
@@ -1851,10 +1840,6 @@ const playersCount = updatePlayerCount();
       row.className = `team-row diff-${option.diff >= 5 ? 5 : option.diff}`;
       row.dataset.teamKey = option.teamKey;
 
-      const gapBadge = document.createElement("div");
-      gapBadge.className = "skill-gap";
-      gapBadge.textContent = "Skill Gap: " + option.diff;
-      
 if(selectedTeamKey && option.teamKey === selectedTeamKey){
   row.classList.add("selected-option");
 }
@@ -1905,12 +1890,12 @@ if(
       count.textContent = `Times Selected: ${getPickCountByKey(option.teamKey)}`;
 
       buttonArea.appendChild(btn);
-      buttonArea.appendChild(count);
 
-      const bottomRow = document.createElement("div");
+const bottomRow = document.createElement("div");
 bottomRow.style.display = "flex";
 bottomRow.style.justifyContent = "space-between";
-bottomRow.style.marginTop = "4px";
+bottomRow.style.width = "100%";
+bottomRow.style.marginTop = "6px";
 
 const gap = document.createElement("div");
 gap.className = "skill-gap";
