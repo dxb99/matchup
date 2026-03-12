@@ -2686,8 +2686,16 @@ document.getElementById("genTab").addEventListener("click", ()=>{
   document.getElementById("matchupPage").style.display = "none";
 
   setTimeout(()=>{
+
+  const firstGroup = document.getElementById("gap-0");
+
+  if(firstGroup){
+    firstGroup.scrollIntoView({behavior:"smooth", block:"start"});
+  }else{
     document.querySelector(".sticky-filters")?.scrollIntoView({behavior:"smooth"});
-  },50);
+  }
+
+},50);
   
   // Reset Generator page completely
   if(!lastGeneratedGroups){
