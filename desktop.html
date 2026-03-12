@@ -567,6 +567,32 @@ button.primary:active{
       width: 100%;
       min-width: 0;
     } /* SAFE: prevents overflow in flex */
+
+.team-badges{
+  display:flex;
+  gap:8px;
+  margin-bottom:4px;
+}
+
+.team-badge{
+  flex:1;
+  text-align:center;
+  font-weight:900;
+  padding:6px 8px;
+  border-radius:8px;
+  font-size:12px;
+  letter-spacing:0.5px;
+}
+
+.badge-blue{
+  background:#1d4ed8;
+  color:white;
+}
+
+.badge-red{
+  background:#dc2626;
+  color:white;
+}
     
     @media (max-width: 600px){
 
@@ -1879,9 +1905,20 @@ const sortedRed = [...option.red].sort((a,b)=>{
 });
 
 info.innerHTML = `
-  <span class="team-line">🔵 BLUE TEAM (${option.skillBlue}): ${sortedBlue.join(", ")}</span>
-  <span class="team-line">🔴 RED TEAM (${option.skillRed}): ${sortedRed.join(", ")}</span>
+
+  <div class="team-badges">
+    <div class="team-badge badge-blue">
+      BLUE TEAM (${option.skillBlue})
+    </div>
+    <div class="team-badge badge-red">
+      RED TEAM (${option.skillRed})
+    </div>
+  </div>
+
+  <span class="team-line">${sortedBlue.join(", ")}</span>
+  <span class="team-line">${sortedRed.join(", ")}</span>
   <span class="team-line">Skill Gap: ${option.diff}</span>
+
 `;
 
       const buttonArea = document.createElement("div");
