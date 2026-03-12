@@ -28,21 +28,36 @@ body{
  min-height:calc(100vh - 80px);
 }
 
-.tabs{
-  display:flex;
-  justify-content:space-between;
-  gap:8px;
-  margin-bottom:18px;
-  width:100%;
-
+.header-bar{
   position:sticky;
   top:0;
   z-index:1000;
   background:#000;
-  padding-top:8px;
+  padding-top:6px;
   padding-bottom:10px;
   border-bottom:1px solid #333;
-  box-shadow:0 4px 12px rgba(0,0,0,0.6);
+  box-shadow:0 6px 16px rgba(0,0,0,0.6);
+}
+
+.app-title{
+  text-align:center;
+  font-size:clamp(22px,3vw,28px);
+  font-weight:900;
+  letter-spacing:2px;
+  margin-bottom:8px;
+
+  background:linear-gradient(90deg,#3b82f6,#ffffff,#ef4444);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+
+  text-shadow:0 0 10px rgba(255,255,255,0.15);
+}
+
+.tabs{
+  display:flex;
+  justify-content:space-between;
+  gap:8px;
+  width:100%;
 }
 .tabs button{
   flex:1;
@@ -1048,12 +1063,20 @@ button:hover,
 <div class="container">
 <div id="statusBar" style="display:none; position:fixed; top:15px; left:50%; transform:translateX(-50%); padding:12px 18px; border-radius:12px; font-weight:700; text-align:center; z-index:9999; box-shadow:0 6px 18px rgba(0,0,0,0.35);"></div>
     
-<div class="tabs">
-  <button id="matchTab">Matchup</button>
-  <button id="genTab">Generator</button>
-  <button id="histTab">History</button>
-  <button id="infoTab">Info</button>
-  <button id="adminTab">Admin</button>
+<div class="header-bar">
+
+  <div class="app-title">
+    DXB99 MATCHUP GENERATOR
+  </div>
+
+  <div class="tabs">
+    <button id="matchTab">Matchup</button>
+    <button id="genTab">Generator</button>
+    <button id="histTab">History</button>
+    <button id="infoTab">Info</button>
+    <button id="adminTab">Admin</button>
+  </div>
+
 </div>
 
 <!-- Matchup -->
