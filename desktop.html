@@ -644,6 +644,22 @@ button.primary:active{
   border:2px solid rgba(255,255,255,0.35);
 }
 
+.skill-gap-badge{
+  display:inline-block;
+  margin-top:6px;
+  padding:4px 10px;
+
+  font-weight:900;
+  font-size:12px;
+
+  border-radius:8px;
+
+  background:rgba(255,255,255,0.08);
+  border:2px solid rgba(255,255,255,0.35);
+
+  letter-spacing:0.5px;
+}
+
 .badge-blue{
   background:#1d4ed8;
   color:white;
@@ -2022,7 +2038,9 @@ info.innerHTML = `
     ${sortedRed.join(", ")}
   </span>
 
-  <span class="team-line">Skill Gap: ${option.diff}</span>
+<span class="team-line">
+  <span class="skill-gap-badge">Skill Gap: ${option.diff}</span>
+</span>
 
 `;
 
