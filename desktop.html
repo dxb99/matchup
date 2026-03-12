@@ -1142,14 +1142,6 @@ button:hover,
 <!-- Generator -->
 <div id="generatorPage">
 
-<div id="selectedTeamBanner" class="selected-banner scoreboard-style" style="display:none; max-width:600px; margin:20px auto;">
-  <div id="generatorBannerTitle" class="selected-title">CURRENT MATCHUP</div>
-  <div id="selectedPickedBy" class="selected-pickedby"></div>
-  <div id="selectedTeamLines" class="selected-lines"></div>
-  <div id="selectedTimeAgo" class="selected-footer"></div>
-
-</div>
-
 <div id="generatorContent">
       <h3 style="text-align:center;">Match Maker</h3>
       <select id="pickerSelect"></select>
@@ -1400,11 +1392,6 @@ const attendanceDiv = document.getElementById("attendance");
 const resultDiv = document.getElementById("result");
 const adminSection = document.getElementById("adminSection");
 const playerCountEl = document.getElementById("playerCount");
-
-const selectedTeamBanner = document.getElementById("selectedTeamBanner");
-const selectedPickedBy = document.getElementById("selectedPickedBy");
-const selectedTimeAgo = document.getElementById("selectedTimeAgo");
-const selectedTeamLines = document.getElementById("selectedTeamLines");
 
 const matchupBanner = document.getElementById("matchupBanner");
 const matchupContent = document.getElementById("matchupContent");
@@ -1933,58 +1920,52 @@ if(diff <= 4){
 ========================= */
 function showSelectedBanner(option, picker, flash=false){
 
-  if(currentMatchup && matchupExpired(currentMatchup)){
-    clearSelectedBanner();
-    return;
-  }
-
 updateMatchupTimer();
 
-document.getElementById("generatorBannerTitle").textContent = "CURRENT MATCHUP";
-
-selectedPickedBy.innerHTML = `Match Maker: <strong>${picker}</strong>`;
-
-  const bluePlayers = [...option.blue].sort((a,b)=>{
+const bluePlayers = [...option.blue].sort((a,b)=>{
   const sa = playerSkillMap[a];
   const sb = playerSkillMap[b];
-
   if(sb !== sa) return sb - sa;
   return a.localeCompare(b);
 });
 
 const redPlayers = [...option.red].sort((a,b)=>{
-  const pa = players.find(p=>p.name===a);
-  const pb = players.find(p=>p.name===b);
-
-  if(pb.skill !== pa.skill) return pb.skill - pa.skill;
+  const sa = playerSkillMap[a];
+  const sb = playerSkillMap[b];
+  if(sb !== sa) return sb - sa;
   return a.localeCompare(b);
 });
 
-  const blueHTML = bluePlayers.map(p => `<div>${p} (${playerSkillMap[p]})</div>`).join("");
+const blueHTML = bluePlayers.map(p => `<div>${p} (${playerSkillMap[p]})</div>`).join("");
 const redHTML  = redPlayers.map(p => `<div>${p} (${playerSkillMap[p]})</div>`).join("");
 
-  selectedTeamLines.innerHTML = `
+matchupContent.innerHTML = `
 
-    <div class="selected-teams-grid">
+<div class="selected-pickedby">
+Match Maker: <strong>${picker}</strong>
+</div>
 
-      <div class="selected-team-box selected-blue">
-        <div class="selected-team-title">BLUE TEAM (${option.skillBlue})</div>
-        ${blueHTML}
-      </div>
+<div class="selected-teams-grid">
 
-      <div class="selected-team-box selected-red">
-        <div class="selected-team-title">RED TEAM (${option.skillRed})</div>
-        ${redHTML}
-      </div>
+  <div class="selected-team-box selected-blue">
+    <div class="selected-team-title">BLUE TEAM (${option.skillBlue})</div>
+    ${blueHTML}
+  </div>
 
-    </div>
+  <div class="selected-team-box selected-red">
+    <div class="selected-team-title">RED TEAM (${option.skillRed})</div>
+    ${redHTML}
+  </div>
 
-    <div class="selected-footer">
-      Skill Gap: ${option.diff} | ${option.playersCount} Players
-    </div>
-  `;
+</div>
 
-  selectedTeamBanner.style.display = "block";
+<div class="selected-footer">
+Skill Gap: ${option.diff} | ${option.playersCount} Players
+</div>
+
+`;
+
+document.querySelector("#matchupBanner .selected-title").textContent = "CURRENT MATCHUP";
 }
 
 function renderOptions(groups){
@@ -2147,7 +2128,6 @@ localStorage.setItem("lastMatchDeviceId", deviceId);
 // 🔧 Show banner instantly before cloud save
 showSelectedBanner(option, picker, true);
 
-document.getElementById("matchupContent").innerHTML = selectedTeamBanner.innerHTML;
 document.querySelector("#matchupBanner .selected-title").textContent = "CURRENT MATCHUP";
 
 const banner = document.getElementById("matchupBanner");
@@ -2228,8 +2208,7 @@ fetch(GOOGLE_API_URL, {
 
   showSelectedBanner(option, picker, false);
 
-  document.getElementById("matchupContent").innerHTML = selectedTeamBanner.innerHTML;
-  document.querySelector("#matchupBanner .selected-title").textContent = "CURRENT MATCHUP";
+document.querySelector("#matchupBanner .selected-title").textContent = "CURRENT MATCHUP";
 
   const banner = document.getElementById("matchupBanner");
 banner.classList.add("matchup-banner-glow");
@@ -2965,9 +2944,8 @@ const restoredOption = {
 
 showSelectedBanner(restoredOption, latest.picker, false);
 
-document.getElementById("matchupContent").innerHTML = selectedTeamBanner.innerHTML;
-document.querySelector("#matchupBanner .selected-title").textContent = "";
-
+document.querySelector("#matchupBanner .selected-title").textContent = "CURRENT MATCHUP";
+  
 // trigger glow on matchup banner
 const banner = document.getElementById("matchupBanner");
 banner.classList.add("matchup-banner-glow");
