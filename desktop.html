@@ -27,14 +27,22 @@
  min-height:calc(100vh - 80px);
 }
 
-
 .tabs{
   display:flex;
-  justify-content:center;
-  gap:10px;
+  justify-content:space-between;
+  gap:8px;
   margin-bottom:18px;
+  width:100%;
+
+  position:sticky;
+  top:0;
+  z-index:1000;
+  background:#000;
+  padding-bottom:10px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.6);
 }
 .tabs button{
+  flex:1;
   padding:10px 16px;
   border-radius:12px;
   background:rgba(156,163,175,0.18);
@@ -42,7 +50,6 @@
   color:white;
   cursor:pointer;
   font-size: clamp(14px, 1.8vw, 16px);
-  min-width:120px;
   transition: all .15s ease;
   --hoverGlow:#9ca3af;
 }
