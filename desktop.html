@@ -1453,7 +1453,7 @@ function dubaiTimeString(){
 
 function updateMatchupTimer(){
 
-  if(!currentMatchup || !selectedTimeAgo) return;
+  if(!currentMatchup) return;
 
     const timeString = new Date(currentMatchup.timestamp).toLocaleTimeString("en-US", {
     timeZone: "Asia/Dubai",
@@ -1462,8 +1462,6 @@ function updateMatchupTimer(){
     second: "2-digit",
     hour12: true
   });
-
-  selectedTimeAgo.textContent = "Matchup selected at " + timeString + " GST";
 
   const diff = Date.now() - currentMatchup.timestamp;
   const remaining = MATCHUP_LIFETIME - diff;
@@ -1662,9 +1660,14 @@ if (resetAll) {
    RESET
 ========================= */
 function clearSelectedBanner(clearSelection = false){
-  selectedTeamBanner.style.display = "none";
-  selectedPickedBy.innerHTML = "";
-  selectedTeamLines.innerHTML = "";
+
+  matchupContent.innerHTML = `
+    Click Generator to get started
+  `;
+
+  document.querySelector("#matchupBanner .selected-title").textContent = "NO ACTIVE MATCHUP";
+
+  document.getElementById("matchExpiry").textContent = "";
 
   if(clearSelection){
     selectedTeamKey = null;
@@ -2971,9 +2974,6 @@ setTimeout(()=>{
 }
 
 // Only show Generator banner if a matchup exists
-if(generatorPage.style.display !== "none" && currentMatchup){
-  selectedTeamBanner.style.display = "block";
-}
 
 // Update Matchup banner only if Matchup tab is open
 
