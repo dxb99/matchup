@@ -54,17 +54,24 @@
       overflow-x:hidden;
     }
 
-    body{
-      min-height:100vh;
-      padding:12px 12px calc(var(--tab-h) + 18px);
-      font-size:14px;
-    }
+body{
+  height:100vh;
+  overflow:hidden;
 
-    .app{
-      max-width:720px;
-      margin:0 auto;
-      width:100%;
-    }
+  padding:12px 12px calc(var(--tab-h) + 18px);
+  font-size:14px;
+  display:flex;
+  justify-content:center;
+}
+
+.app{
+  max-width:720px;
+  margin:0 auto;
+  width:100%;
+  height:100%;
+  display:flex;
+  flex-direction:column;
+}
 
     .top-shell{
       position:sticky;
@@ -102,10 +109,12 @@
 }
 
 
-    .page{
-      display:none;
-      width:100%;
-    }
+.page{
+  display:none;
+  width:100%;
+  flex:1;
+  overflow-y:auto;
+}
 
     .page.active{
       display:block;
@@ -339,7 +348,7 @@
 
 .controls{
   position:sticky;
-  top:86px;
+  top:64px;
 
   display:flex;
   flex-direction:column;
