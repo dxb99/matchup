@@ -569,7 +569,7 @@ button.primary:active{
   flex:0 0 auto;
 }
     
-.picked-count{
+.skill-gap{
   font-size:10px;
   font-weight:800;
   background:rgba(0,0,0,0.35);
@@ -577,6 +577,7 @@ button.primary:active{
   border-radius:6px;
   border:1px solid rgba(255,255,255,0.15);
   letter-spacing:0.3px;
+  display:inline-block;
 }
 
 .skill-gap{
@@ -1880,7 +1881,6 @@ const sortedRed = [...option.red].sort((a,b)=>{
 info.innerHTML = `
   <span class="team-line">🔵 BLUE TEAM (${option.skillBlue}): ${sortedBlue.join(", ")}</span>
   <span class="team-line">🔴 RED TEAM (${option.skillRed}): ${sortedRed.join(", ")}</span>
-  <span class="team-line">Skill Gap: ${option.diff}</span>
 `;
 
       const buttonArea = document.createElement("div");
@@ -1907,11 +1907,24 @@ if(
       buttonArea.appendChild(btn);
       buttonArea.appendChild(count);
 
-      row.appendChild(gapBadge);
-      row.appendChild(info);
-      row.appendChild(buttonArea);
-      grid.appendChild(row);
-    });
+      const bottomRow = document.createElement("div");
+bottomRow.style.display = "flex";
+bottomRow.style.justifyContent = "space-between";
+bottomRow.style.marginTop = "4px";
+
+const gap = document.createElement("div");
+gap.className = "skill-gap";
+gap.textContent = "Skill Gap: " + option.diff;
+
+bottomRow.appendChild(gap);
+bottomRow.appendChild(count);
+
+row.appendChild(info);
+row.appendChild(buttonArea);
+row.appendChild(bottomRow);
+
+grid.appendChild(row);
+});
 
     resultDiv.appendChild(grid);
   });
