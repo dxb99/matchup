@@ -1695,11 +1695,11 @@ diffRadios.forEach(r=>{
           target.scrollIntoView({behavior:"smooth", block:"start"});
         }
       }else{
-        const resultTop = document.getElementById("result");
-        if(resultTop){
-          resultTop.scrollIntoView({behavior:"smooth", block:"start"});
-        }
-      }
+  const firstGroup = document.getElementById("gap-0");
+  if(firstGroup){
+    firstGroup.scrollIntoView({behavior:"smooth", block:"start"});
+  }
+}
       
     }
   });
