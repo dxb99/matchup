@@ -114,6 +114,7 @@ body{
   width:100%;
   flex:1;
   overflow-y:auto;
+  overscroll-behavior:contain;
 }
 
     .page.active{
@@ -1736,7 +1737,7 @@ diffRadios.forEach(r=>{
       if(firstGroup && page && controls && header){
         const offset = controls.offsetHeight + header.offsetHeight + 10;
         const y = firstGroup.offsetTop - offset;
-        page.scrollTo({ top: y, behavior: "auto" });
+        page.scrollTo({ top: y, behavior: "smooth" });
       }
     }
   });
