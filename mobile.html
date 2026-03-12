@@ -1731,9 +1731,10 @@ diffRadios.forEach(r=>{
       const firstGroup = document.querySelector("#result .group-title");
       const page = document.getElementById("generatorPage");
       const controls = document.querySelector(".controls");
+      const header = document.querySelector(".top-shell");
 
-      if(firstGroup && page && controls){
-        const offset = controls.offsetHeight + 8;
+      if(firstGroup && page && controls && header){
+        const offset = controls.offsetHeight + header.offsetHeight + 10;
         const y = firstGroup.offsetTop - offset;
         page.scrollTo({ top: y, behavior: "auto" });
       }
