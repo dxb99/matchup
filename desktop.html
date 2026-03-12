@@ -291,6 +291,8 @@ h2, h3{
     }
 
     /* Controls */
+/* Controls */
+
 .controls{
   display:flex;
   flex-direction:column;
@@ -298,19 +300,19 @@ h2, h3{
   gap:12px;
   margin-top:14px;
   width:100%;
-
-  position: sticky;
-  top: 210px;
-  z-index: 900;
-
-  background: #000;
-  padding-top:10px;
-  padding-bottom:10px;
 }
 
-    .controls > label{
-      display:inline-flex;
-    }
+.radio-sticky{
+  position:sticky;
+  top:70px;
+  z-index:900;
+  background:#000;
+  padding:10px 0;
+}
+
+.controls > label{
+  display:inline-flex;
+}
 
 .controls .radio-row{
   display:grid;
