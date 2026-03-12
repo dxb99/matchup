@@ -569,6 +569,16 @@ button.primary:active{
   flex:0 0 auto;
 }
     
+.picked-count{
+  font-size:10px;
+  font-weight:800;
+  background:rgba(0,0,0,0.35);
+  padding:2px 6px;
+  border-radius:6px;
+  border:1px solid rgba(255,255,255,0.15);
+  letter-spacing:0.3px;
+}
+
 .skill-gap{
   font-size:10px;
   font-weight:800;
@@ -1840,6 +1850,10 @@ const playersCount = updatePlayerCount();
       row.className = `team-row diff-${option.diff >= 5 ? 5 : option.diff}`;
       row.dataset.teamKey = option.teamKey;
 
+      const gapBadge = document.createElement("div");
+      gapBadge.className = "skill-gap";
+      gapBadge.textContent = "Skill Gap: " + option.diff;
+      
 if(selectedTeamKey && option.teamKey === selectedTeamKey){
   row.classList.add("selected-option");
 }
@@ -1866,6 +1880,7 @@ const sortedRed = [...option.red].sort((a,b)=>{
 info.innerHTML = `
   <span class="team-line">🔵 BLUE TEAM (${option.skillBlue}): ${sortedBlue.join(", ")}</span>
   <span class="team-line">🔴 RED TEAM (${option.skillRed}): ${sortedRed.join(", ")}</span>
+  <span class="team-line">Skill Gap: ${option.diff}</span>
 `;
 
       const buttonArea = document.createElement("div");
@@ -1890,26 +1905,13 @@ if(
       count.textContent = `Times Selected: ${getPickCountByKey(option.teamKey)}`;
 
       buttonArea.appendChild(btn);
+      buttonArea.appendChild(count);
 
-const bottomRow = document.createElement("div");
-bottomRow.style.display = "flex";
-bottomRow.style.justifyContent = "space-between";
-bottomRow.style.width = "100%";
-bottomRow.style.marginTop = "6px";
-
-const gap = document.createElement("div");
-gap.className = "skill-gap";
-gap.textContent = "Skill Gap: " + option.diff;
-
-bottomRow.appendChild(gap);
-bottomRow.appendChild(count);
-
-row.appendChild(info);
-row.appendChild(buttonArea);
-row.appendChild(bottomRow);
-
-grid.appendChild(row);
-});
+      row.appendChild(gapBadge);
+      row.appendChild(info);
+      row.appendChild(buttonArea);
+      grid.appendChild(row);
+    });
 
     resultDiv.appendChild(grid);
   });
