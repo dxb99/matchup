@@ -2510,10 +2510,11 @@ adminTab.addEventListener("click", async ()=>{
     return;
   }
 
-  isAdminEditing = true;
-  showPage(adminPage);
-  setActiveTab("adminTab");
-  renderAdminUI();
+isAdminEditing = true;
+showPage(adminPage);
+setActiveTab("adminTab");
+renderAdminUI();
+scrollToTop();
 });
 
 function scrollToTop(){
