@@ -1728,9 +1728,9 @@ diffRadios.forEach(r=>{
     if(lastGeneratedGroups){
       renderOptions(lastGeneratedGroups);
 
-      const page = document.getElementById("generatorPage");
-      if(page){
-        page.scrollTop = 0;
+      const result = document.getElementById("result");
+      if(result){
+        result.scrollIntoView({behavior:"auto", block:"start"});
       }
     }
   });
