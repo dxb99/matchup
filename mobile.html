@@ -311,7 +311,8 @@
   justify-content:flex-start;
   gap:10px;
 
-  padding:12px 10px;
+  height:44px;
+  padding:0 10px;
 
   border-radius:14px;
   background:rgba(255,255,255,0.06);
@@ -329,12 +330,12 @@
   flex:1;
 }
     
-    .player-grid input[type="checkbox"]{
-      width:22px;
-      height:22px;
-      accent-color:#22c55e;
-      flex:0 0 auto;
-    }
+.player-grid input[type="checkbox"]{
+  width:18px;
+  height:18px;
+  accent-color:#22c55e;
+  flex:0 0 auto;
+}
 
     .controls{
       display:flex;
@@ -358,6 +359,10 @@
   gap:8px;
   justify-content:center;
   text-align:center;
+
+  height:44px;
+  padding:0 10px;
+
   font-size:13px;
   user-select:none;
   cursor:pointer;
@@ -365,13 +370,10 @@
   min-width:0;
   white-space:normal;
 
-  padding:12px 10px;
   border-radius:14px;
-  min-height:44px;
 
   transition:transform .15s ease, box-shadow .15s ease, opacity .15s ease;
 }
-
 
     .controls label.disabled-label{
       opacity:0.35;
