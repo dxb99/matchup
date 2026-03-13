@@ -2460,6 +2460,12 @@ adminSection.innerHTML = "";
 const sticky = document.getElementById("adminAddPlayer");
 if(sticky) sticky.innerHTML = "";
 
+const playerCount = document.createElement("div");
+playerCount.id = "adminPlayerCount";
+playerCount.style.fontSize = "13px";
+playerCount.style.fontWeight = "800";
+playerCount.textContent = `Players: ${players.length}`;
+
 const status = document.createElement("div");
 status.id = "adminStatus";
 status.style.fontSize = "13px";
@@ -2579,6 +2585,7 @@ addRow.appendChild(addBtn);
 const stickyBar = document.getElementById("adminAddPlayer");
 
 stickyBar.appendChild(addRow);
+stickyBar.appendChild(playerCount);
 stickyBar.appendChild(status);
 
 const actions = document.createElement("div");
