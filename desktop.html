@@ -735,6 +735,13 @@ button.primary:active{
   gap:6px;
   flex:0 0 auto;
 }
+
+.meta-row{
+  display:flex;
+  gap:6px;
+  align-items:center;
+  justify-content:center;
+}    
     
 .picked-count{
 
@@ -2124,11 +2131,6 @@ const sortedRed = [...option.red].sort((a,b)=>{
 info.innerHTML = `
 
   <span class="team-line">
-    <span class="team-badge badge-blue">BLUE TEAM (${option.skillBlue})</span>
-    ${sortedBlue.join(", ")}
-  </span>
-
-  <span class="team-line">
     <span class="team-badge badge-red">RED TEAM (${option.skillRed})</span>
     ${sortedRed.join(", ")}
   </span>
@@ -2156,9 +2158,19 @@ if(
   btn.disabled = true;
 }  
 
-      const count = document.createElement("div");
-      count.className = "picked-count";
-      count.textContent = `Times Selected: ${getPickCountByKey(option.teamKey)}`;
+const metaRow = document.createElement("div");
+metaRow.className = "meta-row";
+
+const gap = document.createElement("span");
+gap.className = "skill-gap-badge";
+gap.textContent = `Skill Gap: ${option.diff}`;
+
+const count = document.createElement("span");
+count.className = "picked-count";
+count.textContent = `Times Selected: ${getPickCountByKey(option.teamKey)}`;
+
+metaRow.appendChild(gap);
+metaRow.appendChild(count);
 
       buttonArea.appendChild(btn);
       buttonArea.appendChild(count);
