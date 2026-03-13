@@ -328,7 +328,10 @@ h2, h3{
       height: 18px;
       accent-color: #22c55e;
       flex: 0 0 auto;
-    }
+    
+.player-grid input[type="checkbox"]:disabled{
+  cursor:not-allowed;
+}
 
     /* Controls */
 /* Controls */
@@ -456,6 +459,10 @@ button.primary.selected{
   color:#111827;
   box-shadow:0 0 14px rgba(250,204,21,0.9);
   cursor:default;
+}
+
+button:disabled{
+  cursor:not-allowed;
 }
 
 .generate-btn{
@@ -869,6 +876,10 @@ button.primary:active{
   margin-right:6px;
   background:#000;
   border:2px solid #ffffff;
+}
+
+.controls input[type="radio"]:disabled{
+  cursor:not-allowed;
 }
 
 .controls label{
