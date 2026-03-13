@@ -573,18 +573,19 @@ button.blue{
       .group-grid{ grid-template-columns: 1fr; }
     }
 
-    .team-row{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap: 12px;
-      padding: 12px;
-      border-radius: 14px;
-      transition: outline 0.12s ease, transform 0.1s ease, box-shadow 0.12s ease;
-      font-size: inherit;
-      width:100%;
-      min-width:0;
-    }
+.team-row{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:space-between;
+  align-items:center;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 14px;
+  transition: outline 0.12s ease, transform 0.1s ease, box-shadow 0.12s ease;
+  font-size: inherit;
+  width:100%;
+  min-width:0;
+}
     
 .team-row.selected-option{
   outline: 3px solid rgba(255,255,255,0.9);
