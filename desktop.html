@@ -2437,8 +2437,12 @@ hideSavingScreen();
    ADMIN MODE
 ========================= */
 function renderAdminUI(){
-  adminSection.style.display = "block";
-  adminSection.innerHTML = "";
+adminSection.style.display = "block";
+adminSection.innerHTML = "";
+
+// clear sticky admin area so it doesn't duplicate
+const sticky = document.getElementById("adminAddPlayer");
+if(sticky) sticky.innerHTML = "";
 
   const title = document.createElement("div");
 title.style.fontWeight = "900";
@@ -2639,9 +2643,9 @@ catch (err) {
   renderAttendance();
 });
 
-  actions.appendChild(closeBtn);
-  actions.appendChild(saveBtn);
-  adminSection.appendChild(actions);
+actions.appendChild(closeBtn);
+actions.appendChild(saveBtn);
+document.getElementById("adminAddPlayer").appendChild(actions);
 }
 
 document.getElementById("adminTab").addEventListener("click", async ()=>{
