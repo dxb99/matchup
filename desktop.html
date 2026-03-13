@@ -493,6 +493,10 @@ button.small{
   letter-spacing:0.3px;
 }
 
+button.primary.small{
+  padding:8px 12px;
+}
+
 button.blue{
   background:rgba(37,99,235,0.18);
   border:2px solid #2563eb;
@@ -2071,13 +2075,13 @@ info.innerHTML = `
 
 `;
 
-      const buttonArea = document.createElement("div");
-      buttonArea.className = "button-area";
+const buttonArea = document.createElement("div");
+buttonArea.className = "button-area";
 
-      const btn = document.createElement("button");
-      btn.className = "primary";
-      btn.textContent = "SELECT";
-      btn.addEventListener("click", ()=>onSelectOption(option));
+const btn = document.createElement("button");
+btn.className = "primary small";
+btn.textContent = "SELECT";
+btn.addEventListener("click", ()=>onSelectOption(option));
 
 if(
   selectedTeamKey &&
