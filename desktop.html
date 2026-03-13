@@ -2181,17 +2181,17 @@ metaRow.appendChild(gap);
 metaRow.appendChild(count);
 
 buttonArea.appendChild(btn);
-buttonArea.appendChild(metaRow);
 
 row.appendChild(info);
 row.appendChild(buttonArea);
-grid.appendChild(row);
 
 const metaRowWrapper = document.createElement("div");
 metaRowWrapper.className = "meta-row-wrapper";
 metaRowWrapper.appendChild(metaRow);
 
-grid.appendChild(metaRowWrapper);
+row.appendChild(metaRowWrapper);
+
+grid.appendChild(row);
 });
 
     resultDiv.appendChild(grid);
