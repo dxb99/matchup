@@ -736,6 +736,13 @@ button.primary:active{
   flex:0 0 auto;
 }
 
+.meta-row-wrapper{
+  width:100%;
+  display:flex;
+  justify-content:center;
+  margin-top:4px;
+}
+
 .meta-row{
   display:flex;
   gap:6px;
@@ -2176,10 +2183,16 @@ metaRow.appendChild(count);
 buttonArea.appendChild(btn);
 buttonArea.appendChild(metaRow);
 
-      row.appendChild(info);
-      row.appendChild(buttonArea);
-      grid.appendChild(row);
-    });
+row.appendChild(info);
+row.appendChild(buttonArea);
+grid.appendChild(row);
+
+const metaRowWrapper = document.createElement("div");
+metaRowWrapper.className = "meta-row-wrapper";
+metaRowWrapper.appendChild(metaRow);
+
+grid.appendChild(metaRowWrapper);
+});
 
     resultDiv.appendChild(grid);
   });
