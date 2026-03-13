@@ -2465,8 +2465,6 @@ status.style.fontWeight = "700";
 status.style.color = adminDirty ? "#f59e0b" : "#22c55e";
 status.textContent = adminDirty ? "● Unsaved Changes" : "● All Changes Saved";
   
-document.getElementById("adminAddPlayer").appendChild(status);
-
   players.forEach((p,i)=>{
     const row = document.createElement("div");
     row.className = "admin-row";
@@ -2571,10 +2569,14 @@ addBtn.textContent = "Add Player";
     showStatus("Player added successfully.", "success");
   });
 
-  addRow.appendChild(newName);
-  addRow.appendChild(newSkill);
-  addRow.appendChild(addBtn);
-  document.getElementById("adminAddPlayer").appendChild(addRow);
+addRow.appendChild(newName);
+addRow.appendChild(newSkill);
+addRow.appendChild(addBtn);
+
+const stickyBar = document.getElementById("adminAddPlayer");
+
+stickyBar.appendChild(addRow);
+stickyBar.appendChild(status);
 
 const actions = document.createElement("div");
 actions.className = "admin-actions";
@@ -2651,8 +2653,8 @@ catch (err) {
   renderAttendance();
 });
 
-actions.appendChild(closeBtn);
 actions.appendChild(saveBtn);
+actions.appendChild(closeBtn);
 document.getElementById("adminAddPlayer").appendChild(actions);
 }
 
