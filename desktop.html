@@ -573,19 +573,18 @@ button.blue{
       .group-grid{ grid-template-columns: 1fr; }
     }
 
-.team-row{
-  display:flex;
-  flex-wrap:wrap;
-  justify-content:space-between;
-  align-items:center;
-  gap: 12px;
-  padding: 12px;
-  border-radius: 14px;
-  transition: outline 0.12s ease, transform 0.1s ease, box-shadow 0.12s ease;
-  font-size: inherit;
-  width:100%;
-  min-width:0;
-}
+    .team-row{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap: 12px;
+      padding: 12px;
+      border-radius: 14px;
+      transition: outline 0.12s ease, transform 0.1s ease, box-shadow 0.12s ease;
+      font-size: inherit;
+      width:100%;
+      min-width:0;
+    }
     
 .team-row.selected-option{
   outline: 3px solid rgba(255,255,255,0.9);
@@ -736,21 +735,6 @@ button.primary:active{
   gap:6px;
   flex:0 0 auto;
 }
-
-.meta-row-wrapper{
-  width:100%;
-  flex-basis:100%;
-  display:flex;
-  justify-content:center;
-  margin-top:6px;
-}
-
-.meta-row{
-  display:flex;
-  gap:6px;
-  align-items:center;
-  justify-content:center;
-}    
     
 .picked-count{
 
@@ -2149,6 +2133,10 @@ info.innerHTML = `
     ${sortedRed.join(", ")}
   </span>
 
+<span class="team-line">
+  <span class="skill-gap-badge">Skill Gap: ${option.diff}</span>
+</span>
+
 `;
 
 const buttonArea = document.createElement("div");
@@ -2168,33 +2156,17 @@ if(
   btn.disabled = true;
 }  
 
-const metaRow = document.createElement("div");
-metaRow.className = "meta-row";
+      const count = document.createElement("div");
+      count.className = "picked-count";
+      count.textContent = `Times Selected: ${getPickCountByKey(option.teamKey)}`;
 
-const gap = document.createElement("span");
-gap.className = "skill-gap-badge";
-gap.textContent = `Skill Gap: ${option.diff}`;
+      buttonArea.appendChild(btn);
+      buttonArea.appendChild(count);
 
-const count = document.createElement("span");
-count.className = "picked-count";
-count.textContent = `Times Selected: ${getPickCountByKey(option.teamKey)}`;
-
-metaRow.appendChild(gap);
-metaRow.appendChild(count);
-
-buttonArea.appendChild(btn);
-
-row.appendChild(info);
-row.appendChild(buttonArea);
-
-const metaRowWrapper = document.createElement("div");
-metaRowWrapper.className = "meta-row-wrapper";
-metaRowWrapper.appendChild(metaRow);
-
-row.appendChild(metaRowWrapper);
-
-grid.appendChild(row);
-});
+      row.appendChild(info);
+      row.appendChild(buttonArea);
+      grid.appendChild(row);
+    });
 
     resultDiv.appendChild(grid);
   });
