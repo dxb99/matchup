@@ -924,6 +924,19 @@ button:hover,
   box-shadow:0 6px 16px rgba(0,0,0,0.6);
 }
 
+.sticky-admin{
+  position:sticky;
+  top:var(--header-offset);
+  z-index:900;
+
+  background:#000;
+  padding:10px 0;
+
+  border-bottom:1px solid #333;
+
+  box-shadow:0 6px 16px rgba(0,0,0,0.6);
+}
+
 .sticky-history::after{
   content:"";
   position:absolute;
@@ -1232,13 +1245,20 @@ The generator also keeps a <b>history of previous matchups</b> and tracks how ma
 
 </div>
 
-    <!-- Admin -->
-    <div id="adminPage" style="display:none;">
-      <h3 style="text-align:center;">Admin Panel</h3>
-      <div id="adminSection"></div>
+<!-- Admin -->
+<div id="adminPage" style="display:none;">
+
+  <h3 style="text-align:center;">Admin Panel</h3>
+
+  <div class="sticky-admin">
+    <div id="adminAddPlayer"></div>
+  </div>
+
+  <div id="adminSection"></div>
+
 </div>
 
-    <!-- History -->
+<!-- History -->
 <div id="historyPage" style="display:none;">
 
 <div class="sticky-history">
@@ -2513,20 +2533,19 @@ row.appendChild(pinStatus);
 adminSection.appendChild(row);
   });
 
-  const addRow = document.createElement("div");
-  addRow.className = "admin-row";
-  addRow.style.marginTop = "10px";
+const addRow = document.createElement("div");
+addRow.className = "admin-row";
 
-  const newName = document.createElement("input");
-  newName.placeholder = "New player name";
+const newName = document.createElement("input");
+newName.placeholder = "New player name";
 
-  const newSkill = document.createElement("input");
-  newSkill.type = "number";
-  newSkill.min = "1";
-  newSkill.max = "20";
-  newSkill.placeholder = "Skill";
+const newSkill = document.createElement("input");
+newSkill.type = "number";
+newSkill.min = "1";
+newSkill.max = "20";
+newSkill.placeholder = "Skill";
 
-  const addBtn = document.createElement("button");
+const addBtn = document.createElement("button");
 addBtn.className = "blue small";
 addBtn.textContent = "Add Player";
   addBtn.addEventListener("click", ()=>{
@@ -2547,7 +2566,7 @@ addBtn.textContent = "Add Player";
   addRow.appendChild(newName);
   addRow.appendChild(newSkill);
   addRow.appendChild(addBtn);
-  adminSection.appendChild(addRow);
+  document.getElementById("adminAddPlayer").appendChild(addRow);
 
 const actions = document.createElement("div");
 actions.className = "admin-actions";
