@@ -1,5 +1,5 @@
 
-let API_URL = "PASTE_YOUR_APPS_SCRIPT_URL_HERE";
+let API_URL = "https://script.google.com/macros/s/AKfycbzIyBeXAVeSLtxW8jR9OnQL_Iz6cawGiaZSlkoZ2hTYy5dwo-0n_GH6F15H7tfXojIl/exec";
 
 window.onload = function(){
 
