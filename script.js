@@ -1,112 +1,102 @@
-const API_URL = 'https://script.google.com/macros/s/AKfycbzIyBeXAVeSLtxW8jR9OnQL_Iz6cawGiaZSlkoZ2hTYy5dwo-0n_GH6F15H7tfXojIl/exec';
-  (data.players || []).forEach(player => tbody.appendChild(buildAdminRow(player)));
-  adminLoaded = true;
-  adminDirty = false;
-  updateUnsavedIndicator();
-  updatePlayerCount();
-}
+const API_URL = "https://script.google.com/macros/s/AKfycbzIyBeXAVeSLtxW8jR9OnQL_Iz6cawGiaZSlkoZ2hTYy5dwo-0n_GH6F15H7tfXojIl/exec";
 
-function buildAdminRow(player = {}) {
-  const row = document.createElement('tr');
-  row.innerHTML = `
-    <td contenteditable="true">${escapeHtml(player.name || '')}</td>
-    <td contenteditable="true">${Number(player.skill) || 0}</td>
-    <td><button class="admin-inline-btn remove">Remove</button></td>
-    <td><button class="admin-inline-btn reset-pin">RESET PIN</button></td>
-    <td>${escapeHtml(player.pinStatus || 'NOT CREATED')}</td>
-  `;
+let allPlayers = [];
+let adminLoaded = false;
 
-  row.querySelector('.remove').addEventListener('click', () => {
-    row.remove();
-    markAdminDirty();
-    updatePlayerCount();
-  });
+window.addEventListener("load", async () => {
 
-  row.querySelector('.reset-pin').addEventListener('click', async () => {
-    const name = row.cells[0].innerText.trim();
-    if (!name) {
-      alert('Player name is required first.');
-      return;
-    }
-    const password = prompt('Enter Admin Password');
-    if (!password) return;
+  try {
 
-    const data = await api({ action: 'resetPlayerPin', playerName: name, password });
-    if (!data.ok) {
-      alert(data.error || 'Could not reset PIN.');
-      return;
-    }
+    await loadInitialData();
 
-    row.cells[4].innerText = 'NOT CREATED';
-    alert(data.message || 'PIN reset.');
-  });
+    document.getElementById("loadingScreen").style.display = "none";
+    document.getElementById("app").classList.remove("hidden");
 
-  row.cells[0].addEventListener('input', markAdminDirty);
-  row.cells[1].addEventListener('input', markAdminDirty);
-  return row;
-}
+  } catch (err) {
 
-function addAdminPlayerRow() {
-  const tbody = document.querySelector('#adminTable tbody');
-  tbody.appendChild(buildAdminRow({ name: '', skill: 0, pinStatus: 'NOT CREATED' }));
-  markAdminDirty();
-  updatePlayerCount();
-}
+    console.error(err);
+    alert("Startup error. Open console (F12).");
 
-function updatePlayerCount() {
-  const rows = document.querySelectorAll('#adminTable tbody tr').length;
-  document.getElementById('playerCount').textContent = `Players: ${rows}`;
-}
-
-function markAdminDirty() {
-  adminDirty = true;
-  updateUnsavedIndicator();
-}
-
-function updateUnsavedIndicator() {
-  document.getElementById('unsavedIndicator').style.display = adminDirty ? 'inline-block' : 'none';
-}
-
-async function saveAdminPlayers() {
-  const password = prompt('Enter Admin Password');
-  if (!password) return;
-
-  const players = Array.from(document.querySelectorAll('#adminTable tbody tr')).map(row => ({
-    name: row.cells[0].innerText.trim(),
-    skill: Number(row.cells[1].innerText.trim()) || 0,
-    pin: row.cells[4].innerText.trim() === 'ACTIVE' ? '' : '',
-    active: true
-  })).filter(p => p.name);
-
-  const data = await api({ action: 'savePlayersAdmin', password, players });
-  if (!data.ok) {
-    alert(data.error || 'Could not save players.');
-    return;
   }
 
-  alert(data.message || 'Players saved successfully.');
-  adminDirty = false;
-  updateUnsavedIndicator();
-  adminLoaded = false;
-  await loadAdminPlayers();
-  await loadInitialData();
+});
+
+async function api(data){
+
+  const res = await fetch(API_URL,{
+    method:"POST",
+    body:JSON.stringify(data)
+  });
+
+  return await res.json();
+
 }
 
-function formatDateTime(value) {
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return '';
-  return `${pad2(date.getMonth() + 1)}/${pad2(date.getDate())}/${date.getFullYear()}, ${pad2(date.getHours())}:${pad2(date.getMinutes())}:${pad2(date.getSeconds())}`;
+async function loadInitialData(){
+
+  const data = await api({action:"getInitialData"});
+
+  if(!data.ok){
+    throw new Error("Failed loading data");
+  }
+
+  allPlayers = data.players || [];
+
+  populatePlayers(allPlayers);
+
+  renderMatchup(data.currentMatchup);
+
 }
 
-function pad2(num) {
-  return String(num).padStart(2, '0');
+function populatePlayers(players){
+
+  const maker = document.getElementById("matchMakerSelect");
+  const list = document.getElementById("playersCheckboxes");
+
+  maker.innerHTML="";
+  list.innerHTML="";
+
+  players.forEach(p=>{
+
+    const opt=document.createElement("option");
+    opt.value=p.name;
+    opt.innerText=p.name;
+    maker.appendChild(opt);
+
+    const div=document.createElement("div");
+
+    div.innerHTML=`
+    <label>
+    <input type="checkbox" checked value="${p.name}">
+    ${p.name} (${p.skill})
+    </label>
+    `;
+
+    list.appendChild(div);
+
+  });
+
 }
 
-function escapeHtml(value) {
-  return String(value)
-    .replaceAll('&', '&amp;')
-    .replaceAll('<', '&lt;')
-    .replaceAll('>', '&gt;')
-    .replaceAll('"', '&quot;')
-    .replaceAll("'", '&#39;');
+function renderMatchup(match){
+
+  const el=document.getElementById("matchupContent");
+
+  if(!match){
+
+    el.innerHTML="NO MATCHUP YET<br><br>CLICK GENERATOR TO GET STARTED";
+    return;
+
+  }
+
+  el.innerHTML=`
+
+  MATCH MAKER: ${match.matchMaker}<br><br>
+
+  RED TEAM: ${match.redTeam.join(", ")}<br>
+
+  BLUE TEAM: ${match.blueTeam.join(", ")}
+
+  `;
+
 }
