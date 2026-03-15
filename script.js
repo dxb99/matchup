@@ -116,10 +116,12 @@ async function generateMatchups(){
     return;
   }
 
+  const gap = document.querySelector('input[name="gapFilter"]:checked').value;
+
   const data = await api({
     action:"generateMatchups",
     selectedPlayers:selectedPlayers,
-    filterGap:0
+    filterGap:gap
   });
 
   if(!data.ok){
