@@ -145,36 +145,81 @@ function renderGeneratedMatchups(matchups){
 
     div.className="matchOption";
 
-    div.innerHTML=`
+div.innerHTML=`
 
-    <div class="teamRow">
+<div class="teamRow">
 
-      <div class="redTeam">
-      <strong>RED TEAM</strong><br>
-      ${m.redTeam.map(p=>p.name).join(", ")}
-      </div>
+  <div class="redTeam">
+  <strong>RED TEAM</strong><br>
+  ${m.redTeam.map(p=>p.name).join(", ")}
+  </div>
 
-      <div class="vs">VS</div>
+  <div class="vs">VS</div>
 
-      <div class="blueTeam">
-      <strong>BLUE TEAM</strong><br>
-      ${m.blueTeam.map(p=>p.name).join(", ")}
-      </div>
+  <div class="blueTeam">
+  <strong>BLUE TEAM</strong><br>
+  ${m.blueTeam.map(p=>p.name).join(", ")}
+  </div>
 
-    </div>
+</div>
 
-    <div class="badges">
+<div class="badges">
 
-      <span class="badge">Gap ${m.skillGap}</span>
+  <span class="badge">Gap ${m.skillGap}</span>
 
-      <span class="badge">${m.pickCount} Picks</span>
+  <span class="badge">${m.pickCount} Picks</span>
 
-    </div>
+</div>
 
-    `;
+<button class="selectMatch">SELECT MATCHUP</button>
 
-    container.appendChild(div);
+`;
+
+div.querySelector(".selectMatch").onclick = () => selectMatchup(m);
+
+container.appendChild(div);
 
   });
+
+}
+
+async function selectMatchup(match){
+
+  const maker=document.getElementById("matchMakerSelect").value;
+
+  if(!maker){
+    alert("Select Match Maker first.");
+    return;
+  }
+
+  const pin=prompt("Enter PIN (or create one if first time)");
+
+  if(!pin) return;
+
+  const data = await api({
+
+    action:"verifyOrCreatePinAndSave",
+
+    matchMaker:maker,
+
+    pin:pin,
+
+    redTeam:match.redTeam.map(p=>p.name),
+
+    blueTeam:match.blueTeam.map(p=>p.name)
+
+  });
+
+  if(!data.ok){
+
+    alert(data.error);
+
+    return;
+
+  }
+
+  alert("MATCHUP SAVED");
+
+  loadInitialData();
 
 }
