@@ -57,6 +57,40 @@ renderMatchup(data.currentMatchup);
 
 function populatePlayers(players){
 
+window.allPlayers = players;
+
+renderPlayers(players);
+
+document.getElementById("playerSort").onchange=function(){
+
+let type=this.value;
+
+let sorted=[...window.allPlayers];
+
+if(type==="alpha"){
+
+sorted.sort((a,b)=>a.name.localeCompare(b.name));
+
+}else{
+
+sorted.sort((a,b)=>{
+
+if(b.skill!==a.skill)return b.skill-a.skill;
+
+return a.name.localeCompare(b.name);
+
+});
+
+}
+
+renderPlayers(sorted);
+
+};
+
+}
+
+function renderPlayers(players){
+
 let select = document.getElementById("matchMakerSelect");
 
 let list = document.getElementById("playersCheckboxes");
@@ -116,10 +150,13 @@ renderGeneratedMatchups(data.matchups);
 function renderMatchup(match){
 
 let el=document.getElementById("matchupContent");
+let countdown=document.getElementById("matchCountdown");
 
 if(!match){
 
 el.innerHTML="NO MATCHUP YET<br><br>CLICK GENERATOR TO GET STARTED";
+
+countdown.innerHTML="";
 
 return;
 
@@ -131,11 +168,41 @@ MATCH MAKER: ${match.matchMaker}<br><br>
 
 RED TEAM: ${match.redTeam.join(", ")}<br>
 
-BLUE TEAM: ${match.blueTeam.join(", ")}<br><br>
-
-Skill Gap: ${match.skillGap}
+BLUE TEAM: ${match.blueTeam.join(", ")}
 
 `;
+
+let expiry=new Date(match.expiresAt);
+
+startCountdown(expiry);
+
+}
+
+function startCountdown(expiry){
+
+let el=document.getElementById("matchCountdown");
+
+setInterval(()=>{
+
+let now=new Date();
+
+let diff=expiry-now;
+
+if(diff<=0){
+
+el.innerHTML="MATCHUP EXPIRED";
+
+return;
+
+}
+
+let hours=Math.floor(diff/3600000);
+let mins=Math.floor((diff%3600000)/60000);
+let secs=Math.floor((diff%60000)/1000);
+
+el.innerHTML=`MATCHUP EXPIRES IN ${hours}:${mins}:${secs}`;
+
+},1000);
 
 }
 
@@ -326,8 +393,58 @@ row.innerHTML=`
 
 `;
 
-row.querySelector(".removeRow").onclick=()=>row.remove();
+row.querySelector(".removeRow").onclick=()=>{
+row.remove();
+updatePlayerCount();
+};
 
 table.appendChild(row);
+
+updatePlayerCount();
+
+};
+
+function updatePlayerCount(){
+
+let rows=document.querySelectorAll("#adminTable tbody tr");
+
+document.getElementById("playerCount").innerText="Players: "+rows.length;
+
+}
+
+document.getElementById("savePlayers").onclick=async function(){
+
+let pass=prompt("Enter Admin Password");
+
+if(!pass)return;
+
+let players=[];
+
+document.querySelectorAll("#adminTable tbody tr").forEach(row=>{
+
+let name=row.cells[0].innerText.trim();
+
+let skill=parseInt(row.cells[1].innerText);
+
+players.push({
+
+name:name,
+skill:skill
+
+});
+
+});
+
+let data=await api({
+
+action:"savePlayersAdmin",
+
+password:pass,
+
+players:players
+
+});
+
+alert(data.message);
 
 };
