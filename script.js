@@ -153,8 +153,6 @@ function renderGeneratedMatchups(matchups){
 
 div.innerHTML=`
 
-div.innerHTML=`
-
 <div class="teamRow">
 
   <div class="redTeam">
