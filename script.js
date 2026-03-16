@@ -134,8 +134,6 @@ document.getElementById("generateButton").onclick = generateMatchups;
 
 async function generateMatchups(){
 
-  document.getElementById("generatingOverlay").style.display = "flex";
-
   const selectedPlayers=[];
 
   const maker = document.getElementById("matchMakerSelect").value;
@@ -149,6 +147,8 @@ if(!maker){
     selectedPlayers.push(x.value);
   });
 
+  document.getElementById("generatingOverlay").style.display = "flex";
+  
   if(selectedPlayers.length < 2){
     alert("Select at least 2 players.");
     return;
