@@ -459,6 +459,14 @@ margin-bottom:2px;
 
 }
 
+/* Show 1 matchup per row on phones */
+
+#generatedMatchups{
+
+grid-template-columns:1fr;
+
+}
+
 }
 
 .badge.gap-0{background:#1b5e20;}
