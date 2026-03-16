@@ -682,3 +682,67 @@ function startMatchAutoRefresh(){
   },10000);
 
 }
+
+function generateMatchupsLocal(selectedPlayers, filterGap){
+
+  const players = allPlayers.filter(p => selectedPlayers.includes(p.name));
+
+  const size = Math.ceil(players.length / 2);
+
+  const combos = getCombinationsLocal(players, size);
+
+  const results = [];
+
+  combos.forEach(red => {
+
+    const blue = players.filter(p => !red.includes(p));
+
+    const redSkill = red.reduce((s,p)=>s+p.skill,0);
+    const blueSkill = blue.reduce((s,p)=>s+p.skill,0);
+
+    const gap = Math.abs(redSkill - blueSkill);
+
+    if(gap >= 5) return;
+
+    if(filterGap != 0 && gap != filterGap) return;
+
+    results.push({
+      redTeam:red,
+      blueTeam:blue,
+      redSkill:redSkill,
+      blueSkill:blueSkill,
+      skillGap:gap,
+      pickCount:0
+    });
+
+  });
+
+  return results;
+
+}
+
+function getCombinationsLocal(arr,size){
+
+  const result = [];
+
+  function helper(start,combo){
+
+    if(combo.length === size){
+      result.push([...combo]);
+      return;
+    }
+
+    for(let i=start;i<arr.length;i++){
+
+      combo.push(arr[i]);
+      helper(i+1,combo);
+      combo.pop();
+
+    }
+
+  }
+
+  helper(0,[]);
+  return result;
+
+}
