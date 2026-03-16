@@ -411,6 +411,41 @@ function updatePlayerCount(){
 
 }
 
+function addAdminPlayerRow(){
+
+  const table = document.querySelector("#adminTable tbody");
+
+  const row = document.createElement("tr");
+
+  row.innerHTML = `
+
+  <td contenteditable="true"></td>
+
+  <td contenteditable="true">0</td>
+
+  <td><button class="admin-inline-btn remove">Remove</button></td>
+
+  <td></td>
+
+  <td>NOT CREATED</td>
+
+  `;
+
+  row.querySelector(".remove").onclick = () => {
+
+    row.remove();
+    updatePlayerCount();
+
+  };
+
+  table.appendChild(row);
+
+  updatePlayerCount();
+
+}
+
+document.getElementById("addPlayer").onclick = addAdminPlayerRow;
+
 document.getElementById("savePlayers").onclick = savePlayers;
 
 async function savePlayers(){
