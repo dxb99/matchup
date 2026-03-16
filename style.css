@@ -203,24 +203,17 @@ background:#cc0000;
 
 #playersCheckboxes{
 
-margin-top:20px;
-
 display:flex;
+flex-wrap:wrap;
 
-flex-direction:column;
+justify-content:center;
 
-gap:8px;
+gap:10px;
 
-max-width:300px;
-
-margin-left:auto;
-
-margin-right:auto;
-
-text-align:left;
+max-width:900px;
+margin:0 auto;
 
 }
-
 
 /* GENERATED MATCHUPS */
 
@@ -426,4 +419,27 @@ color:white;
 font-size:28px;
 font-weight:bold;
 
+}
+
+#playersCheckboxes label{
+
+display:inline-flex;
+align-items:center;
+
+padding:6px 12px;
+
+background:#111;
+
+border:1px solid #444;
+
+border-radius:6px;
+
+white-space:nowrap;
+
+cursor:pointer;
+
+}
+
+#playersCheckboxes input{
+margin-right:6px;
 }
