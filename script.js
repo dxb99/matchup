@@ -136,6 +136,13 @@ async function generateMatchups(){
 
   const selectedPlayers=[];
 
+  const maker = document.getElementById("matchMakerSelect").value;
+
+if(!maker){
+  alert("Select Match Maker first.");
+  return;
+}
+
   document.querySelectorAll("#playersCheckboxes input:checked").forEach(x=>{
     selectedPlayers.push(x.value);
   });
