@@ -593,4 +593,47 @@ white-space:nowrap;
 
 }
 
+/* Force compact matchup layout on mobile */
+
+.teamLine{
+
+display:flex;
+flex-wrap:nowrap;
+align-items:center;
+
+}
+
+.teamPlayers{
+
+flex:1;
+white-space:nowrap;
+
+}
+
+.badges{
+
+display:flex;
+flex-wrap:nowrap;
+justify-content:space-between;
+align-items:center;
+gap:6px;
+
+}
+
+.badge{
+
+white-space:nowrap;
+font-size:12px;
+padding:3px 8px;
+
+}
+
+.selectMatch{
+
+white-space:nowrap;
+font-size:12px;
+padding:5px 8px;
+
+}
+
 }
