@@ -402,3 +402,11 @@ async function resetPin(player){
   openAdminTab();
 
 }
+
+function updatePlayerCount(){
+
+  const rows = document.querySelectorAll("#adminTable tbody tr").length;
+
+  document.getElementById("playerCount").innerText = "Players: " + rows;
+
+}
