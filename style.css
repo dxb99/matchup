@@ -443,3 +443,33 @@ cursor:pointer;
 #playersCheckboxes input{
 margin-right:6px;
 }
+
+/* MATCH MAKER DROPDOWN */
+
+#matchMakerSelect{
+
+font-size:18px;
+
+padding:8px 12px;
+
+margin-top:10px;
+
+border-radius:6px;
+
+background:#111;
+
+color:white;
+
+border:1px solid #444;
+
+text-align:center;
+
+min-width:220px;
+
+}
+
+#matchMakerSelect option{
+
+text-align:center;
+
+}
