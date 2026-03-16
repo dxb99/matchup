@@ -50,31 +50,35 @@ async function loadInitialData(){
 
 function populatePlayers(players){
 
-  const maker = document.getElementById("matchMakerSelect");
-  const list = document.getElementById("playersCheckboxes");
+  window.allPlayers = players;
 
-  maker.innerHTML="";
-  list.innerHTML="";
+  renderPlayers(players);
 
-  players.forEach(p=>{
+  document.getElementById("playerSort").onchange = function(){
 
-    const opt=document.createElement("option");
-    opt.value=p.name;
-    opt.innerText=p.name;
-    maker.appendChild(opt);
+    let type = this.value;
 
-    const div=document.createElement("div");
+    let sorted = [...window.allPlayers];
 
-    div.innerHTML=`
-    <label>
-    <input type="checkbox" checked value="${p.name}">
-    ${p.name} (${p.skill})
-    </label>
-    `;
+    if(type === "alpha"){
 
-    list.appendChild(div);
+      sorted.sort((a,b)=>a.name.localeCompare(b.name));
 
-  });
+    }else{
+
+      sorted.sort((a,b)=>{
+
+        if(b.skill !== a.skill) return b.skill - a.skill;
+
+        return a.name.localeCompare(b.name);
+
+      });
+
+    }
+
+    renderPlayers(sorted);
+
+  };
 
 }
 
@@ -279,5 +283,37 @@ function startCountdown(expiry){
     el.innerHTML=`MATCHUP EXPIRES IN ${hours}:${mins}:${secs}`;
 
   },1000);
+
+}
+
+function renderPlayers(players){
+
+  const maker = document.getElementById("matchMakerSelect");
+  const list = document.getElementById("playersCheckboxes");
+
+  maker.innerHTML="";
+  list.innerHTML="";
+
+  players.forEach(p=>{
+
+    const opt=document.createElement("option");
+
+    opt.value=p.name;
+    opt.innerText=p.name;
+
+    maker.appendChild(opt);
+
+    const div=document.createElement("div");
+
+    div.innerHTML=`
+    <label>
+    <input type="checkbox" checked value="${p.name}">
+    ${p.name} (${p.skill})
+    </label>
+    `;
+
+    list.appendChild(div);
+
+  });
 
 }
