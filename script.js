@@ -191,7 +191,7 @@ div.innerHTML=`
 
 <div class="teamLine">
 
-<span class="redTeam"><strong>RED TEAM:</strong></span>
+<span class="redTeam"><strong>RED TEAM [${m.redSkill}] :</strong></span>
 
 <span class="teamPlayers">
 ${m.redTeam.map(p=>p.name).join(", ")}
@@ -201,7 +201,7 @@ ${m.redTeam.map(p=>p.name).join(", ")}
 
 <div class="teamLine">
 
-<span class="blueTeam"><strong>BLUE TEAM:</strong></span>
+<span class="blueTeam"><strong>BLUE TEAM [${m.blueSkill}] :</strong></span>
 
 <span class="teamPlayers">
 ${m.blueTeam.map(p=>p.name).join(", ")}
