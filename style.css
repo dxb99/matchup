@@ -469,7 +469,8 @@ max-width:400px;
 
 #playersCheckboxes label{
 
-justify-content:center;
+justify-content:flex-start;
+text-align:left;
 width:100%;
 
 }
