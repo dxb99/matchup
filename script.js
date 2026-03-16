@@ -685,6 +685,8 @@ function generateMatchupsLocal(selectedPlayers, filterGap){
 
   const players = allPlayers.filter(p => selectedPlayers.includes(p.name));
 
+  const anchor = players[0];
+
   const size = Math.ceil(players.length / 2);
 
   const combos = getCombinationsLocal(players, size);
@@ -693,7 +695,9 @@ function generateMatchupsLocal(selectedPlayers, filterGap){
 
   combos.forEach(red => {
 
-    const blue = players.filter(p => !red.includes(p));
+  if(!red.includes(anchor)) return;
+
+  const blue = players.filter(p => !red.includes(p));
 
     const redSkill = red.reduce((s,p)=>s+p.skill,0);
     const blueSkill = blue.reduce((s,p)=>s+p.skill,0);
