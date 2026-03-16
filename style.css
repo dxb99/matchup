@@ -427,6 +427,40 @@ font-size:20px;
 
 }
 
+/* Scale down other text on mobile */
+
+h2{
+font-size:16px;
+}
+
+#generateButton{
+font-size:14px;
+}
+
+.radioRow{
+font-size:14px;
+}
+
+.playerSort{
+font-size:14px;
+}
+
+#matchMakerSelect{
+font-size:14px;
+}
+
+#playersCheckboxes label{
+font-size:14px;
+}
+
+.historyItem{
+font-size:14px;
+}
+
+td, th{
+font-size:14px;
+}
+
 header{
 
 padding:10px 10px 60px 10px;
