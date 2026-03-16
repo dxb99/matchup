@@ -551,4 +551,28 @@ width:100%;
 
 }
 
+/* Limit matchup display height on mobile */
+
+.matchCompact{
+
+gap:4px;
+
+}
+
+.teamLine{
+
+align-items:flex-start;
+
+}
+
+.teamPlayers{
+
+display:-webkit-box;
+-webkit-line-clamp:2;
+-webkit-box-orient:vertical;
+overflow:hidden;
+line-height:1.2;
+
+}
+
 }
