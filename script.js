@@ -197,8 +197,6 @@ div.innerHTML=`
 ${m.redTeam.map(p=>p.name).join(", ")}
 </span>
 
-<button class="selectMatch">SELECT MATCHUP</button>
-
 </div>
 
 <div class="teamLine">
@@ -220,6 +218,8 @@ Skill Gap ${m.skillGap}
 <span class="badge picks">
 Picked ${m.pickCount} times
 </span>
+
+<button class="selectMatch">SELECT MATCHUP</button>
 
 </div>
 
