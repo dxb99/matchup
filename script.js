@@ -568,3 +568,32 @@ function formatDate(date){
   return d.toLocaleString();
 
 }
+
+document.getElementById("clearHistoryBtn").onclick = clearHistory;
+
+async function clearHistory(){
+
+  const pass = prompt("Enter Admin Password");
+
+  if(!pass) return;
+
+  const data = await api({
+
+    action:"clearHistory",
+
+    password:pass
+
+  });
+
+  if(!data.ok){
+
+    alert(data.error);
+    return;
+
+  }
+
+  alert("History cleared");
+
+  document.getElementById("historyList").innerHTML = "No match history yet.";
+
+}
