@@ -4,6 +4,7 @@ let allPlayers = [];
 let adminLoaded = false;
 let countdownTimer = null;
 let lastMatchTimestamp = null;
+let lastGeneratedMatchups = [];
 
 window.addEventListener("load", async () => {
 
@@ -158,7 +159,9 @@ if(!maker){
 
 const matchups = generateMatchupsLocal(selectedPlayers, gap);
 
-renderGeneratedMatchups(matchups);
+lastGeneratedMatchups = matchups;
+
+applyGapFilter();
 
 document.getElementById("generatingOverlay").style.display = "none";
 
