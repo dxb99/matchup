@@ -492,3 +492,22 @@ async function savePlayers(){
   openAdminTab();
 
 }
+
+async function openHistoryTab(btn){
+
+  showTab("historyTab", btn);
+
+  const data = await api({
+    action:"getMatchHistory"
+  });
+
+  if(!data.ok){
+
+    alert("Could not load history");
+    return;
+
+  }
+
+  renderHistory(data.history);
+
+}
