@@ -324,6 +324,15 @@ background:#166534;
 
 }
 
+.selectMatch.selected{
+
+background:#d4af37;
+color:black;
+cursor:default;
+box-shadow:0 0 10px rgba(255,215,0,0.8);
+
+}
+
 /* HISTORY */
 
 .historyItem{
