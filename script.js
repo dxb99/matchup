@@ -741,7 +741,7 @@ function generateMatchupsLocal(selectedPlayers, filterGap){
 
   const anchor = players[0];
 
-  const size = Math.ceil(players.length / 2);
+  const size = Math.floor(players.length / 2);
 
   const combos = getCombinationsLocal(players, size);
 
