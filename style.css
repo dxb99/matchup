@@ -668,7 +668,7 @@ align-items:center;
 .teamPlayers{
 
 flex:1;
-white-space:normal;
+white-space:nowrap;
 font-size:13px;
 line-height:1.2;
 
