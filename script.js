@@ -170,11 +170,17 @@ matchups.sort((a,b)=>a.skillGap - b.skillGap);
 
 lastGeneratedMatchups = matchups;
 
-updateGapCounts();
+/* Force overlay to stay visible for 3 seconds */
 
-applyGapFilter();
+setTimeout(() => {
 
-document.getElementById("generatingOverlay").style.display = "none";
+  updateGapCounts();
+
+  applyGapFilter();
+
+  document.getElementById("generatingOverlay").style.display = "none";
+
+}, 3000);
 
 }
 
