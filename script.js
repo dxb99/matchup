@@ -739,8 +739,6 @@ function generateMatchupsLocal(selectedPlayers, filterGap){
 
   const players = allPlayers.filter(p => selectedPlayers.includes(p.name));
 
-  const anchor = players[0];
-
   const size = Math.floor(players.length / 2);
 
   const combos = getCombinationsLocal(players, size);
@@ -748,8 +746,6 @@ function generateMatchupsLocal(selectedPlayers, filterGap){
   const results = [];
 
   combos.forEach(red => {
-
-  if(!red.includes(anchor)) return;
 
   const blue = players.filter(p => !red.includes(p));
 
