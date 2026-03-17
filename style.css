@@ -224,6 +224,7 @@ min-height:90px;
 display:flex;
 align-items:center;
 gap:10px;
+flex-wrap:nowrap;
 
 }
 
@@ -238,12 +239,14 @@ white-space:nowrap;
 .redTeam{
 
 color:#ff4b4b;
+white-space:nowrap;
 
 }
 
 .blueTeam{
 
 color:#4ba3ff;
+white-space:nowrap;
 
 }
 
