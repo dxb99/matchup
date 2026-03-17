@@ -142,7 +142,7 @@ display:none;
 
 #generateButton{
 
-background:#22c55e;
+background:#15803d;
 border:none;
 padding:15px 30px;
 font-size:18px;
@@ -160,7 +160,7 @@ margin-top:20px;
 
 #generateButton:hover{
 
-background:#16a34a;
+background:#166534;
 
 }
 
@@ -307,7 +307,7 @@ color:#ef4444;
 
 .selectMatch{
 
-background:#22c55e;
+background:#15803d;
 border:none;
 color:white;
 padding:4px 10px;
@@ -320,7 +320,7 @@ white-space:nowrap;
 
 .selectMatch:hover{
 
-background:#16a34a;
+background:#166534;
 
 }
 
