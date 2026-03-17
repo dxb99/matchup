@@ -388,22 +388,9 @@ background:#992222;
 
 /* GENERATING OVERLAY */
 
-#generatingOverlay{
-
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.85);
-display:none;
-align-items:center;
-justify-content:center;
-z-index:2000;
-
-}
-
-#historyLoadingOverlay{
+#generatingOverlay,
+#historyLoadingOverlay,
+#clearHistoryOverlay{
 
 position:fixed;
 top:0;
