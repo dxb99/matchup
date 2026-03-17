@@ -204,6 +204,9 @@ padding:15px;
 background:#111;
 border-radius:6px;
 
+/* allow content to scale slightly */
+font-size: clamp(12px, 0.9vw, 15px);
+
 }
 
 .matchCompact{
