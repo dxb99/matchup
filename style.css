@@ -638,4 +638,14 @@ padding:5px 8px;
 
 }
 
+/* Reduce team label size on mobile */
+
+.redTeam,
+.blueTeam{
+
+font-size:13px;
+font-weight:600;
+
+}
+
 }
