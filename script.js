@@ -656,6 +656,10 @@ async function clearHistory(){
 
   if(!pass) return;
 
+  /* SHOW CLEARING OVERLAY */
+
+  document.getElementById("clearHistoryOverlay").style.display = "flex";
+
   const data = await api({
 
     action:"clearHistory",
@@ -663,6 +667,10 @@ async function clearHistory(){
     password:pass
 
   });
+
+  /* HIDE OVERLAY */
+
+  document.getElementById("clearHistoryOverlay").style.display = "none";
 
   if(!data.ok){
 
