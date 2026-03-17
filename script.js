@@ -163,6 +163,10 @@ if(!maker){
 
 const matchups = generateMatchupsLocal(selectedPlayers, gap);
 
+/* Sort matchups by skill gap */
+
+matchups.sort((a,b)=>a.skillGap - b.skillGap);
+
 lastGeneratedMatchups = matchups;
 
 updateGapCounts();
