@@ -702,14 +702,15 @@ padding:3px 8px;
 
 /* Reduce team label size on mobile */
 
+/* Reduce team label width on mobile */
+
 .redTeam,
 .blueTeam{
 
 font-size:clamp(10px,3vw,13px);
 font-weight:600;
 white-space:nowrap;
-
-}9
+min-width:auto;
 
 }
 
