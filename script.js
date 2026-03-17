@@ -525,6 +525,8 @@ async function savePlayers(){
 
   if(!pass) return;
 
+  document.getElementById("savingOverlay").style.display = "flex";
+
   const players = [];
 
   document.querySelectorAll("#adminTable tbody tr").forEach(row=>{
@@ -550,6 +552,8 @@ async function savePlayers(){
     players:players
 
   });
+
+  document.getElementById("savingOverlay").style.display = "none";
 
   if(!data.ok){
 
