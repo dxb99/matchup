@@ -460,10 +460,10 @@ flex-wrap:nowrap;
 
 .historyControls .btn{
 
-min-width:180px;
-height:42px;
-font-size:14px;
-padding:0 16px;
+min-width:140px;
+height:36px;
+font-size:13px;
+padding:0 12px;
 display:flex;
 align-items:center;
 justify-content:center;
@@ -520,10 +520,10 @@ flex-wrap:nowrap;
 
 .adminControls .btn{
 
-min-width:180px;
-height:42px;
-font-size:14px;
-padding:0 16px;
+min-width:140px;
+height:36px;
+font-size:13px;
+padding:0 12px;
 display:flex;
 align-items:center;
 justify-content:center;
@@ -741,9 +741,9 @@ overflow-x:auto;
 .historyControls .btn,
 .adminControls .btn{
 
-min-width:140px;
-height:38px;
-font-size:13px;
+min-width:120px;
+height:34px;
+font-size:12px;
 
 }
 
