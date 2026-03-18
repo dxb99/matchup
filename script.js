@@ -657,7 +657,7 @@ if(sortType === "maker"){
 div.innerHTML = `
 
 <div class="historyLine1">
-${formatDate(match.selectedAt)} &nbsp;&nbsp;&nbsp; Match Maker: ${match.matchMaker} &nbsp;&nbsp;&nbsp; Skill Gap: ${match.skillGap}
+${formatDate(match.selectedAt)} | ${match.matchMaker} | Gap ${match.skillGap}
 </div>
 
 <div class="historyLine2">
