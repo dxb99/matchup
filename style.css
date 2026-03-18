@@ -321,7 +321,9 @@ text-align:left;
 
 color:#ff4b4b;
 white-space:nowrap;
-min-width:140px;
+width:160px;
+text-align:left;
+flex-shrink:0;
 
 }
 
@@ -329,7 +331,9 @@ min-width:140px;
 
 color:#4ba3ff;
 white-space:nowrap;
-min-width:140px;
+width:160px;
+text-align:left;
+flex-shrink:0;
 
 }
 
