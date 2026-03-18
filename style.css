@@ -258,6 +258,13 @@ font-size:15px;
 
 }
 
+.blitzToggle.disabled{
+
+opacity:0.4;
+text-decoration:line-through;
+
+}
+
 #generateButton:hover{
 
 background:#166534;
