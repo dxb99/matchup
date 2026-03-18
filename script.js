@@ -372,7 +372,7 @@ div.innerHTML=`
 <label>
 <input type="checkbox" checked value="${p.name}">
 ${p.name}
-<span class="skillShield">${p.skill}</span>
+<span class="skillMedal">${p.skill}</span>
 </label>
 `;
 
