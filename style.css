@@ -748,7 +748,7 @@ font-size:16px;
 .historyControls,
 .adminControls{
 flex-wrap:nowrap;
-overflow-x:auto;
+overflow-x:hidden;
 }
   
 .historyControls .btn,
@@ -800,6 +800,14 @@ font-size:14px;
 
 .historyItem{
 font-size:14px;
+}
+
+.historyLine1{
+
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis;
+
 }
 
 .historyLine2,
