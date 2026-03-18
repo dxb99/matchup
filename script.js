@@ -6,6 +6,7 @@ let countdownTimer = null;
 let lastMatchTimestamp = null;
 let lastGeneratedMatchups = [];
 let selectedMatchKey = null;
+let matchHistory = [];
 
 let blitzEnabled = false;
 
@@ -60,17 +61,24 @@ async function api(data){
 
 async function loadInitialData(){
 
-  const data = await api({action:"getInitialData"});
+const data = await api({action:"getInitialData"});
 
-  if(!data.ok){
-    throw new Error("Failed loading data");
-  }
+if(!data.ok){
+  throw new Error("Failed loading data");
+}
 
-  allPlayers = data.players || [];
+allPlayers = data.players || [];
 
-  populatePlayers(allPlayers);
+populatePlayers(allPlayers);
 
-  renderMatchup(data.currentMatchup);
+renderMatchup(data.currentMatchup);
+
+/* LOAD MATCH HISTORY */
+
+const historyData = await api({action:"getHistory"});
+if(historyData.ok){
+  matchHistory = historyData.history || [];
+}
 
 }
 
@@ -789,13 +797,34 @@ if(seen.has(key1) || seen.has(key2)) return;
 
 seen.add(key1);
 
+/* CALCULATE PICK COUNT FROM HISTORY */
+
+const redNamesSorted = red.map(p=>p.name).sort().join(",");
+const blueNamesSorted = blue.map(p=>p.name).sort().join(",");
+
+let pickCount = 0;
+
+matchHistory.forEach(h=>{
+
+  const hRed = h.redTeam.split(", ").sort().join(",");
+  const hBlue = h.blueTeam.split(", ").sort().join(",");
+
+  if(
+    (hRed === redNamesSorted && hBlue === blueNamesSorted) ||
+    (hRed === blueNamesSorted && hBlue === redNamesSorted)
+  ){
+    pickCount++;
+  }
+
+});
+
 results.push({
   redTeam:red,
   blueTeam:blue,
   redSkill:redSkill,
   blueSkill:blueSkill,
   skillGap:gap,
-  pickCount:0
+  pickCount:pickCount
 });
 
   });
