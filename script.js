@@ -368,12 +368,13 @@ players.forEach(p=>{
 
   const div=document.createElement("div");
 
-  div.innerHTML=`
-  <label>
-  <input type="checkbox" checked value="${p.name}">
-  ${p.name} (${p.skill})
-  </label>
-  `;
+div.innerHTML=`
+<label>
+<input type="checkbox" checked value="${p.name}">
+${p.name}
+<span class="skillShield">${p.skill}</span>
+</label>
+`;
 
   /* ADD THIS LINE */
 
