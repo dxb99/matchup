@@ -844,6 +844,59 @@ function applyGapFilter(){
 
   }
 
+  /* BLITZ ADVANTAGE SORT */
+
+  if(blitzEnabled && filtered.length){
+
+    const totalPlayers =
+      filtered[0].redTeam.length + filtered[0].blueTeam.length;
+
+    /* Only apply BLITZ if uneven players */
+
+    if(totalPlayers % 2 !== 0){
+
+      filtered.sort((a,b)=>{
+
+        const aSmall =
+          a.redTeam.length < a.blueTeam.length ? a.redTeam : a.blueTeam;
+
+        const aLarge =
+          a.redTeam.length > a.blueTeam.length ? a.redTeam : a.blueTeam;
+
+        const bSmall =
+          b.redTeam.length < b.blueTeam.length ? b.redTeam : b.blueTeam;
+
+        const bLarge =
+          b.redTeam.length > b.blueTeam.length ? b.redTeam : b.blueTeam;
+
+        const aSmallSkill =
+          aSmall.reduce((s,p)=>s+p.skill,0);
+
+        const aLargeSkill =
+          aLarge.reduce((s,p)=>s+p.skill,0);
+
+        const bSmallSkill =
+          bSmall.reduce((s,p)=>s+p.skill,0);
+
+        const bLargeSkill =
+          bLarge.reduce((s,p)=>s+p.skill,0);
+
+        const aType =
+          aSmallSkill > aLargeSkill ? 0 :
+          aSmallSkill === aLargeSkill ? 1 : 2;
+
+        const bType =
+          bSmallSkill > bLargeSkill ? 0 :
+          bSmallSkill === bLargeSkill ? 1 : 2;
+
+        return aType - bType;
+
+      });
+
+    }
+
+  }
+
   renderGeneratedMatchups(filtered);
 
 }
