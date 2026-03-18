@@ -532,6 +532,36 @@ animation:spin 1s linear infinite;
 
 /* PLAYER BUTTON STYLE */
 
+/* SKILL SHIELD BADGE */
+
+.skillShield{
+
+display:inline-flex;
+align-items:center;
+justify-content:center;
+
+width:26px;
+height:30px;
+
+margin-left:6px;
+
+font-size:12px;
+font-weight:bold;
+color:white;
+
+background:#15803d;
+
+clip-path:polygon(
+50% 0%,
+90% 20%,
+90% 65%,
+50% 100%,
+10% 65%,
+10% 20%
+);
+
+}
+
 #playersCheckboxes label{
 
 display:flex;
