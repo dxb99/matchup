@@ -458,6 +458,19 @@ flex-wrap:nowrap;
 
 }
 
+.historyControls select{
+
+height:36px;
+font-size:13px;
+padding:0 10px;
+border-radius:6px;
+background:#111;
+color:white;
+border:1px solid #444;
+min-width:140px;
+
+}
+
 .historyControls .btn{
 
 min-width:140px;
