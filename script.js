@@ -749,12 +749,16 @@ const seen = new Set();
 
 combos.forEach(red => {
 
-  const blue = players.filter(p => !red.includes(p));
+const blue = players.filter(p => !red.includes(p));
 
-    const redSkill = red.reduce((s,p)=>s+p.skill,0);
-    const blueSkill = blue.reduce((s,p)=>s+p.skill,0);
+const redSkill = red.reduce((s,p)=>s+p.skill,0);
+const blueSkill = blue.reduce((s,p)=>s+p.skill,0);
 
-    const gap = Math.abs(redSkill - blueSkill);
+const gap = Math.abs(redSkill - blueSkill);
+
+/* Hide matchups with skill gap greater than 4 */
+
+if(gap > 4) return;
 
 /* Prevent mirrored duplicates */
 
