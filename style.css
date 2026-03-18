@@ -468,40 +468,6 @@ line-height:1.4;
 
 }
 
-/* HISTORY ROW LAYOUT */
-
-.historyRow{
-
-display:grid;
-grid-template-columns:auto auto 1fr;
-align-items:center;
-column-gap:10px;
-margin-top:2px;
-
-}
-
-.historyTop{
-
-grid-template-columns:auto auto auto;
-column-gap:20px;
-
-}
-
-.historyLabel{
-
-font-weight:600;
-white-space:nowrap;
-
-}
-
-.historyPlayers{
-
-white-space:nowrap;
-overflow:hidden;
-text-overflow:ellipsis;
-
-}
-
 .historyLine1{
 font-weight:bold;
 }
@@ -509,6 +475,20 @@ font-weight:bold;
 .historyLine2,
 .historyLine3{
 margin-top:2px;
+}
+
+.historyRedLabel{
+color:#ff4b4b;
+margin-left:6px;
+margin-right:6px;
+font-weight:600;
+}
+
+.historyBlueLabel{
+color:#4ba3ff;
+margin-left:6px;
+margin-right:6px;
+font-weight:600;
 }
 
 /* ADMIN */
