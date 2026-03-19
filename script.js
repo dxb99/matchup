@@ -810,7 +810,7 @@ if(!data.ok){
 
 const overlay = document.getElementById("clearHistoryOverlay");
 
-overlay.querySelector(".generatingText").innerHTML = "CLEARED ✓";
+overlay.querySelector("div:last-child").innerHTML = "CLEARED ✓";
 
 /* WAIT THEN RESET UI */
 
@@ -822,7 +822,7 @@ setTimeout(() => {
 
   /* RESET TEXT BACK */
 
-  overlay.querySelector(".generatingText").innerHTML = "CLEARING HISTORY<span class='dots'></span>";
+  overlay.querySelector("div:last-child").innerHTML = "CLEARING HISTORY<span class='dots'></span>";
 
 }, 1000);
 
