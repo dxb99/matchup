@@ -306,28 +306,34 @@ async function selectMatchup(match){
 
   if(!pin) return;
 
+  document.getElementById("savingMatchOverlay").style.display = "flex";
+  
   const data = await api({
 
-    action:"verifyOrCreatePinAndSave",
+  action:"verifyOrCreatePinAndSave",
 
-    matchMaker:maker,
+  matchMaker:maker,
 
-    pin:pin,
+  pin:pin,
 
-    redTeam:match.redTeam.map(p=>p.name),
+  redTeam:match.redTeam.map(p=>p.name),
 
-    blueTeam:match.blueTeam.map(p=>p.name)
+  blueTeam:match.blueTeam.map(p=>p.name)
 
   });
 
   if(!data.ok){
 
-    alert(data.error);
+  document.getElementById("savingMatchOverlay").style.display = "none";
 
-    return;
+  alert(data.error);
 
-  }
+  return;
 
+}
+
+  document.getElementById("savingMatchOverlay").style.display = "none";
+  
   alert("MATCHUP SAVED");
 
   loadInitialData();
