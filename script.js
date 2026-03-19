@@ -274,7 +274,7 @@ ${m.blueTeam.map(p=>p.name).join(", ")}
 <div class="badges">
 
 <span class="badge gap-${m.skillGap}">
-Skill Gap ${m.skillGap}
+Diff ${m.skillGap}
 </span>
 
 <span class="badge picks">
