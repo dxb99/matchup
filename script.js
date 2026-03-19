@@ -797,16 +797,34 @@ async function clearHistory(){
 
   document.getElementById("clearHistoryOverlay").style.display = "none";
 
-  if(!data.ok){
+if(!data.ok){
 
-    alert(data.error);
-    return;
+  document.getElementById("clearHistoryOverlay").style.display = "none";
 
-  }
+  alert(data.error);
+  return;
 
-  alert("History cleared");
+}
+
+/* CHANGE OVERLAY TEXT TO CLEARED */
+
+const overlay = document.getElementById("clearHistoryOverlay");
+
+overlay.querySelector(".generatingText").innerHTML = "CLEARED ✓";
+
+/* WAIT THEN RESET UI */
+
+setTimeout(() => {
+
+  overlay.style.display = "none";
 
   document.getElementById("historyList").innerHTML = "No match history yet.";
+
+  /* RESET TEXT BACK */
+
+  overlay.querySelector(".generatingText").innerHTML = "CLEARING HISTORY<span class='dots'></span>";
+
+}, 1000);
 
 }
 
