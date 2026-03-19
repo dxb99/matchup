@@ -1112,7 +1112,7 @@ if(value === "all"){
 
 }else{
 
-  label.childNodes[1].nodeValue = ` Skill Gap ${value} [${counts[value]}]`;
+  label.childNodes[1].nodeValue = ` Difference ${value} [${counts[value]}]`;
 
   const isDisabled = counts[value] === 0;
 
