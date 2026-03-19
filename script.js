@@ -71,6 +71,10 @@ allPlayers = data.players || [];
 
 populatePlayers(allPlayers);
 
+document.querySelectorAll('input[name="gapFilter"]').forEach(r=>{
+  r.disabled = true;
+});
+
 renderMatchup(data.currentMatchup);
 
 /* LOAD MATCH HISTORY */
@@ -196,7 +200,11 @@ lastGeneratedMatchups = matchups;
 
 /* Force overlay to stay visible for 3 seconds */
 
-setTimeout(() => {
+  setTimeout(() => {
+
+  document.querySelectorAll('input[name="gapFilter"]').forEach(r=>{
+  r.disabled = false;
+  });
 
   updateGapCounts();
 
@@ -204,7 +212,7 @@ setTimeout(() => {
 
   document.getElementById("generatingOverlay").style.display = "none";
 
-}, 2000);
+}, 1000);
 
 }
 
