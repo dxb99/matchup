@@ -652,15 +652,12 @@ async function savePlayers(){
     const name = row.cells[0].innerText.trim();
     const skill = parseInt(row.cells[1].innerText.trim());
 
-    /* 🔥 FORCE CLEAN NAME FORMAT */
-    const cleanName = name.replace(/\s+/g, " ").trim();
+    if(!name) return;
 
-    if(!cleanName) return;
-
-  players.push({
-  name: cleanName,
-  skill: skill
-});
+    players.push({
+      name:name,
+      skill:skill
+    });
 
   });
 
