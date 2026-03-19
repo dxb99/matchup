@@ -428,7 +428,10 @@ ${p.name}
 
   /* ADD THIS LINE */
 
-  div.querySelector("input").addEventListener("change", updateSelectedPlayerCount);
+  div.querySelector("input").addEventListener("change", () => {
+  updateSelectedPlayerCount();
+  resetGeneratedMatchups();
+});
 
   list.appendChild(div);
 
@@ -1051,6 +1054,24 @@ if(value === "all"){
 
 }
 
+  });
+
+}
+
+function resetGeneratedMatchups(){
+
+  // Clear UI
+  document.getElementById("generatedMatchups").innerHTML = "";
+
+  // Reset stored data
+  lastGeneratedMatchups = [];
+  selectedMatchKey = null;
+
+  // Disable radio buttons again
+  document.querySelectorAll('input[name="gapFilter"]').forEach(r=>{
+    r.disabled = true;
+    r.checked = r.value === "all"; // reset to default
+    r.parentElement.classList.add("disabled");
   });
 
 }
