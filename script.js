@@ -205,7 +205,9 @@ el.innerHTML=`
   </div>
 
   <div class="matchFooter">
-    Difference: ${match.skillGap}
+    <span class="diff diff-${match.skillGap}">
+  Difference: ${match.skillGap}
+</span>
   </div>
 
 </div>
