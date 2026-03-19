@@ -364,14 +364,28 @@ async function selectMatchup(match){
 
 }
 
-  document.getElementById("savingMatchOverlay").style.display = "none";
-  
-  alert("MATCHUP SAVED");
+/* CHANGE OVERLAY TEXT TO SAVED */
+
+const overlay = document.getElementById("savingMatchOverlay");
+
+overlay.querySelector(".generatingText").innerHTML = "SAVED ✓";
+
+/* WAIT 1 SECOND THEN REDIRECT */
+
+setTimeout(() => {
+
+  overlay.style.display = "none";
 
   const matchupBtn = document.querySelector('.tabButton[onclick*="matchupTab"]');
   showTab("matchupTab", matchupBtn);
 
   loadInitialData();
+
+  /* RESET TEXT BACK TO SAVING FOR NEXT TIME */
+
+  overlay.querySelector(".generatingText").innerHTML = "SAVING<span class='dots'></span>";
+
+}, 1000);
 
 }
 
