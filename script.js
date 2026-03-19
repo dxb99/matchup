@@ -14,6 +14,8 @@ let blitzEnabled = false;
 
 window.addEventListener("load", async () => {
 
+  sessionStorage.removeItem("selectedMatchMaker");
+
   try {
 
     await loadInitialData();
