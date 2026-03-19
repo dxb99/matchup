@@ -343,6 +343,9 @@ async function selectMatchup(match){
   
   alert("MATCHUP SAVED");
 
+  const matchupBtn = document.querySelector('.tabButton[onclick*="matchupTab"]');
+  showTab("matchupTab", matchupBtn);
+
   loadInitialData();
 
 }
