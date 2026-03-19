@@ -451,7 +451,7 @@ async function openAdminTab(btn){
 
     <td><button class="btn btn-orange resetPin">RESET PIN</button></td>
 
-    <td>${p.pinStatus}</td>
+    <td class="${p.pinStatus === 'ACTIVE' ? 'status-active' : ''}">${p.pinStatus}</td>
 
     `;
 
