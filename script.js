@@ -72,10 +72,21 @@ allPlayers = data.players || [];
 
 populatePlayers(allPlayers);
 
-document.querySelectorAll('input[name="gapFilter"]').forEach(r=>{
-  r.disabled = true;
-  r.parentElement.classList.add("disabled");
-});
+if(lastGeneratedMatchups.length === 0){
+
+  document.querySelectorAll('input[name="gapFilter"]').forEach(r=>{
+    r.disabled = true;
+    r.parentElement.classList.add("disabled");
+  });
+
+}else{
+
+  document.querySelectorAll('input[name="gapFilter"]').forEach(r=>{
+    r.disabled = false;
+    r.parentElement.classList.remove("disabled");
+  });
+
+}
 
 renderMatchup(data.currentMatchup);
 
