@@ -7,6 +7,7 @@ let lastMatchTimestamp = null;
 let lastGeneratedMatchups = [];
 let selectedMatchKey = null;
 let matchHistory = [];
+let lastSelectedPlayers = [];
 
 let blitzEnabled = false;
 
@@ -198,6 +199,7 @@ const matchups = generateMatchupsLocal(selectedPlayers, gap);
 matchups.sort((a,b)=>a.skillGap - b.skillGap);
 
 lastGeneratedMatchups = matchups;
+lastSelectedPlayers = selectedPlayers.slice();
 
 /* Force overlay to stay visible for 1 seconds */
 
@@ -428,9 +430,24 @@ ${p.name}
 
   /* ADD THIS LINE */
 
-  div.querySelector("input").addEventListener("change", () => {
+div.querySelector("input").addEventListener("change", () => {
+
   updateSelectedPlayerCount();
-  resetGeneratedMatchups();
+
+  const currentPlayers = Array.from(
+    document.querySelectorAll("#playersCheckboxes input:checked")
+  ).map(x => x.value).sort();
+
+  const previousPlayers = [...lastSelectedPlayers].sort();
+
+  const isSame =
+    currentPlayers.length === previousPlayers.length &&
+    currentPlayers.every((v,i)=>v === previousPlayers[i]);
+
+  if(!isSame){
+    resetGeneratedMatchups();
+  }
+
 });
 
   list.appendChild(div);
