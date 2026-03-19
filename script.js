@@ -273,6 +273,13 @@ if(selectedMatchKey === key){
 
 btn.onclick = () => {
 
+  const maker = document.getElementById("matchMakerSelect").value;
+
+  if(!maker){
+    alert("Select Match Maker first.");
+    return;
+  }
+
   selectedMatchKey = key;
 
   document.querySelectorAll(".selectMatch").forEach(b=>{
