@@ -431,53 +431,35 @@ players.forEach(p=>{
 
   maker.appendChild(opt);
 
-  });
-
-  /* SAVE MATCH MAKER SELECTION */
-
-maker.onchange = function(){
-  sessionStorage.setItem("selectedMatchMaker", this.value);
-};
-
-/* RESTORE MATCH MAKER SELECTION */
-
-const savedMaker = sessionStorage.getItem("selectedMatchMaker");
-
-if(savedMaker){
-  maker.value = savedMaker;
-}
-
   const div=document.createElement("div");
 
-div.innerHTML=`
-<label>
-<input type="checkbox" checked value="${p.name}">
-${p.name}
-<span class="skillMedal">${p.skill}</span>
-</label>
-`;
+  div.innerHTML=`
+  <label>
+  <input type="checkbox" checked value="${p.name}">
+  ${p.name}
+  <span class="skillMedal">${p.skill}</span>
+  </label>
+  `;
 
-  /* ADD THIS LINE */
+  div.querySelector("input").addEventListener("change", () => {
 
-div.querySelector("input").addEventListener("change", () => {
+    updateSelectedPlayerCount();
 
-  updateSelectedPlayerCount();
+    const currentPlayers = Array.from(
+      document.querySelectorAll("#playersCheckboxes input:checked")
+    ).map(x => x.value).sort();
 
-  const currentPlayers = Array.from(
-    document.querySelectorAll("#playersCheckboxes input:checked")
-  ).map(x => x.value).sort();
+    const previousPlayers = [...lastSelectedPlayers].sort();
 
-  const previousPlayers = [...lastSelectedPlayers].sort();
+    const isSame =
+      currentPlayers.length === previousPlayers.length &&
+      currentPlayers.every((v,i)=>v === previousPlayers[i]);
 
-  const isSame =
-    currentPlayers.length === previousPlayers.length &&
-    currentPlayers.every((v,i)=>v === previousPlayers[i]);
+    if(!isSame){
+      resetGeneratedMatchups();
+    }
 
-  if(!isSame){
-    resetGeneratedMatchups();
-  }
-
-});
+  });
 
   list.appendChild(div);
 
