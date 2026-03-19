@@ -156,7 +156,9 @@ MATCH MAKER: ${match.matchMaker}<br><br>
 
 RED TEAM: ${match.redTeam.join(", ")}<br>
 
-BLUE TEAM: ${match.blueTeam.join(", ")}
+BLUE TEAM: ${match.blueTeam.join(", ")}<br><br>
+
+Difference: ${match.skillGap}
 
 `;
 
