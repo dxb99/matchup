@@ -884,11 +884,14 @@ overlay.querySelector("div:last-child").innerHTML = "CLEARED ✓";
 
 /* WAIT THEN RESET UI */
 
-setTimeout(() => {
+setTimeout(async () => {
 
   overlay.style.display = "none";
 
   document.getElementById("historyList").innerHTML = "No match history yet.";
+
+  /* 🔥 FORCE MATCHUP REFRESH */
+  await loadInitialData();
 
   /* RESET TEXT BACK */
 
