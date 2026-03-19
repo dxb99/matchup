@@ -511,6 +511,13 @@ box-shadow:0 0 10px rgba(255,215,0,0.8);
   background:#333;
 }
 
+/* MATCHUP: WHITE TEAM BADGE */
+
+.matchCard .teamBadge{
+  background:white;
+  color:black;
+}
+
 .team.red .teamTitle{
   color:#ff4b4b;
 }
@@ -789,6 +796,8 @@ box-shadow:0 0 4px rgba(255,255,255,0.25);
 
 .matchCard .skillMedal{
   box-shadow:none;
+  font-size:0.7em;
+  padding:1px 4px;
 }
 
 /* PLAYER BUTTON STYLE */
