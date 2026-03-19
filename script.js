@@ -465,6 +465,20 @@ players.forEach(p=>{
 
 });
 
+/* 🔥 ADD THIS BLOCK */
+
+const savedMaker = sessionStorage.getItem("selectedMatchMaker");
+
+if(savedMaker){
+  maker.value = savedMaker;
+}
+
+/* 🔥 AND THIS BLOCK */
+
+maker.onchange = function(){
+  sessionStorage.setItem("selectedMatchMaker", this.value);
+};
+
 updateSelectedPlayerCount();
 
 }
