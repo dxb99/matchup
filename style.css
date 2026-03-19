@@ -389,6 +389,14 @@ white-space:nowrap;
 .badge.gap-3{background:#f97316;}   /* Orange */
 .badge.gap-4{background:#ef4444;}   /* Red */
 
+/* DIFFERENCE COLORS (MATCHUP CARD) */
+
+.diff-0{ color:#22c55e; }   /* green */
+.diff-1{ color:#84cc16; }
+.diff-2{ color:#eab308; }
+.diff-3{ color:#f97316; }
+.diff-4{ color:#ef4444; }
+
 .badge.picks{
 
 background:#555;
