@@ -417,6 +417,13 @@ color:#f97316;
 color:#ef4444;
 }
 
+/* FORCE DISABLED RADIO TEXT TO GREY (OVERRIDE COLORS) */
+
+.radioRow label.disabled{
+color:#888 !important;
+opacity:0.5;
+}
+
 .selectMatch{
 
 background:#15803d;
