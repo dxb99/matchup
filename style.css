@@ -303,11 +303,11 @@ padding:0 20px;
 #generatedMatchups{
 
 display:grid;
-grid-template-columns:1fr; /* 🔥 FORCE NO OVERFLOW ON MOBILE */
+grid-template-columns:repeat(auto-fit,minmax(420px,1fr));
 gap:20px;
 width:100%;
 margin:20px 0;
-padding:0 10px; /* 🔥 REDUCE SIDE PUSH */
+padding:0 20px;
 
 }
 
