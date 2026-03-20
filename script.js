@@ -571,9 +571,13 @@ players.forEach(p=>{
 
   const div=document.createElement("div");
 
-  div.innerHTML=`
+const savedPlayers = JSON.parse(sessionStorage.getItem("selectedPlayers") || "null");
+
+const isChecked = !savedPlayers || savedPlayers.includes(p.name);
+
+div.innerHTML=`
   <label>
-  <input type="checkbox" checked value="${p.name}">
+  <input type="checkbox" ${isChecked ? "checked" : ""} value="${p.name}">
   ${p.name}
   <span class="skillMedal">${p.skill}</span>
   </label>
@@ -596,6 +600,13 @@ players.forEach(p=>{
     if(!isSame){
       resetGeneratedMatchups();
     }
+
+/ * 🔥 SAVE PLAYER SELECTION * /
+
+sessionStorage.setItem(
+  "selectedPlayers",
+  JSON.stringify(currentPlayers)
+);
 
   });
 
