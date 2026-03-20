@@ -259,6 +259,9 @@ margin-bottom:20px;
 
 margin-top:12px;
 font-size:15px;
+display:flex;             /* 🔥 ADD */
+justify-content:center;   /* 🔥 CENTER */
+align-items:center;
 
 }
 
@@ -934,7 +937,8 @@ row-gap:8px;
 column-gap:8px;
 width:100%;
 margin:20px 0 0 0;
-padding:0 20px;
+padding:0 10px; /* 🔥 MATCH OTHER ELEMENTS */
+text-align:center; /* 🔥 CENTER LABELS */
 
 }
 
@@ -1079,9 +1083,10 @@ margin-bottom:2px;
 display:flex;
 flex-wrap:wrap;
 justify-content:center;
+align-items:center; /* 🔥 ADD */
 gap:10px;
 width:100%;
-padding:0 20px;
+padding:0 10px; /* 🔥 REDUCE SIDE OFFSET */
 
 }
 
@@ -1089,8 +1094,8 @@ padding:0 20px;
 
 display:flex;
 align-items:center;
-justify-content:flex-start;
-text-align:left;
+justify-content:center; /* 🔥 CENTER CONTENT */
+text-align:center;      /* 🔥 CENTER TEXT */
 
 }
 
