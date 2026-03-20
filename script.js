@@ -465,7 +465,7 @@ container.appendChild(div);
 
 }
 
-async function selectMatchup(match){
+async function selectMatchup(match, key, btn){
 
   const maker=document.getElementById("matchMakerSelect").value;
 
