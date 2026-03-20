@@ -901,6 +901,22 @@ setTimeout(async () => {
 
   document.getElementById("historyList").innerHTML = "No match history yet.";
 
+  /* 🔥 RESET GENERATOR STATE */
+  resetGeneratedMatchups();
+  lastSelectedPlayers = [];
+  selectedMatchKey = null;
+
+  /* 🔥 RESET MATCH MAKER */
+  document.getElementById("matchMakerSelect").selectedIndex = 0;
+  sessionStorage.removeItem("selectedMatchMaker");
+
+  /* 🔥 RESET PLAYER CHECKBOXES (all checked) */
+  document.querySelectorAll("#playersCheckboxes input").forEach(cb=>{
+    cb.checked = true;
+  });
+
+  updateSelectedPlayerCount();
+
   /* 🔥 FORCE MATCHUP REFRESH */
   await loadInitialData();
 
