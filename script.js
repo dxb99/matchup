@@ -1072,12 +1072,6 @@ if(data.ok){
 
   renderMatchup(data.currentMatchup);
 
-/* 🔥 REFRESH GENERATED MATCHUPS UI */
-
-if(lastGeneratedMatchups.length > 0){
-  applyGapFilter();
-}
-
 }
 
     }catch(e){
