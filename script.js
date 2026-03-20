@@ -101,22 +101,7 @@ if(lastGeneratedMatchups.length === 0){
 
 }
 
-/* 🔥 EXPIRE MATCHUP IF TIME PASSED */
-
-if(data.currentMatchup){
-
-  const expiry = new Date(data.currentMatchup.expiresAt);
-  const now = new Date();
-
-  if(expiry <= now){
-    currentMatchupGlobal = null;
-  }else{
-    currentMatchupGlobal = data.currentMatchup;
-  }
-
-}else{
-  currentMatchupGlobal = null;
-}
+currentMatchupGlobal = data.currentMatchup || null;
   
 renderMatchup(data.currentMatchup);
 
@@ -1052,32 +1037,7 @@ function startMatchAutoRefresh(){
       });
 
 if(data.ok){
-
-  /* 🔥 KEEP GLOBAL MATCH IN SYNC */
-
-  if(data.currentMatchup){
-
-    const expiry = new Date(data.currentMatchup.expiresAt);
-    const now = new Date();
-
-    if(expiry <= now){
-      currentMatchupGlobal = null;
-    }else{
-      currentMatchupGlobal = data.currentMatchup;
-    }
-
-  }else{
-    currentMatchupGlobal = null;
-  }
-
   renderMatchup(data.currentMatchup);
-
-/* 🔥 REFRESH GENERATED MATCHUPS UI */
-
-if(lastGeneratedMatchups.length > 0){
-  applyGapFilter();
-}
-
 }
 
     }catch(e){
