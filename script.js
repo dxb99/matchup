@@ -144,6 +144,12 @@ function renderMatchup(match){
 
 if(!match){
 
+  /* 🔥 STOP COUNTDOWN */
+  if(countdownTimer){
+    clearInterval(countdownTimer);
+    countdownTimer = null;
+  }
+
   el.innerHTML=`
 
   <div class="matchCard">
