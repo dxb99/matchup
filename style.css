@@ -94,7 +94,6 @@ border-radius:2px;
 
 display:none;
 padding:25px;
-padding-bottom:110px; /* 🔥 ADD THIS */
 
 }
 
@@ -995,6 +994,13 @@ header{
 
 padding:10px 10px 60px 10px;
 
+}
+
+/* 🔥 FIX: prevent bottom nav overlap on mobile */
+
+.tabContent{
+  padding-top:10px;
+  padding-bottom:110px;
 }
 
 /* Matchups become 1 per row */
