@@ -602,7 +602,7 @@ div.innerHTML=`
       resetGeneratedMatchups();
     }
 
-/ * 🔥 SAVE PLAYER SELECTION * /
+/* 🔥 SAVE PLAYER SELECTION */
 
 sessionStorage.setItem(
   "selectedPlayers",
