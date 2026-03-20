@@ -302,13 +302,26 @@ const blitzContainer = document.querySelector(".blitzToggle");
 if(blitzToggle && blitzContainer){
 
   if(selectedPlayers.length % 2 !== 0){
-    /* ODD → SHOW BLITZ */
-    blitzContainer.style.display = "block";
+
+    /* SHOW with animation */
+    blitzContainer.style.display = "flex";
+
+    setTimeout(()=>{
+      blitzContainer.classList.add("show");
+    },10);
+
   }else{
-    /* EVEN → HIDE BLITZ */
+
+    /* HIDE */
+    blitzContainer.classList.remove("show");
+
+    setTimeout(()=>{
+      blitzContainer.style.display = "none";
+    },300);
+
     blitzToggle.checked = false;
     blitzEnabled = false;
-    blitzContainer.style.display = "none";
+
   }
 
 }
@@ -1231,9 +1244,16 @@ const blitzToggle = document.getElementById("blitzToggle");
 const blitzContainer = document.querySelector(".blitzToggle");
 
 if(blitzToggle && blitzContainer){
+
   blitzToggle.checked = false;
   blitzEnabled = false;
-  blitzContainer.style.display = "none";
+
+  blitzContainer.classList.remove("show");
+
+  setTimeout(()=>{
+    blitzContainer.style.display = "none";
+  },300);
+
 }
 
 }
