@@ -434,10 +434,12 @@ if(isServerSelected || isLocalSelected){
   // 🔥 DISABLE CLICK + TOOLTIP IF ACTIVE SERVER MATCH
   if(isServerSelected){
 
-    btn.style.cursor = "not-allowed";
-    btn.disabled = true;
+  btn.style.cursor = "not-allowed";
 
-  }
+  // 🔥 DO NOT disable — we need click for tooltip
+  btn.style.opacity = "0.7"; // optional visual feedback
+
+}
 
 }
 
