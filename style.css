@@ -1181,21 +1181,27 @@ min-width:auto;
 }
 
 }
-/* 🔥 BLITZ PULSE EFFECT */
+
+/* 🔥 BLITZ RED PULSE (WHITE ↔ RED GLOW) */
 
 .blitzText {
-  font-weight: 600;
-  animation: blitzPulse 1.5s infinite;
+  font-weight: 700;
+  color: white;
+  animation: blitzPulse 1.2s infinite;
 }
 
 @keyframes blitzPulse {
   0% {
-    text-shadow: 0 0 0px rgba(255, 215, 0, 0.5);
+    color: white;
+    text-shadow: 0 0 0px rgba(255, 0, 0, 0);
   }
   50% {
-    text-shadow: 0 0 8px rgba(255, 215, 0, 1);
+    color: #ff4d4d;
+    text-shadow: 0 0 10px rgba(255, 0, 0, 0.9),
+                 0 0 20px rgba(255, 0, 0, 0.7);
   }
   100% {
-    text-shadow: 0 0 0px rgba(255, 215, 0, 0.5);
+    color: white;
+    text-shadow: 0 0 0px rgba(255, 0, 0, 0);
   }
 }
