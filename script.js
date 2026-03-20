@@ -575,7 +575,21 @@ if(savedMaker){
 /* 🔥 AND THIS BLOCK */
 
 maker.onchange = function(){
+
   sessionStorage.setItem("selectedMatchMaker", this.value);
+
+  /* 🔥 RESET GENERATOR STATE */
+  resetGeneratedMatchups();
+  lastSelectedPlayers = [];
+  selectedMatchKey = null;
+
+  /* 🔥 RESET BLITZ */
+  const blitzToggle = document.getElementById("blitzToggle");
+  if(blitzToggle){
+    blitzToggle.checked = false;
+    blitzEnabled = false;
+  }
+
 };
 
 updateSelectedPlayerCount();
