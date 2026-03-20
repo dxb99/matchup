@@ -432,7 +432,13 @@ async function selectMatchup(match){
 
   document.getElementById("savingMatchOverlay").style.display = "none";
 
-  alert(data.error);
+  let message = data.error;
+
+  if(data.debug){
+    message += "\n\nDEBUG:\n" + JSON.stringify(data.debug, null, 2);
+  }
+
+  alert(message);
 
   return;
 
