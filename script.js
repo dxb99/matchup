@@ -485,11 +485,16 @@ function startCountdown(expiry){
 
     if(diff<=0){
 
-      el.innerHTML="MATCHUP EXPIRED";
+  /* 🔥 STOP TIMER */
+  clearInterval(countdownTimer);
+  countdownTimer = null;
 
-      return;
+  /* 🔥 CLEAR TEXT */
+  el.innerHTML="";
 
-    }
+  return;
+
+}
 
     const hours=Math.floor(diff/3600000);
     const mins=Math.floor((diff%3600000)/60000);
