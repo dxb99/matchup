@@ -101,7 +101,22 @@ if(lastGeneratedMatchups.length === 0){
 
 }
 
-currentMatchupGlobal = data.currentMatchup || null;
+/* 🔥 EXPIRE MATCHUP IF TIME PASSED */
+
+if(data.currentMatchup){
+
+  const expiry = new Date(data.currentMatchup.expiresAt);
+  const now = new Date();
+
+  if(expiry <= now){
+    currentMatchupGlobal = null;
+  }else{
+    currentMatchupGlobal = data.currentMatchup;
+  }
+
+}else{
+  currentMatchupGlobal = null;
+}
   
 renderMatchup(data.currentMatchup);
 
@@ -440,9 +455,14 @@ const key = m.redTeam.map(p=>p.name).join("|") + "-" + m.blueTeam.map(p=>p.name)
 if(isActiveMatch){
 
   btn.classList.add("selected");
-  btn.innerText = "SELECTED";
+  btn.innerText = "ACTIVE";
   btn.disabled = true;
   btn.style.cursor = "not-allowed";
+
+}else if(selectedMatchKey === key){
+
+  btn.classList.add("selected");
+  btn.innerText = "SELECTED";
 
 }
 
@@ -1032,7 +1052,32 @@ function startMatchAutoRefresh(){
       });
 
 if(data.ok){
+
+  /* 🔥 KEEP GLOBAL MATCH IN SYNC */
+
+  if(data.currentMatchup){
+
+    const expiry = new Date(data.currentMatchup.expiresAt);
+    const now = new Date();
+
+    if(expiry <= now){
+      currentMatchupGlobal = null;
+    }else{
+      currentMatchupGlobal = data.currentMatchup;
+    }
+
+  }else{
+    currentMatchupGlobal = null;
+  }
+
   renderMatchup(data.currentMatchup);
+
+/* 🔥 REFRESH GENERATED MATCHUPS UI */
+
+if(lastGeneratedMatchups.length > 0){
+  applyGapFilter();
+}
+
 }
 
     }catch(e){
