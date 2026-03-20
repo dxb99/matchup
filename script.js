@@ -609,13 +609,6 @@ maker.onchange = function(){
   lastSelectedPlayers = [];
   selectedMatchKey = null;
 
-  /* 🔥 RESET BLITZ */
-  const blitzToggle = document.getElementById("blitzToggle");
-  if(blitzToggle){
-    blitzToggle.checked = false;
-    blitzEnabled = false;
-  }
-
 };
 
 updateSelectedPlayerCount();
