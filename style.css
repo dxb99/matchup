@@ -998,6 +998,7 @@ padding:10px 10px 60px 10px;
 .tabContent{
 
 padding-top:10px;
+padding-bottom:80px; /* 🔥 ADD THIS */
 
 }
 
