@@ -943,7 +943,7 @@ font-size:14px;
 
 font-size:14px;
 display:grid;
-grid-template-columns:repeat(2,1fr);
+grid-template-columns:repeat(2, minmax(0,1fr));
 row-gap:8px;
 column-gap:8px;
 
@@ -958,19 +958,21 @@ text-align:center;
 
 .radioRow label{
 
+display:flex;
+align-items:center;
+justify-content:flex-start;
+white-space:nowrap;
+
+padding:4px 6px; /* 🔥 adds balance inside cell */
+
+}
+
 .radioRow label.disabled{
 opacity:0.4;
 }
 
 .radioRow input:disabled{
 cursor:not-allowed;
-}
-
-display:flex;
-align-items:center;
-justify-content:flex-start;
-white-space:nowrap;
-
 }
 
 .playerSort{
