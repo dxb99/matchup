@@ -946,10 +946,13 @@ display:grid;
 grid-template-columns:repeat(3,1fr);
 row-gap:8px;
 column-gap:8px;
+
 width:100%;
-margin:20px 0 0 0;
-padding:0 3%;
-text-align:center; /* 🔥 CENTER LABELS */
+max-width:500px; /* 🔥 same centering logic */
+margin:20px auto 0 auto;
+
+padding:0;
+text-align:center;
 
 }
 
@@ -1091,11 +1094,15 @@ margin-bottom:2px;
 
 #playersCheckboxes{
 
-display:grid; /* 🔥 switch to grid */
-grid-template-columns:repeat(2, 1fr); /* 🔥 force 2 columns */
+display:grid;
+grid-template-columns:repeat(2, 1fr);
 gap:10px;
+
 width:100%;
-padding:0 3%;
+max-width:500px; /* 🔥 controls centering */
+margin:0 auto;   /* 🔥 centers grid */
+
+padding:0;
 
 }
 
