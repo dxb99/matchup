@@ -1038,6 +1038,12 @@ padding:10px 10px 60px 10px;
 
 grid-template-columns:1fr;
 
+width:100%;
+max-width:500px; /* 🔥 center alignment fix */
+margin:20px auto; /* 🔥 centers container */
+
+padding:0; /* 🔥 remove side bias */
+
 }
 
 /* Move navigation to bottom */
