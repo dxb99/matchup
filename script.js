@@ -1213,20 +1213,44 @@ function updateGapCounts(){
 
   const radios = document.querySelectorAll('input[name="gapFilter"]');
 
-  const counts = {
-    all: lastGeneratedMatchups.length,
-    0: 0,
-    1: 0,
-    2: 0,
-    3: 0,
-    4: 0
-  };
+// 🔥 USE FILTERED MATCHUPS IF BLITZ IS ENABLED
+let source = lastGeneratedMatchups;
 
-  lastGeneratedMatchups.forEach(m=>{
-    if(counts.hasOwnProperty(m.skillGap)){
-      counts[m.skillGap]++;
-    }
+if(blitzEnabled){
+
+  source = lastGeneratedMatchups.filter(m => {
+
+    const small =
+      m.redTeam.length < m.blueTeam.length ? m.redTeam : m.blueTeam;
+
+    const large =
+      m.redTeam.length > m.blueTeam.length ? m.redTeam : m.blueTeam;
+
+    if(m.redTeam.length === m.blueTeam.length) return false;
+
+    const smallSkill = small.reduce((s,p)=>s+p.skill,0);
+    const largeSkill = large.reduce((s,p)=>s+p.skill,0);
+
+    return smallSkill >= largeSkill;
+
   });
+
+}
+
+const counts = {
+  all: source.length,
+  0: 0,
+  1: 0,
+  2: 0,
+  3: 0,
+  4: 0
+};
+
+source.forEach(m=>{
+  if(counts.hasOwnProperty(m.skillGap)){
+    counts[m.skillGap]++;
+  }
+});
 
   radios.forEach(radio=>{
 
