@@ -40,13 +40,14 @@ const blitzToggle = document.getElementById("blitzToggle");
 
 if(blitzToggle){
 
-  blitzToggle.addEventListener("change", () => {
+blitzToggle.addEventListener("change", () => {
 
-    blitzEnabled = blitzToggle.checked;
+  blitzEnabled = blitzToggle.checked;
 
-    applyGapFilter();
+  updateGapCounts(); /* 🔥 ADD THIS */
+  applyGapFilter();
 
-  });
+});
 
 }
 
