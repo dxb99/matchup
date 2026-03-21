@@ -1091,13 +1091,11 @@ margin-bottom:2px;
 
 #playersCheckboxes{
 
-display:flex;
-flex-wrap:wrap;
-justify-content:center;
-align-items:center; /* 🔥 ADD */
+display:grid; /* 🔥 switch to grid */
+grid-template-columns:repeat(2, 1fr); /* 🔥 force 2 columns */
 gap:10px;
 width:100%;
-padding:0 10px; /* 🔥 REDUCE SIDE OFFSET */
+padding:0 10px;
 
 }
 
@@ -1105,8 +1103,8 @@ padding:0 10px; /* 🔥 REDUCE SIDE OFFSET */
 
 display:flex;
 align-items:center;
-justify-content:center; /* 🔥 CENTER CONTENT */
-text-align:center;      /* 🔥 CENTER TEXT */
+justify-content:flex-start; /* 🔥 LEFT ALIGN */
+text-align:left;
 
 }
 
