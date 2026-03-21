@@ -1166,18 +1166,19 @@ white-space:nowrap;
 
 .teamLine{
 
-display:flex;
-flex-wrap:nowrap;
+display:grid;
+grid-template-columns:auto 1fr;
 align-items:center;
+column-gap:6px;
 
 }
 
 .teamPlayers{
 
-flex:1;
 white-space:nowrap;
-font-size:13px;
-line-height:1.2;
+overflow:hidden;
+text-overflow:ellipsis;
+font-size:clamp(10px,3vw,13px);
 
 }
 
@@ -1215,9 +1216,6 @@ padding:3px 8px;
 font-size:clamp(10px,3vw,13px);
 font-weight:600;
 white-space:nowrap;
-
-min-width:80px;   /* 🔥 gives structure */
-flex-shrink:0;
 
 }
 
