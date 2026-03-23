@@ -489,7 +489,9 @@ background:transparent;
 
 .badge.picks{
 
-background:#555;
+border:1px solid #888;
+color:#ccc;
+background:transparent;
 
 }
 
