@@ -153,16 +153,9 @@ left:0;
 width:100%;
 height:100%;
 
-/* 🔥 fills entire screen */
-background-image:url("DXB99.MATCHUP.png");
-background-size:cover;
-background-position:center;
-background-repeat:no-repeat;
+/* 🔥 solid black background */
+background:#000;
 
-/* 🔥 blur + darken */
-filter:blur(20px) brightness(0.4);
-
-transform:scale(1.1); /* prevents blur edges */
 z-index:1;
 }
 
