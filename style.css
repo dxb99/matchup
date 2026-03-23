@@ -133,7 +133,7 @@ height:100%;
 
 /* 🔥 FULLSCREEN IMAGE */
 background-image:url("DXB99.MATCHUP.png");
-background-size:cover;
+background-size:contain;
 background-position:center;
 background-repeat:no-repeat;
 
