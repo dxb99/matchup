@@ -162,8 +162,15 @@ z-index:1;
 .loadingText{
 
 font-size:20px;
-position:relative;
-z-index:2;
+
+/* 🔥 position at bottom */
+position:absolute;
+bottom:40px;
+left:50%;
+transform:translateX(-50%);
+
+/* keep above everything */
+z-index:3;
 
 }
 
