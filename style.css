@@ -200,7 +200,7 @@ display:none;
 
 #generateButton{
 
-background:#111;
+background:linear-gradient(180deg,#22c55e,#15803d);
 
 border:none;
 padding:15px 30px;
