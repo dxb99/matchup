@@ -1357,11 +1357,13 @@ white-space:nowrap;
   padding: 3px; /* border thickness */
 
   background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255,75,75,0.9),
-    transparent
-  );
+  90deg,
+  transparent,
+  rgba(255,75,75,0.9),   /* 🔴 RED */
+  rgba(75,163,255,0.9),  /* 🔵 BLUE */
+  rgba(255,75,75,0.9),   /* 🔴 RED */
+  transparent
+);
 
   background-size: 200% 100%;
 
