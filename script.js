@@ -274,11 +274,28 @@ if(expiry <= now){
     <div class="matchHeader">
       NO CURRENT MATCHUP
     </div>
+
+    <button id="getStartedBtn" class="getStartedBtn">
+      GET STARTED
+    </button>
+
   </div>
 
   `;
 
   countdown.innerHTML="";
+
+  /* 🔥 GET STARTED BUTTON CLICK */
+  setTimeout(() => {
+    const btn = document.getElementById("getStartedBtn");
+    if(btn){
+      btn.onclick = () => {
+        const generatorBtn = document.querySelector('.tabButton[onclick*="generatorTab"]');
+        showTab("generatorTab", generatorBtn);
+      };
+    }
+  }, 0);
+
   return;
 
 }
