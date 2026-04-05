@@ -515,23 +515,19 @@ async function selectMatchup(match, key, btn){
 
   const pin=prompt("Enter PIN (or create one if first time)");
 
-  if(!pin) return;
+document.getElementById("savingMatchOverlay").style.display = "flex";
 
-  document.getElementById("savingMatchOverlay").style.display = "flex";
-  
-  const data = await api({
+const data = await api({
 
-  action:"verifyOrCreatePinAndSave",
+  action:"saveMatchupDirect",
 
   matchMaker:maker,
-
-  pin:pin,
 
   redTeam:match.redTeam.map(p=>p.name),
 
   blueTeam:match.blueTeam.map(p=>p.name)
 
-  });
+});
 
   if(!data.ok){
 
