@@ -517,6 +517,16 @@ btn.onclick = () => {
 
 };
 
+// 🔥 MAKE ENTIRE CARD CLICKABLE (SAME AS BUTTON)
+div.onclick = (e) => {
+
+  // prevent double trigger if button itself clicked
+  if(e.target.classList.contains("selectMatch")) return;
+
+  btn.click(); // trigger same logic as button
+
+};
+    
 container.appendChild(div);
 
   });
