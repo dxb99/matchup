@@ -497,20 +497,23 @@ btn.onclick = () => {
   // 🔥 FIRST CLICK → ARM
   if(armedMatchKey !== key){
 
-    armedMatchKey = key;
+  armedMatchKey = key;
 
-    // reset all buttons
-    document.querySelectorAll(".selectMatch").forEach(b=>{
-      b.classList.remove("selected");
-      b.innerText = "CLICK TO SELECT";
-    });
+  document.querySelectorAll(".selectMatch").forEach(b=>{
 
-    // highlight this one
-    btn.innerText = "CONFIRM SELECTION";
-    btn.classList.add("selected");
+    // 🔥 DO NOT RESET SERVER-SELECTED BUTTON
+    if(b.disabled) return;
 
-    return; // 🚨 STOP HERE (no save yet)
-  }
+    b.classList.remove("selected");
+    b.innerText = "CLICK TO SELECT";
+
+  });
+
+  btn.innerText = "CONFIRM SELECTION";
+  btn.classList.add("selected");
+
+  return;
+}
 
   // 🔥 SECOND CLICK → SAVE
   selectMatchup(m, key, btn);
