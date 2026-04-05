@@ -513,8 +513,6 @@ async function selectMatchup(match, key, btn){
     return;
   }
 
-  const pin=prompt("Enter PIN (or create one if first time)");
-
 document.getElementById("savingMatchOverlay").style.display = "flex";
 
 const data = await api({
