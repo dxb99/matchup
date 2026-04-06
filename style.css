@@ -1368,27 +1368,6 @@ align-items:flex-start;
 
 }
 
-.teamPlayers{
-
-flex:1;
-white-space:nowrap;
-overflow:hidden;
-text-overflow:ellipsis;
-font-size:clamp(10px,3vw,13px);
-
-}
-
-/* Keep matchup controls in one row on mobile */
-
-.badges{
-
-flex-wrap:nowrap;
-gap:6px;
-
-}
-
-/* Force compact matchup layout on mobile */
-
 .teamLine{
 
 display:grid;
