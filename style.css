@@ -668,6 +668,9 @@ animation:generateGlow 3s infinite;
 position:relative;
 z-index:1;
 
+/* 🔥 ADD THIS (VERY IMPORTANT) */
+isolation:isolate;
+
 }
 
 /* 🔥 hover (lift effect) */
@@ -723,8 +726,8 @@ width:0%;
 
 background:linear-gradient(90deg,#facc15,#d4af37);
 
-/* 🔥 LOWER THAN TEXT */
-z-index:0;
+/* 🔥 FORCE UNDER EVERYTHING */
+z-index:-1;
 
 animation:confirmFill 4s linear infinite;
 
