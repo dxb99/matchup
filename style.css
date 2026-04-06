@@ -451,6 +451,38 @@ padding:0 20px;
 
 .matchOption{
 
+/* 🔥 SELECTED CARD (ACTIVE MATCHUP) */
+.matchOption.selectedCard{
+
+border:1px solid rgba(255,215,0,0.8);
+
+background:
+linear-gradient(
+  180deg,
+  rgba(255,215,0,0.10),
+  rgba(255,215,0,0.03)
+);
+
+box-shadow:
+0 0 12px rgba(255,215,0,0.8),
+0 0 25px rgba(255,215,0,0.4);
+
+transform:scale(1.01);
+
+}
+
+/* 🔥 ARMED CARD (CONFIRM STATE) */
+.matchOption.armedCard{
+
+border:1px solid rgba(34,197,94,0.8);
+
+box-shadow:
+0 0 10px rgba(34,197,94,0.7);
+
+transform:scale(1.01);
+
+}
+
 border:1px solid #333;
 margin:0;
 padding:15px;
@@ -466,7 +498,12 @@ transition:all 0.2s ease;
 }
 
 /* 🔥 HOVER GLOW EFFECT */
-.matchOption:hover{
+.matchOption:not(.selectedCard):hover{
+
+transform:translateY(-2px);
+box-shadow:0 0 12px rgba(34,197,94,0.6);
+
+}
 
 transform:translateY(-2px);
 box-shadow:0 0 12px rgba(34,197,94,0.6);
