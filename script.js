@@ -501,17 +501,17 @@ btn.onclick = () => {
 
 document.querySelectorAll(".selectMatch").forEach(b=>{
 
-  // 🔥 DO NOT RESET SERVER-SELECTED BUTTON
   if(b.disabled) return;
 
   b.classList.remove("selected");
+  b.classList.remove("confirming"); // 🔥 ADD THIS
   b.innerText = "CLICK TO SELECT";
 
 });
 
 div.classList.add("armedCard");
 btn.innerText = "CONFIRM SELECTION";
-btn.classList.add("selected");
+btn.classList.add("confirming"); // 🔥 NEW CLASS
 
 return;
   }
@@ -580,6 +580,7 @@ document.querySelectorAll(".matchOption").forEach(card=>{
 
 document.querySelectorAll(".selectMatch").forEach(b=>{
   b.classList.remove("selected");
+  b.classList.remove("confirming"); // 🔥 ADD
   b.innerText = "CLICK TO SELECT";
   b.disabled = false; // 🔥 reset disabled state
   b.style.cursor = "pointer";
