@@ -482,6 +482,14 @@ box-shadow:
 
 transform:scale(1.01);
 
+/* 🔥 ADD THESE */
+cursor:not-allowed;
+opacity:0.9;
+
+}
+
+.matchOption.selectedCard *{
+pointer-events:none;
 }
 
 /* 🔥 ARMED CARD (CONFIRM STATE) */
