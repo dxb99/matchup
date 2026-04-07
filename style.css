@@ -1497,12 +1497,6 @@ z-index:2000;
 
 }
 
-header{
-
-padding-bottom:10px;
-
-}
-
 /* Mobile tab buttons */
 
 .tabButton{
@@ -1557,12 +1551,6 @@ text-align:left;
 .matchCompact{
 
 gap:4px;
-
-}
-
-.teamLine{
-
-align-items:flex-start;
 
 }
 
