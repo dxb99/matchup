@@ -429,17 +429,14 @@ transform:translateY(-2px);
 }
 
 .blitzToggle label{
-  display:flex;
+  display:grid;
 
-  align-items:center; /* ✅ vertical center */
-
-  justify-content:center;
+  grid-template-columns:auto 1fr;
+  align-items:center;
   gap:10px;
   width:100%;
 
-  flex-wrap:wrap;
-
-  text-align:center; /* ✅ helps when wrapping */
+  text-align:center;
 }
 
 #blitzToggle{
@@ -1620,8 +1617,7 @@ white-space:nowrap;
   font-weight:400;
   color:white;
 
-  white-space:nowrap; /* ✅ stay one line when possible */
-  max-width:100%;     /* ✅ prevent overflow */
+  white-space:nowrap;
 
   font-size:15px;
   line-height:1.2;
@@ -1632,11 +1628,6 @@ white-space:nowrap;
   animation-delay: 1.5s;
 }
 
-/* 🔥 FORCE TEXT TO DROP CLEANLY WHEN WRAPPING */
-.blitzToggle label span{
-  flex-basis:auto;
-}
-
 @media(max-width:700px){
 
   .blitzToggle label{
@@ -1645,6 +1636,9 @@ white-space:nowrap;
 
 .blitzText{
   white-space:normal;
+
+  grid-column:1 / -1; /* 🔥 FORCE TEXT FULL WIDTH */
+
   text-align:center;
   font-size:13px;
   line-height:1.3;
