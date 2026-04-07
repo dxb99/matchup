@@ -9,7 +9,12 @@
 
 <title>DXB99 Matchup Generator</title>
 
-<link rel="stylesheet" href="style.css?v=2">
+<script>
+  const style = document.createElement("link");
+  style.rel = "stylesheet";
+  style.href = "style.css?v=" + new Date().getTime();
+  document.head.appendChild(style);
+</script>
 
 </head>
 
