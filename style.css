@@ -414,6 +414,18 @@ opacity:1;
 transform:translateY(0);
 }
 
+.blitzToggle.show:hover{
+
+/* 🔥 STRONGER GLOW ON HOVER */
+box-shadow:
+0 0 16px rgba(255, 215, 0, 0.6),
+0 0 30px rgba(255, 0, 0, 0.25);
+
+/* 🔥 SLIGHT LIFT */
+transform:translateY(-2px);
+
+}
+
 .blitzToggle.disabled{
 
 opacity:0.4;
