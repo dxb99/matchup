@@ -1451,9 +1451,7 @@ text-overflow:ellipsis;
 }
 
 header{
-
-padding:10px 10px 60px 10px;
-
+  padding:10px 10px 10px 10px;
 }
 
 /* 🔥 FIX: prevent bottom nav overlap on mobile */
