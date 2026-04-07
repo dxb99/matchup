@@ -382,6 +382,7 @@ display:flex;
 justify-content:center;
 align-items:center;
 gap:10px;
+width:100%;
 
 /* 🔥 NEW BACKGROUND CARD */
 background:linear-gradient(
@@ -425,6 +426,15 @@ box-shadow:
 /* 🔥 SLIGHT LIFT */
 transform:translateY(-2px);
 
+}
+
+/* 🔥 FORCE CHECKBOX + TEXT INLINE */
+.blitzToggle label{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  width:100%;
+  justify-content:center;
 }
 
 /* 🔥 BIGGER CLEAN CHECKBOX */
@@ -1598,14 +1608,12 @@ white-space:nowrap;
   font-weight: 400;
   color: white;
 
-  /* 🔥 BETTER ALIGNMENT */
-  display:flex;
-  align-items:center;
+  /* 🔥 KEEP EVERYTHING INLINE */
+  display:inline-block;
 
-  /* 🔥 SPACING FROM CHECKBOX */
-  gap:8px;
+  /* 🔥 PREVENT LINE BREAK */
+  white-space:nowrap;
 
-  /* 🔥 KEEP ANIMATION */
   animation: blitzPulse 3s infinite;
   animation-delay: 1.5s;
 }
