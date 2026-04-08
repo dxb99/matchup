@@ -384,7 +384,7 @@ align-items:center;
 width:100%;
 
 /* 🔥 DESKTOP WIDTH */
-max-width:900px;
+max-width:650px; /* 🔥 MATCH MATCHUP CARDS */
 margin:16px auto;
 box-sizing:border-box;
 
@@ -429,12 +429,15 @@ transform:translateY(-2px);
 }
 
 .blitzToggle label{
-  display:grid;
+  display:flex;
 
-  grid-template-columns:auto 1fr;
   align-items:center;
+  justify-content:center;
+
   gap:10px;
   width:100%;
+
+  flex-wrap:nowrap; /* 🔥 FORCE ONE LINE ON PC */
 
   text-align:center;
 }
@@ -1320,15 +1323,17 @@ text-align:center;
 .blitzToggle label{
   justify-content:flex-start;
 
-  /* 🔥 KEEP VERTICAL CENTER */
-  align-items:center;
+  flex-wrap:wrap; /* 🔥 ALLOW WRAP ON MOBILE */
 }
 
 .blitzText{
   white-space:normal;
+
+  flex-basis:100%; /* 🔥 DROP TO NEXT LINE */
+
+  text-align:center;
   font-size:13px;
   line-height:1.3;
-  text-align:left;
 }
 
 /* 🔥 FIX: prevent horizontal scroll breaking layout */
@@ -1617,7 +1622,9 @@ white-space:nowrap;
   font-weight:400;
   color:white;
 
-  white-space:nowrap;
+  white-space:nowrap; /* 🔥 FORCE SINGLE LINE */
+
+  flex:1; /* 🔥 ALLOW IT TO USE SPACE */
 
   font-size:15px;
   line-height:1.2;
