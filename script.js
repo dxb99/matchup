@@ -1254,7 +1254,7 @@ if(blitzEnabled){
     const smallSkill = small.reduce((s,p)=>s+p.skill,0);
     const largeSkill = large.reduce((s,p)=>s+p.skill,0);
 
-    return smallSkill >= largeSkill;
+    return smallSkill > largeSkill;
 
   });
 
@@ -1302,7 +1302,7 @@ if(blitzEnabled){
     const smallSkill = small.reduce((s,p)=>s+p.skill,0);
     const largeSkill = large.reduce((s,p)=>s+p.skill,0);
 
-    return smallSkill >= largeSkill;
+    return smallSkill > largeSkill;
 
   });
 
