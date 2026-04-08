@@ -436,7 +436,7 @@ transform:translateY(-2px);
   gap:10px;
   width:100%;
 
-  flex-wrap:nowrap; /* 🔥 FORCE ONE LINE ON PC */
+  flex-wrap:wrap; /* ✅ allow wrap ONLY when needed */
 
   text-align:center;
 }
