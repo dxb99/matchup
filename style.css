@@ -416,10 +416,11 @@ transition:opacity 0.4s ease, transform 0.4s ease, box-shadow 0.3s ease;
 /* 🔥 TRACK (MOVES) */
 .blitzTrack{
   display:flex;
+  gap:0; /* 🔥 KEY FIX */
 
-  width:200%; /* 🔥 FORCE EXACT DOUBLE WIDTH */
+  width:max-content;
 
-  animation: blitzScroll 10s linear infinite;
+  animation: blitzScroll 12s linear infinite;
 }
 
 /* 🔥 WHEN ACTIVE (FADE IN) */
@@ -1227,7 +1228,7 @@ box-shadow:0 4px 10px rgba(34,197,94,0.4);
   }
 
   100%{
-    transform:translateX(-50%);
+    transform:translateX(calc(-50%));
   }
 
 }
@@ -1649,12 +1650,11 @@ color:#1a1a1a;
 
 white-space:nowrap;
 
-/* 🔥 KEY FIX */
 flex:0 0 auto;
 
 display:block;
 
-padding-right:80px; /* spacing between repeats */
+padding-right:120px; /* 🔥 spacing between repeats */
 
 font-size:15px;
 line-height:1.2;
