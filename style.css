@@ -385,8 +385,8 @@ display:flex;
 justify-content:center;
 align-items:center;
 width:100%;
-padding:0 20px;
-margin:16px 0;
+max-width: calc(100% - 40px);
+margin:16px auto;
 box-sizing:border-box;
 
 /* 🔥 NEW BACKGROUND CARD */
