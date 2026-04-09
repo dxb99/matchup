@@ -409,14 +409,15 @@ transition:opacity 0.4s ease, transform 0.4s ease, box-shadow 0.3s ease;
 
 /* 🔥 SCROLL CONTAINER */
 .blitzScroll{
-  width:100%;
+  flex:1;              /* 🔥 TAKE REMAINING SPACE */
   overflow:hidden;
 }
 
 /* 🔥 TRACK (MOVES) */
 .blitzTrack{
   display:flex;
-  gap:50px;
+  gap:60px;
+
   width:max-content;
 
   animation: blitzScroll 12s linear infinite;
@@ -438,12 +439,13 @@ transform:translateY(-2px);
 .blitzToggle label{
   display:flex;
   align-items:center;
-  justify-content:flex-start; /* 🔥 LEFT ALIGN */
 
-  gap:10px;
+  gap:12px;
+
   width:100%;
 
-  flex-wrap:nowrap; /* 🔥 FORCE SAME LINE */
+  /* 🔥 KEY FIX */
+  justify-content:flex-start;
 }
 
 #blitzToggle{
