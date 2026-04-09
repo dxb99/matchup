@@ -445,7 +445,7 @@ transform:translateY(0);
 
   align-self:center; /* 🔥 THIS FIXES VERTICAL ALIGN */
 
-  accent-color:#ffeb3b;
+  accent-color:#1a1a1a;
 }
 
 .blitzToggle.disabled{
