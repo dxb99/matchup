@@ -416,7 +416,8 @@ transition:opacity 0.4s ease, transform 0.4s ease, box-shadow 0.3s ease;
 /* 🔥 TRACK (MOVES) */
 .blitzTrack{
   display:flex;
-  gap:30px;
+
+  gap:0; /* 🔥 REMOVE GAP COMPLETELY */
 
   width:max-content;
 
@@ -1664,5 +1665,7 @@ line-height:1.2;
 text-align:center;
 
 animation:none;
+
+padding-right:50px;
 
 }
