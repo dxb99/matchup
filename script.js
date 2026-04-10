@@ -603,18 +603,23 @@ overlay.querySelector(".generatingText").innerHTML = "SAVED ✓";
 
 /* WAIT 1 SECOND THEN REDIRECT */
 
-setTimeout(() => {
+setTimeout(async () => {
 
   overlay.style.display = "none";
 
-  const matchupBtn = document.querySelector('.tabButton[onclick*="matchupTab"]');
-  showTab("matchupTab", matchupBtn);
+  // 🔥 REFRESH HISTORY FIRST
+  const historyData = await api({ action: "getHistory" });
+  if(historyData.ok){
+    matchHistory = historyData.history || [];
+  }
 
-  loadInitialData();
+  // 🔥 REGENERATE MATCHUPS WITH UPDATED PICK COUNTS
+  const updatedMatchups = generateMatchupsLocal(lastSelectedPlayers, "all");
 
-  /* RESET TEXT BACK TO SAVING FOR NEXT TIME */
-
-  overlay.querySelector(".generatingText").innerHTML = "SAVING<span class='dots'></span>";
+  // 🔥 RE-APPLY FILTER
+  lastGeneratedMatchups = updatedMatchups;
+  updateGapCounts();
+  applyGapFilter();
 
 }, 1000);
 
