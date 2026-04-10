@@ -358,7 +358,7 @@ if(blitzToggle && blitzContainer){
 
     setTimeout(()=>{
   blitzContainer.classList.add("show");
-},1000);
+},3000);
 
   }else{
 
