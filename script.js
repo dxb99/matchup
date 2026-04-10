@@ -357,8 +357,8 @@ if(blitzToggle && blitzContainer){
     blitzContainer.style.display = "flex";
 
     setTimeout(()=>{
-      blitzContainer.classList.add("show");
-    },10);
+  blitzContainer.classList.add("show");
+},1000);
 
   }else{
 
