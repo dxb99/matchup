@@ -447,7 +447,7 @@ Difference ${m.skillGap}
 </span>
 
 <span class="badge picks">
-Picked ${m.pickCount} times
+Picked ${m.pickCount} ${m.pickCount === 1 ? "time" : "times"}
 </span>
 
 <button class="selectMatch">CLICK TO SELECT</button>
@@ -1010,11 +1010,14 @@ history.forEach(h => {
 div.innerHTML = `
 
 <div class="historyLine1">
-${formatDate(match.selectedAt)} | Match Maker: ${match.matchMaker} | Difference: ${match.skillGap} | Picked ${counts[
-  match.redTeam.split(", ").sort().join(",") + "|" + match.blueTeam.split(", ").sort().join(",")
-] || counts[
-  match.blueTeam.split(", ").sort().join(",") + "|" + match.redTeam.split(", ").sort().join(",")
-] || 0} times
+${(() => {
+  const key1 = match.redTeam.split(", ").sort().join(",") + "|" + match.blueTeam.split(", ").sort().join(",");
+  const key2 = match.blueTeam.split(", ").sort().join(",") + "|" + match.redTeam.split(", ").sort().join(",");
+
+  const count = counts[key1] || counts[key2] || 0;
+
+  return `${formatDate(match.selectedAt)} | Match Maker: ${match.matchMaker} | Difference: ${match.skillGap} | Picked ${count} ${count === 1 ? "time" : "times"}`;
+})()}
 </div>
 
 <div class="historyLine2">
