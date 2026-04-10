@@ -1028,7 +1028,7 @@ ${(() => {
 
   const count = counts[key1] || counts[key2] || 0;
 
-  return `${formatDate(match.selectedAt)} | Match Maker: ${match.matchMaker} | MID# ${String(match.MID || "----").padStart(4, "0")} | Picked ${count} ${count === 1 ? "time" : "times"} | Difference: ${match.skillGap}`;
+  return `${formatDate(match.selectedAt)} | MID# ${String(match.MID || "----").padStart(4, "0")} | Match Maker: ${match.matchMaker} | Picked ${count} ${count === 1 ? "time" : "times"} | Difference: ${match.skillGap}`;
 })()}
 </div>
 
