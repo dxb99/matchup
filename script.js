@@ -167,8 +167,12 @@ el.innerHTML=`
 
   <div class="matchCard">
     <div class="matchHeader">
-      NO CURRENT MATCHUP
-    </div>
+  Match Maker: <strong>${match.matchMaker}</strong>
+
+  <span class="midTag">
+    MID# ${String(match.MID).padStart(4, "0")}
+  </span>
+</div>
 
     <button id="getStartedBtn" class="getStartedBtn">
       CLICK TO GET STARTED
