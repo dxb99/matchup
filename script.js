@@ -11,6 +11,10 @@ let lastSelectedPlayers = [];
 let lastSelectedMatchMaker = "";
 let currentMatchKeyFromServer = null;
 let blitzEnabled = false;
+let currentHistorySort = {
+  key: "date",
+  direction: "desc"
+};
 let armedMatchKey = null; // 🔥 tracks first click before confirm
 
 window.addEventListener("load", async () => {
