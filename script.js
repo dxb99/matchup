@@ -1176,15 +1176,23 @@ function updateSortIndicators(){
     if(!key) return;
 
     // Remove arrows first
-    th.innerHTML = th.innerText.replace(" ↑", "").replace(" ↓", "");
+    th.innerHTML = th.innerText
+  .replace(" ↑", "")
+  .replace(" ↓", "")
+  .replace(" ⇅", "");
 
     if(key === currentHistorySort.key){
 
-      const arrow = currentHistorySort.direction === "asc" ? " ↑" : " ↓";
+  const arrow = currentHistorySort.direction === "asc" ? " ↑" : " ↓";
 
-      th.innerHTML = th.innerText + arrow;
+  th.innerHTML = th.innerText + arrow;
 
-    }
+} else {
+
+  // 🔥 show default sort indicator
+  th.innerHTML = th.innerText + " ⇅";
+
+}
 
   });
 
