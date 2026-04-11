@@ -929,6 +929,8 @@ async function openHistoryTab(btn){
 
   renderHistory(data.history);
 
+  setupHistorySorting();
+
   document.getElementById("historyLoadingOverlay").style.display = "none";
 
 }
@@ -1023,6 +1025,36 @@ history.forEach(match => {
   tbody.appendChild(detailRow);
 
 });
+}
+
+function setupHistorySorting(){
+
+  const headers = document.querySelectorAll("#historyTable th");
+
+  headers.forEach(th => {
+
+    th.onclick = () => {
+
+      const key = th.dataset.sort;
+
+      if(!key) return;
+
+      // 🔥 TOGGLE DIRECTION
+      if(currentHistorySort.key === key){
+        currentHistorySort.direction =
+          currentHistorySort.direction === "asc" ? "desc" : "asc";
+      }else{
+        currentHistorySort.key = key;
+        currentHistorySort.direction = "asc";
+      }
+
+      // 🔥 RE-RENDER WITH SORT
+      renderHistory([...matchHistory]);
+
+    };
+
+  });
+
 }
 
 function formatDate(date){
