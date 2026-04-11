@@ -930,6 +930,7 @@ async function openHistoryTab(btn){
   renderHistory(data.history);
 
   setupHistorySorting();
+  updateSortIndicators();
 
   document.getElementById("historyLoadingOverlay").style.display = "none";
 
@@ -1100,7 +1101,34 @@ function setupHistorySorting(){
       // 🔥 RE-RENDER WITH SORT
       renderHistory([...matchHistory]);
 
+      updateSortIndicators();
+
     };
+
+  });
+
+}
+
+function updateSortIndicators(){
+
+  const headers = document.querySelectorAll("#historyTable th");
+
+  headers.forEach(th => {
+
+    const key = th.dataset.sort;
+
+    if(!key) return;
+
+    // Remove arrows first
+    th.innerHTML = th.innerText.replace(" ↑", "").replace(" ↓", "");
+
+    if(key === currentHistorySort.key){
+
+      const arrow = currentHistorySort.direction === "asc" ? " ↑" : " ↓";
+
+      th.innerHTML = th.innerText + arrow;
+
+    }
 
   });
 
