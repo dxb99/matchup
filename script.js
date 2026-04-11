@@ -968,7 +968,56 @@ history.forEach(h => {
 
 /* 🔥 DEFAULT SORT (NEWEST FIRST) */
 
-history.sort((a,b)=>new Date(b.selectedAt) - new Date(a.selectedAt));
+/* 🔥 APPLY CURRENT SORT */
+
+history.sort((a,b)=>{
+
+  let valA, valB;
+
+  switch(currentHistorySort.key){
+
+    case "date":
+      valA = new Date(a.selectedAt);
+      valB = new Date(b.selectedAt);
+      break;
+
+    case "mid":
+      valA = parseInt(a.MID || 0);
+      valB = parseInt(b.MID || 0);
+      break;
+
+    case "maker":
+      valA = a.matchMaker.toLowerCase();
+      valB = b.matchMaker.toLowerCase();
+      break;
+
+    case "picked":
+
+      const getCount = (m) => {
+        const r = m.redTeam.split(", ").sort().join(",");
+        const b = m.blueTeam.split(", ").sort().join(",");
+        return counts[r+"|"+b] || counts[b+"|"+r] || 0;
+      };
+
+      valA = getCount(a);
+      valB = getCount(b);
+      break;
+
+    case "gap":
+      valA = a.skillGap;
+      valB = b.skillGap;
+      break;
+
+    default:
+      valA = 0;
+      valB = 0;
+  }
+
+  if(valA < valB) return currentHistorySort.direction === "asc" ? -1 : 1;
+  if(valA > valB) return currentHistorySort.direction === "asc" ? 1 : -1;
+  return 0;
+
+});
 
 history.forEach(match => {
 
