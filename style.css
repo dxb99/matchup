@@ -1725,6 +1725,11 @@ line-height:1.2;
   border-bottom: 1px solid #333;
 }
 
+/* 🔥 LEFT ALIGN FIRST COLUMN (DATE/TIME ONLY) */
+#historyTable td:first-child {
+  text-align: left;
+}
+
 /* 🔥 CLICKABLE ROW */
 #historyTable tbody tr:not(.historyDetailRow) {
   cursor: pointer;
