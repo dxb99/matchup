@@ -1175,22 +1175,23 @@ function updateSortIndicators(){
 
     if(!key) return;
 
-    // Remove arrows first
-    th.innerHTML = th.innerText
+th.innerHTML = th.innerText
   .replace(" ↑", "")
   .replace(" ↓", "")
-  .replace(" ⇅", "");
+  .replace(" ⇅", "")
+  .replace(" ▴▾", "")
+  .replace(" ▲", "")
+  .replace(" ▼", "");
 
-    if(key === currentHistorySort.key){
+if(key === currentHistorySort.key){
 
-  const arrow = currentHistorySort.direction === "asc" ? " ↑" : " ↓";
+  const arrow = currentHistorySort.direction === "asc" ? " ▲" : " ▼";
 
   th.innerHTML = th.innerText + arrow;
 
 } else {
 
-  // 🔥 show default sort indicator
-  th.innerHTML = th.innerText + " ⇅";
+  th.innerHTML = th.innerText + " ▴▾";
 
 }
 
