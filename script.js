@@ -1019,6 +1019,7 @@ history.forEach(match => {
   tbody.appendChild(detailRow);
 
 });
+}
 
 function formatDate(date){
 
@@ -1069,7 +1070,9 @@ setTimeout(async () => {
 
   overlay.style.display = "none";
 
-  document.getElementById("historyList").innerHTML = "No match history yet.";
+  document.getElementById("historyTableBody").innerHTML = `
+  <tr><td colspan="5">No match history yet.</td></tr>
+`;
 
   /* 🔥 RESET GENERATOR STATE */
   resetGeneratedMatchups();
