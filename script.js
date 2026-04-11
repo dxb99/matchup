@@ -1029,13 +1029,16 @@ history.forEach(match => {
 
   const count = counts[key1] || counts[key2] || 0;
 
-  row.innerHTML = `
-    <td>${formatDate(match.selectedAt)}</td>
-    <td>${String(match.MID || "----").padStart(4, "0")}</td>
-    <td>${match.matchMaker}</td>
-    <td>${count}</td>
-    <td>${match.skillGap}</td>
-  `;
+row.innerHTML = `
+  <td>
+    <span class="expandIcon">▶</span>
+    ${formatDate(match.selectedAt)}
+  </td>
+  <td>${String(match.MID || "----").padStart(4, "0")}</td>
+  <td>${match.matchMaker}</td>
+  <td>${count}</td>
+  <td>${match.skillGap}</td>
+`;
 
   /* 🔥 DETAIL ROW */
 
@@ -1110,10 +1113,19 @@ detailRow.innerHTML = `
 
   /* 🔥 CLICK TO TOGGLE */
 
-  row.onclick = () => {
-    detailRow.style.display =
-      detailRow.style.display === "none" ? "table-row" : "none";
-  };
+row.onclick = () => {
+
+  const isOpen = detailRow.style.display === "table-row";
+
+  detailRow.style.display = isOpen ? "none" : "table-row";
+
+  const icon = row.querySelector(".expandIcon");
+
+  if(icon){
+    icon.innerText = isOpen ? "▶" : "▼";
+  }
+
+};
 
   tbody.appendChild(row);
   tbody.appendChild(detailRow);
