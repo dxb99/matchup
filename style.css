@@ -1688,6 +1688,24 @@ line-height:1.2;
   cursor: pointer;
   user-select: none;
   transition: all 0.15s ease;
+  position: relative;
+}
+
+/* 🔥 subtle underline base */
+#historyTable th::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 20%;
+  width: 60%;
+  height: 2px;
+  background: transparent;
+  transition: all 0.2s ease;
+}
+
+/* 🔥 underline appears on hover */
+#historyTable th:hover::after {
+  background: #22c55e;
 }
 
 /* 🔥 HEADER HOVER */
@@ -1724,4 +1742,14 @@ line-height:1.2;
 /* MATCH CARD INSIDE TABLE */
 .historyDetailRow .matchCard {
   margin: 10px auto;
+}
+
+/* 🔥 EXPAND ICON */
+
+.expandIcon {
+  display: inline-block;
+  margin-right: 8px;
+  color: #888;
+  transition: transform 0.15s ease;
+  font-size: 12px;
 }
