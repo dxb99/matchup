@@ -55,6 +55,9 @@ blitzToggle.addEventListener("change", () => {
 
 }
 
+    setupMapListButtons();
+    await loadSessionMaps();
+    
     startMatchAutoRefresh();
 
   } catch (err) {
@@ -1578,5 +1581,147 @@ if(blitzToggle && blitzContainer){
   },300);
 
 }
+
+}
+
+// 🔥 LOAD CURRENT SESSION MAPS
+async function loadSessionMaps(){
+
+  const data = await api({
+    action:"getSessionMaps"
+  });
+
+  if(!data.ok){
+    console.log("Failed loading session maps");
+    return;
+  }
+
+  renderSessionMaps(data);
+
+}
+
+// 🔥 RENDER SESSION MAPS
+function renderSessionMaps(data){
+
+  renderModeSessionList("eliminationSessionList", data.elimination || [], "elimination");
+  renderModeSessionList("blitzSessionList", data.blitz || [], "blitz");
+  renderModeSessionList("ctfSessionList", data.ctf || [], "ctf");
+
+}
+
+// 🔥 RENDER ONE MODE
+function renderModeSessionList(containerId, maps, mode){
+
+  const container = document.getElementById(containerId);
+
+  if(!container) return;
+
+  container.innerHTML = "";
+
+  maps.forEach((mapName, index) => {
+
+    const row = document.createElement("div");
+    row.className = "mapSessionRow";
+
+    if(mapName){
+
+      row.innerHTML = `
+        <span class="mapSessionName">${mapName}</span>
+        <button class="btn btn-red mapDeleteBtn">DELETE</button>
+      `;
+
+      row.querySelector(".mapDeleteBtn").onclick = async () => {
+
+        const res = await api({
+          action:"deleteSessionMap",
+          mode: mode,
+          slot: index + 1
+        });
+
+        if(!res.ok){
+          alert(res.error || "Delete failed");
+          return;
+        }
+
+        renderSessionMaps(res);
+
+      };
+
+    } else {
+
+      row.innerHTML = `
+        <span class="mapSessionEmpty">—</span>
+      `;
+
+    }
+
+    container.appendChild(row);
+
+  });
+
+}
+
+// 🔥 BUTTON ACTIONS
+function setupMapListButtons(){
+
+  const generateBtn = document.getElementById("generateSessionMapsBtn");
+  const saveBtn = document.getElementById("saveSessionProgressBtn");
+  const copyBtn = document.getElementById("copySessionMapsBtn");
+
+  if(generateBtn){
+    generateBtn.onclick = async () => {
+
+      const res = await api({
+        action:"generateSessionMaps"
+      });
+
+      if(!res.ok){
+        alert(res.error || "Generate failed");
+        return;
+      }
+
+      renderSessionMaps(res);
+
+    };
+  }
+
+  if(saveBtn){
+    saveBtn.onclick = async () => {
+
+      const res = await api({
+        action:"saveSessionProgress"
+      });
+
+      if(!res.ok){
+        alert(res.error || "Save failed");
+        return;
+      }
+
+      alert("Session progress saved");
+
+    };
+  }
+
+  if(copyBtn){
+    copyBtn.onclick = async () => {
+
+      const res = await api({
+        action:"copySessionMaps"
+      });
+
+      if(!res.ok){
+        alert(res.error || "Copy failed");
+        return;
+      }
+
+      try{
+        await navigator.clipboard.writeText(res.text || "");
+        alert("Session maps copied");
+      }catch(e){
+        alert(res.text || "Copy failed");
+      }
+
+    };
+  }
 
 }
