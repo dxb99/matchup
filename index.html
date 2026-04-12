@@ -67,6 +67,11 @@ HISTORY
 ADMIN
 </button>
 
+<button onclick="showTab('mapListTab', this)" class="tabButton">
+<span class="tabIcon">🗺</span>
+MAPLIST
+</button>
+
 </div>
 
 </header>
@@ -235,6 +240,42 @@ CLICK TO GENERATE MATCHUP
 
 </div>
 
+<!-- MAPLIST TAB -->
+
+<div id="mapListTab" class="tabContent">
+
+<h2>MAPLIST</h2>
+
+<div class="mapListControls">
+
+<button id="generateSessionMapsBtn" class="btn btn-green">GENERATE SESSION MAPS</button>
+
+<button id="saveSessionProgressBtn" class="btn btn-orange">SAVE SESSION PROGRESS</button>
+
+<button id="copySessionMapsBtn" class="btn btn-blue">COPY SESSION MAPS</button>
+
+</div>
+
+<div id="mapListContent">
+
+<div class="mapModeBlock">
+  <div class="mapModeHeader eliminationHeader">Elimination</div>
+  <div id="eliminationSessionList" class="mapSessionList"></div>
+</div>
+
+<div class="mapModeBlock">
+  <div class="mapModeHeader blitzHeader">Blitz</div>
+  <div id="blitzSessionList" class="mapSessionList"></div>
+</div>
+
+<div class="mapModeBlock">
+  <div class="mapModeHeader ctfHeader">CTF</div>
+  <div id="ctfSessionList" class="mapSessionList"></div>
+</div>
+
+</div>
+
+</div>
 
 </div>
 
