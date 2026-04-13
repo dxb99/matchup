@@ -1882,11 +1882,11 @@ line-height:1.2;
 }
 
 .mapSessionSection{
-  background:#111;
-  border:1px solid #333;
-  border-radius:10px;
-  padding:10px 12px;
-  margin-bottom:10px;
+  background:transparent;
+  border:none;
+  border-radius:0;
+  padding:6px 0;
+  margin-bottom:6px;
 }
 
 .mapSessionSection:last-of-type{
