@@ -1639,7 +1639,7 @@ function renderModeSessionList(containerId, maps, mode){
     row.className = "mapSessionCompactRow";
 
     row.innerHTML = `
-      <span class="mapSessionCompactName">${mapName}</span>
+      <span class="mapSessionName">${mapName}</span>
       <button class="mapDeleteMini">✕</button>
     `;
 
