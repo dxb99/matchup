@@ -1914,7 +1914,8 @@ line-height:1.2;
 /* 🔥 FIX SESSION ROW STRUCTURE */
 
 .mapSessionCompactRow{
-  display:flex;
+  display:grid;
+  grid-template-columns: 24px 1fr 24px; /* 🔥 LEFT SPACE | TEXT | ✕ */
   align-items:center;
 
   width:100%;
@@ -1922,14 +1923,16 @@ line-height:1.2;
 }
 
 .mapSessionCompactName{
-  flex:1;
-  text-align:center;   /* 🔥 KEEP CENTER */
+  grid-column:2;        /* 🔥 FORCE CENTER COLUMN */
+  text-align:center;
   font-size:13px;
   line-height:1.2;
 }
 
 .mapDeleteMini{
-  margin-left:auto;
+  grid-column:3;        /* 🔥 RIGHT COLUMN */
+
+  justify-self:center;
 
   background:none;
   border:none;
