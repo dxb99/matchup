@@ -1953,6 +1953,27 @@ line-height:1.2;
   padding:0;
 }
 
+.mapDeleteMini{
+  background:none;
+  border:none;
+  color:#777;
+  font-size:12px;
+  cursor:pointer;
+
+  width:18px;
+  height:18px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  padding:0;
+}
+
+.mapDeleteMini:hover{
+  color:#ff4b4b;
+}
+
 .mapDeleteBtn:hover{
   color:#ff4b4b;
 }
