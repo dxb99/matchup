@@ -1899,7 +1899,7 @@ line-height:1.2;
   padding:6px 10px;
   font-size:14px;
   font-weight:bold;
-  text-align:left;   /* 🔥 LEFT ALIGN */
+  text-align:center;
   margin-bottom:6px;
   border-radius:6px;
 }
