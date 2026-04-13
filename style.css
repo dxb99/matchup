@@ -1843,7 +1843,7 @@ line-height:1.2;
 .mapMasterRow{
   padding:7px 10px;
   font-size:13px;
-  text-align:left;
+  text-align:center;   /* 🔥 CHANGED */
   border-bottom:1px solid #222;
   line-height:1.2;
   background:#111;
@@ -1896,12 +1896,13 @@ line-height:1.2;
 }
 
 .mapSessionSectionTitle{
-  padding:6px 10px;
-  font-size:14px;
+  padding:12px 14px;         /* 🔥 MATCH MASTER */
+  font-size:16px;            /* 🔥 MATCH MASTER */
   font-weight:bold;
   text-align:center;
-  margin-bottom:6px;
-  border-radius:6px;
+  margin-bottom:8px;
+
+  border-bottom:1px solid rgba(255,255,255,0.08);
 }
 
 .mapSessionList{
@@ -1922,7 +1923,7 @@ line-height:1.2;
 
 .mapSessionCompactName{
   flex:1;
-  text-align:center;
+  text-align:center;   /* 🔥 KEEP CENTER */
   font-size:13px;
   line-height:1.2;
 }
