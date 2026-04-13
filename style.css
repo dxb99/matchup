@@ -1920,7 +1920,7 @@ line-height:1.2;
 
 .mapSessionName{
   text-align:center;   /* ✅ KEEP CENTERED */
-  font-size:13px;      /* 🔥 SMALLER */
+  font-size:12px;      /* 🔥 SMALLER */
   line-height:1.3;
 
   width:100%;
