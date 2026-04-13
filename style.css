@@ -1814,8 +1814,8 @@ line-height:1.2;
   display:grid;
   grid-template-columns:380px 1fr;
   gap:24px;
-  align-items:start;
-  box-sizing:border-box;
+
+  align-items:start;   /* 🔥 THIS IS CRITICAL */
 }
 
 /* LEFT: MASTER MAP LIST */
@@ -1829,12 +1829,14 @@ line-height:1.2;
 }
 
 .completeMapHeader{
-  grid-column:1 / -1; /* 🔥 THIS FIXES YOUR LAYOUT */
+  grid-column:1 / -1;
   font-size:18px;
   font-weight:bold;
   margin:0 0 16px 0;
   text-align:center;
   letter-spacing:1px;
+
+  width:100%;              /* 🔥 FORCE SAME WIDTH */
 }
 
 .sessionMapsHeading{
@@ -1843,6 +1845,9 @@ line-height:1.2;
   margin:0 0 16px 0;
   text-align:center;
   letter-spacing:1px;
+
+  width:100%;              /* 🔥 MATCH RIGHT SIDE */
+  display:block;
 }
 
 .mapMasterColumn{
