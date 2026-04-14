@@ -1596,15 +1596,16 @@ async function loadSessionMaps(){
     return;
   }
 
-  renderSessionMaps(sessionData);
-
   const initialData = await api({
-    action:"getInitialData"
-  });
+  action:"getInitialData"
+});
 
-  if(initialData.ok && initialData.mapList){
-    renderMasterMapList(initialData.mapList);
-  }
+if(initialData.ok && initialData.mapList){
+  renderMasterMapList(initialData.mapList);
+}
+
+// 🔥 NOW render session AFTER master exists
+renderSessionMaps(sessionData);
 
   // 🔥 APPLY HIGHLIGHT AFTER LOAD
 setTimeout(()=>{
