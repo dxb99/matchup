@@ -1811,11 +1811,11 @@ line-height:1.2;
   width:100%;
   max-width:1400px;
 
-  margin:30px auto 0 auto; /* 🔥 more breathing room */
+  margin:0 auto 0 auto; /* 🔥 REMOVE TOP GAP */
 
   display:grid;
   grid-template-columns:330px 1fr;
-  gap:28px; /* 🔥 slightly wider spacing */
+  gap:28px;
 
   align-items:start;
 }
