@@ -1643,8 +1643,21 @@ function renderModeSessionList(containerId, maps, mode){
     const row = document.createElement("div");
     row.className = "mapSessionCompactRow";
 
+    const masterContainer = document.getElementById(mode + "MasterList");
+
+let masterIndex = "";
+
+if(masterContainer){
+  const masterRows = Array.from(masterContainer.querySelectorAll(".mapMasterRow"));
+  const foundIndex = masterRows.findIndex(row => row.innerText.trim() === mapName);
+  
+  if(foundIndex !== -1){
+    masterIndex = foundIndex + 1;
+  }
+}
+    
     row.innerHTML = `
-      <span class="mapSessionName" data-index="${index + 1}">
+      <span class="mapSessionName" data-index="${masterIndex}">
       ${mapName}
       </span>
       <button class="mapDeleteMini">✕</button>
