@@ -1873,7 +1873,7 @@ line-height:1.2;
   width:100%;
   display:block;
 
-  padding-bottom:14px; /* 🔥 THIS FIXES ALIGNMENT */
+  padding-bottom:20px; /* 🔥 increased for perfect alignment */
 }
 
 .mapMasterColumn{
