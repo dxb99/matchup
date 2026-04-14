@@ -1606,6 +1606,11 @@ async function loadSessionMaps(){
     renderMasterMapList(initialData.mapList);
   }
 
+  // 🔥 APPLY HIGHLIGHT AFTER LOAD
+setTimeout(()=>{
+  handleSessionHighlightUpdate();
+}, 100);
+
 }
 
 // 🔥 RENDER SESSION MAPS
