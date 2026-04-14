@@ -1824,7 +1824,7 @@ line-height:1.2;
 
 #mapMasterList{
   display:grid;
-  grid-template-columns:repeat(3, minmax(0, 1fr));
+  grid-template-columns:repeat(3, minmax(280px, 1fr));
   gap:24px;
 
   width:100%;
