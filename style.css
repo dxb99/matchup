@@ -1892,6 +1892,13 @@ line-height:1.2;
   background:#111;
 }
 
+/* 🔥 SHOW INDEX ON HOVER (MASTER LIST) */
+.mapMasterRow:hover::before{
+  content: attr(data-index) ". ";
+  color:#888;
+  margin-right:4px;
+}
+
 /* 🔥 LAST PLAYED MAP HIGHLIGHT */
 .mapMasterRow.lastPlayedMap{
   background:rgba(34,197,94,0.15);
@@ -2021,6 +2028,13 @@ line-height:1.2;
   white-space:nowrap;
   overflow:hidden;
   text-overflow:ellipsis;
+}
+
+/* 🔥 SHOW INDEX ON HOVER (SESSION LIST) */
+.mapSessionName:hover::before{
+  content: attr(data-index) ". ";
+  color:#888;
+  margin-right:4px;
 }
 
 .mapSessionEmpty{
