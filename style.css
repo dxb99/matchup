@@ -1938,9 +1938,6 @@ line-height:1.2;
   background:#111;
   border:1px solid #333;
   border-radius:10px;
-
-  padding:16px; /* 🔥 RESTORE THIS */
-
   box-shadow:0 0 12px rgba(0,0,0,0.4);
 }
 
