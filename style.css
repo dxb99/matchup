@@ -1861,11 +1861,13 @@ line-height:1.2;
 .sessionMapsHeading{
   font-size:18px;
   font-weight:bold;
-  margin:0 0 16px 0;
+
+  margin:0 0 10px 0; /* 🔥 tighter to card */
+
   text-align:center;
   letter-spacing:1px;
 
-  width:100%;              /* 🔥 MATCH RIGHT SIDE */
+  width:100%;
   display:block;
 }
 
@@ -1936,7 +1938,7 @@ line-height:1.2;
   border:1px solid #333;
   border-radius:12px;
 
-  padding:18px;
+  padding:0 18px 18px 18px;
 
   box-shadow:
     0 0 18px rgba(0,0,0,0.6),
