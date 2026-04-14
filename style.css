@@ -1970,13 +1970,15 @@ line-height:1.2;
 }
 
 .mapSessionSectionTitle{
-  padding:12px 14px;         /* 🔥 MATCH MASTER */
-  font-size:16px;            /* 🔥 MATCH MASTER */
+  padding:9px 12px;
+  font-size:15px;
   font-weight:bold;
   text-align:center;
   margin-bottom:8px;
 
   border-bottom:1px solid rgba(255,255,255,0.08);
+  border-top-left-radius:10px;
+  border-top-right-radius:10px;
 }
 
 .mapSessionList{
@@ -2051,11 +2053,14 @@ line-height:1.2;
 /* SHARED MODE HEADER LOOK */
 
 .mapModeHeader{
-  padding:12px 14px;
-  font-size:16px;
+  padding:9px 12px;
+  font-size:15px;
   font-weight:bold;
   text-align:center;
   border-bottom:1px solid rgba(255,255,255,0.08);
+
+  border-top-left-radius:10px;
+  border-top-right-radius:10px;
 }
 
 .eliminationHeader{
