@@ -1768,27 +1768,39 @@ function setupMapListButtons(){
     };
   }
 
-  if(copyBtn){
-    copyBtn.onclick = async () => {
+if(copyBtn){
+  copyBtn.onclick = async () => {
 
-      const res = await api({
-        action:"copySessionMaps"
-      });
+    const sessionCard = document.querySelector(".sessionMapsCard");
 
-      if(!res.ok){
-        alert(res.error || "Copy failed");
-        return;
-      }
+    if(!sessionCard){
+      alert("Session maps not found");
+      return;
+    }
+
+    // 🔥 capture as image
+    const canvas = await html2canvas(sessionCard, {
+      backgroundColor: null,
+      scale: 2
+    });
+
+    canvas.toBlob(async (blob) => {
 
       try{
-        await navigator.clipboard.writeText(res.text || "");
-        alert("Session maps copied");
-      }catch(e){
-        alert(res.text || "Copy failed");
+        await navigator.clipboard.write([
+          new ClipboardItem({ "image/png": blob })
+        ]);
+
+        alert("Session maps copied as image ✅");
+
+      }catch(err){
+        alert("Copy image failed. Your browser may not support it.");
       }
 
-    };
-  }
+    });
+
+  };
+}
 
 }
 
