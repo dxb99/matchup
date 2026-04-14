@@ -1773,6 +1773,10 @@ if(copyBtn){
 
     const sessionCard = document.querySelector(".sessionMapsCard");
 
+// 🔥 temporarily hide delete buttons
+const deleteBtns = sessionCard.querySelectorAll(".mapDeleteMini");
+deleteBtns.forEach(btn => btn.style.display = "none");
+
     if(!sessionCard){
       alert("Session maps not found");
       return;
@@ -1785,6 +1789,9 @@ if(copyBtn){
     });
 
     canvas.toBlob(async (blob) => {
+
+    // 🔥 restore delete buttons after capture
+    deleteBtns.forEach(btn => btn.style.display = "flex");
 
       try{
         await navigator.clipboard.write([
