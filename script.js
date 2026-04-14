@@ -1741,6 +1741,8 @@ function setupMapListButtons(){
 
       alert("Session progress saved");
 
+      handleSessionHighlightUpdate();
+
     };
   }
 
