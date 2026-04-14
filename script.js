@@ -1771,22 +1771,34 @@ function setupMapListButtons(){
 if(copyBtn){
   copyBtn.onclick = async () => {
 
-    const sessionCard = document.querySelector(".sessionMapsCard");
+const sessionCard = document.querySelector(".sessionMapsCard");
+
+if(!sessionCard){
+  alert("Session maps not found");
+  return;
+}
 
 // 🔥 temporarily hide delete buttons
 const deleteBtns = sessionCard.querySelectorAll(".mapDeleteMini");
 deleteBtns.forEach(btn => btn.style.display = "none");
 
-    if(!sessionCard){
-      alert("Session maps not found");
-      return;
-    }
+// 🔥 wrap in temp container for padding
+const wrapper = document.createElement("div");
+wrapper.style.padding = "30px";
+wrapper.style.background = "#0b0b0b"; // match your app background
+wrapper.style.display = "inline-block";
 
-    // 🔥 capture as image
-    const canvas = await html2canvas(sessionCard, {
-      backgroundColor: null,
-      scale: 2
-    });
+sessionCard.parentNode.insertBefore(wrapper, sessionCard);
+wrapper.appendChild(sessionCard);
+
+const canvas = await html2canvas(wrapper, {
+  backgroundColor: null,
+  scale: 2
+});
+
+// 🔥 move card back to original place
+wrapper.parentNode.insertBefore(sessionCard, wrapper);
+wrapper.remove();
 
     canvas.toBlob(async (blob) => {
 
