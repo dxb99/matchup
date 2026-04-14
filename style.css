@@ -1901,11 +1901,15 @@ line-height:1.2;
 
 /* 🔥 LAST PLAYED MAP HIGHLIGHT */
 .mapMasterRow.lastPlayedMap{
-  background:rgba(34,197,94,0.15);
+  background:rgba(34,197,94,0.12);
 
-  border:1px solid rgba(34,197,94,0.5);
+  border-left:3px solid #22c55e;
 
-  /* 🔥 removed glow */
+  /* 🔥 remove full border */
+  border-top:none;
+  border-right:none;
+  border-bottom:1px solid rgba(255,255,255,0.05);
+
   box-shadow:none;
 
   color:#22c55e;
