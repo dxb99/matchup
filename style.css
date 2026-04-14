@@ -1814,7 +1814,7 @@ line-height:1.2;
   margin:30px auto 0 auto;
 
   display:grid;
-  grid-template-columns:260px 1fr; /* 🔥 reduced to match right column */
+  grid-template-columns: repeat(4, 1fr); /* 🔥 PERFECT ALIGNMENT */
   gap:28px;
 
   align-items:start;
@@ -1824,11 +1824,14 @@ line-height:1.2;
 
 #mapMasterList{
   display:grid;
+
+  grid-column: span 3; /* 🔥 ADDED */
+
   grid-template-columns:repeat(3, minmax(0, 1fr));
   gap:18px;
 
   width:100%;
-  padding-top:0; /* 🔥 align with SESSION MAPS */
+  padding-top:0;
 }
 
 .completeMapHeader{
@@ -1935,6 +1938,8 @@ line-height:1.2;
   box-shadow:none;
 
   padding:0;
+
+  grid-column: span 1; /* 🔥 ADDED */
 }
 
 .mapSessionSection{
