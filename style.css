@@ -1979,6 +1979,10 @@ line-height:1.2;
   border-bottom:1px solid rgba(255,255,255,0.08);
   border-top-left-radius:10px;
   border-top-right-radius:10px;
+
+  /* 🔥 NEW (MATCH FIX) */
+  margin-left:-16px;
+  margin-right:-16px;
 }
 
 .mapSessionList{
@@ -2061,6 +2065,10 @@ line-height:1.2;
 
   border-top-left-radius:10px;
   border-top-right-radius:10px;
+
+  /* 🔥 NEW (EDGE-TO-EDGE FIX) */
+  margin-left:-16px;
+  margin-right:-16px;
 }
 
 .eliminationHeader{
