@@ -1672,13 +1672,13 @@ function renderUnifiedSessionMaps(data){
 
       if(!mapName) return;
 
-      const row = document.createElement("div");
-      row.className = "sessionUnifiedRow";
+     const row = document.createElement("div");
+     row.className = "mapMasterRow sessionUnifiedRow";
 
-      row.innerHTML = `
-        <span class="sessionUnifiedName">${mapName}</span>
-        <button class="mapDeleteMini">✕</button>
-      `;
+     row.innerHTML = `
+       <span class="sessionUnifiedName">${mapName}</span>
+       <button class="mapDeleteMini">✕</button>
+     `;
 
       row.querySelector(".mapDeleteMini").onclick = async () => {
 
