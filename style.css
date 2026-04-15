@@ -2115,10 +2115,35 @@ line-height:1.2;
 }
 
 /* 🔥 SHOW INDEX ON HOVER (SESSION LIST) */
-.mapSessionName:hover::before{
-  content: attr(data-index) ". ";
+.sessionUnifiedName{
+  position:relative; /* 🔥 needed for hover label */
+
+  text-align:center;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+
+  padding-left:24px;
+  display:block;
+}
+
+.sessionUnifiedName::before{
+  content: attr(data-index) ".";
+  position:absolute;
+
+  left:8px; /* 🔥 aligns number to left */
+  top:50%;
+  transform:translateY(-50%);
+
   color:#888;
-  margin-right:4px;
+  font-size:11px;
+
+  opacity:0; /* hidden by default */
+  transition:opacity 0.15s ease;
+}
+
+.sessionUnifiedRow:hover .sessionUnifiedName::before{
+  opacity:1; /* show on hover */
 }
 
 .mapSessionEmpty{
