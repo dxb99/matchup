@@ -1404,6 +1404,15 @@ results.push({
 
 }
 
+function getMatchKey(redTeam, blueTeam){
+
+  const redKey = redTeam.slice().sort().join("|");
+  const blueKey = blueTeam.slice().sort().join("|");
+
+  return redKey + "-" + blueKey;
+
+}
+
 function getCombinationsLocal(arr,size){
 
   const result = [];
