@@ -309,10 +309,7 @@ if(expiry <= now){
 }
 
 // 🔥 BUILD KEY FROM SERVER MATCH (ONLY IF NOT EXPIRED)
-const redKey = match.redTeam.slice().sort().join("|");
-const blueKey = match.blueTeam.slice().sort().join("|");
-
-currentMatchKeyFromServer = redKey + "-" + blueKey;
+currentMatchKeyFromServer = getMatchKey(match.redTeam, match.blueTeam);
 
 if(match.selectedAt !== lastMatchTimestamp){
 
