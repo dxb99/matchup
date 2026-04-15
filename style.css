@@ -1973,7 +1973,6 @@ line-height:1.2;
 /* Mode headers should be the same height as map rows */
 .sessionUnifiedHeader,
 .sessionUnifiedRow{
-  min-height:40px;
   box-sizing:border-box;
 }
 
@@ -1982,9 +1981,9 @@ line-height:1.2;
   align-items:center;
   justify-content:center;
 
-  height:40px; /* 🔥 MATCH ROW HEIGHT EXACTLY */
+  padding:7px 10px; /* 🔥 SAME AS ROWS */
 
-  font-size:13px;
+  font-size:13px; /* 🔥 SAME AS ROWS */
   font-weight:bold;
 
   border-bottom:1px solid rgba(255,255,255,0.08);
@@ -1999,10 +1998,12 @@ line-height:1.2;
   grid-template-columns:1fr 24px;
   align-items:center;
 
-  /* 🔥 REMOVE ALL HEIGHT CONTROL */
-  padding:0;
+  padding:7px 10px; /* 🔥 EXACT MATCH */
+  font-size:13px;
+  line-height:1.2;
 
-  background:transparent; /* let .mapMasterRow handle it */
+  border-bottom:1px solid #222;
+  background:#111;
 }
 
 .sessionUnifiedName{
