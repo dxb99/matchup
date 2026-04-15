@@ -2114,19 +2114,6 @@ line-height:1.2;
   text-overflow:ellipsis;
 }
 
-/* 🔥 SHOW INDEX ON HOVER (SESSION LIST) */
-.sessionUnifiedName{
-  position:relative; /* 🔥 needed for hover label */
-
-  text-align:center;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-
-  padding-left:24px;
-  display:block;
-}
-
 .mapSessionEmpty{
   text-align:left;
   flex:1;
