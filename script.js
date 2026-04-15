@@ -1674,6 +1674,8 @@ function renderUnifiedSessionMaps(data){
 
      const row = document.createElement("div");
      row.className = "mapMasterRow sessionUnifiedRow";
+      
+     row.setAttribute("data-index", index + 1);
 
      row.innerHTML = `
        <span class="sessionUnifiedName">${mapName}</span>
