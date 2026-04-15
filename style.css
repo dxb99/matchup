@@ -2135,10 +2135,12 @@ line-height:1.2;
 /* SHARED MODE HEADER LOOK */
 
 .mapModeHeader{
-  padding:9px 12px;
-  font-size:15px;
+  padding:7px 10px; /* 🔥 MATCH LEFT HEADER HEIGHT */
+
+  font-size:13px; /* 🔥 MATCH LEFT TEXT SIZE */
   font-weight:bold;
   text-align:center;
+
   border-bottom:1px solid rgba(255,255,255,0.08);
 
   border-top-left-radius:10px;
