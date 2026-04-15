@@ -618,12 +618,35 @@ setTimeout(async () => {
     matchHistory = historyData.history || [];
   }
 
-  // 🔥 UPDATE GENERATED MATCHUPS (so counts stay accurate)
-  const updatedMatchups = generateMatchupsLocal(lastSelectedPlayers, "all");
+// ✅ UPDATE PICK COUNTS WITHOUT REGENERATING
 
-  lastGeneratedMatchups = updatedMatchups;
-  updateGapCounts();
-  applyGapFilter();
+lastGeneratedMatchups.forEach(m => {
+
+  const redNames = m.redTeam.map(p=>p.name).sort().join(",");
+  const blueNames = m.blueTeam.map(p=>p.name).sort().join(",");
+
+  let count = 0;
+
+  matchHistory.forEach(h => {
+
+    const hRed = h.redTeam.split(", ").sort().join(",");
+    const hBlue = h.blueTeam.split(", ").sort().join(",");
+
+    if(
+      (hRed === redNames && hBlue === blueNames) ||
+      (hRed === blueNames && hBlue === redNames)
+    ){
+      count++;
+    }
+
+  });
+
+  m.pickCount = count;
+
+});
+
+updateGapCounts();
+applyGapFilter();  
 
   // 🔥 NOW GO TO MATCHUP TAB
   const matchupBtn = document.querySelector('.tabButton[onclick*="matchupTab"]');
