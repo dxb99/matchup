@@ -1959,6 +1959,68 @@ line-height:1.2;
   margin-bottom:18px;
 }
 
+/* 🔥 UNIFIED SESSION MAP CARD */
+
+#sessionMapsUnifiedCard{
+  width:100%;
+}
+
+#sessionMapsUnifiedRows{
+  display:flex;
+  flex-direction:column;
+}
+
+/* Mode headers should be the same height as map rows */
+.sessionUnifiedHeader,
+.sessionUnifiedRow{
+  min-height:40px;
+  box-sizing:border-box;
+}
+
+.sessionUnifiedHeader{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  padding:0 12px;
+
+  font-size:15px;
+  font-weight:bold;
+  text-align:center;
+
+  border-bottom:1px solid rgba(255,255,255,0.08);
+}
+
+.sessionUnifiedHeader:not(.firstHeader){
+  border-top:1px solid #222;
+}
+
+.sessionUnifiedRow{
+  display:grid;
+  grid-template-columns:1fr 24px;
+  align-items:center;
+
+  padding:0 10px;
+
+  font-size:13px;
+  border-bottom:1px solid #222;
+  background:#111;
+}
+
+.sessionUnifiedName{
+  text-align:center;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+
+  /* keeps text visually centered even with delete button on right */
+  padding-left:24px;
+}
+
+.sessionUnifiedRow:last-child{
+  border-bottom:none;
+}
+
 #sessionControls{
   margin-top:16px;
   display:flex;
