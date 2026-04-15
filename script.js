@@ -1405,6 +1405,28 @@ function getCombinationsLocal(arr,size){
 
 }
 
+function filterBlitzMatchups(matchups){
+
+  return matchups.filter(m => {
+
+    const small =
+      m.redTeam.length < m.blueTeam.length ? m.redTeam : m.blueTeam;
+
+    const large =
+      m.redTeam.length > m.blueTeam.length ? m.redTeam : m.blueTeam;
+
+    // ignore equal teams
+    if(m.redTeam.length === m.blueTeam.length) return false;
+
+    const smallSkill = small.reduce((s,p)=>s+p.skill,0);
+    const largeSkill = large.reduce((s,p)=>s+p.skill,0);
+
+    return smallSkill > largeSkill;
+
+  });
+
+}
+
 function applyGapFilter(){
 
   const filter = document.querySelector('input[name="gapFilter"]:checked').value;
@@ -1422,25 +1444,7 @@ function applyGapFilter(){
 /* 🔥 BLITZ FILTER (ONLY SHOW ADVANTAGED SMALL TEAM) */
 
 if(blitzEnabled){
-
-  filtered = filtered.filter(m => {
-
-    const small =
-      m.redTeam.length < m.blueTeam.length ? m.redTeam : m.blueTeam;
-
-    const large =
-      m.redTeam.length > m.blueTeam.length ? m.redTeam : m.blueTeam;
-
-    /* if equal teams, ignore */
-    if(m.redTeam.length === m.blueTeam.length) return false;
-
-    const smallSkill = small.reduce((s,p)=>s+p.skill,0);
-    const largeSkill = large.reduce((s,p)=>s+p.skill,0);
-
-    return smallSkill > largeSkill;
-
-  });
-
+  filtered = filterBlitzMatchups(filtered);
 }
 
 /* Restore normal sorting when BLITZ is OFF */
@@ -1471,24 +1475,7 @@ function updateGapCounts(){
 let source = lastGeneratedMatchups;
 
 if(blitzEnabled){
-
-  source = lastGeneratedMatchups.filter(m => {
-
-    const small =
-      m.redTeam.length < m.blueTeam.length ? m.redTeam : m.blueTeam;
-
-    const large =
-      m.redTeam.length > m.blueTeam.length ? m.redTeam : m.blueTeam;
-
-    if(m.redTeam.length === m.blueTeam.length) return false;
-
-    const smallSkill = small.reduce((s,p)=>s+p.skill,0);
-    const largeSkill = large.reduce((s,p)=>s+p.skill,0);
-
-    return smallSkill > largeSkill;
-
-  });
-
+  source = filterBlitzMatchups(lastGeneratedMatchups);
 }
 
 const counts = {
