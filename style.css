@@ -1894,19 +1894,35 @@ line-height:1.2;
 }
 
 .mapMasterRow{
+  display:flex;               /* 🔥 ADD */
+  align-items:center;         /* 🔥 ADD */
+  justify-content:center;     /* 🔥 ADD */
+
   padding:7px 10px;
   font-size:13px;
-  text-align:center;   /* 🔥 CHANGED */
+
   border-bottom:1px solid #222;
   line-height:1.2;
   background:#111;
+
+  position:relative;          /* 🔥 ADD */
 }
 
-/* 🔥 SHOW INDEX ON HOVER (MASTER LIST) */
-#mapMasterList .mapMasterColumn .mapMasterRow:hover::before{
-  content: attr(data-index) ". ";
+.mapMasterRow::before{
+  content: attr(data-index) ".";
+  
+  position:absolute;
+  left:10px;
+
   color:#888;
-  margin-right:4px;
+  font-size:11px;
+
+  opacity:0;
+  transition:opacity 0.15s ease;
+}
+
+.mapMasterRow:hover::before{
+  opacity:1;
 }
 
 /* 🔥 LAST PLAYED MAP HIGHLIGHT */
