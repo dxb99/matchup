@@ -1876,18 +1876,16 @@ line-height:1.2;
 }
 
 .sessionSubtext{
-  position:absolute;
-  left:50%;
-  top:100%;
-  transform:translateX(-50%);
-
-  margin-top:2px;
-
   font-size:11px;
   font-weight:400;
   color:#888;
   letter-spacing:0.5px;
   white-space:nowrap;
+
+  text-align:center;
+
+  margin-top:-6px;   /* 🔥 pull it UP */
+  margin-bottom:14px;
 
   cursor:pointer;
   transition:all 0.15s ease;
@@ -1909,7 +1907,7 @@ line-height:1.2;
   width:100%;
   display:block;
 
-  padding-bottom:25px; /* 🔥 increased for perfect alignment */
+  padding-bottom:18px;
 
   position:relative;
 }
