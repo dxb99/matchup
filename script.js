@@ -1926,7 +1926,7 @@ function setupMapListButtons(){
 if(copyBtn){
   copyBtn.onclick = async () => {
 
-const sessionCard = document.getElementById("sessionMapsContainer");
+const sessionCard = document.getElementById("sessionCaptureArea");
 
 if(!sessionCard){
   alert("Session maps not found");
