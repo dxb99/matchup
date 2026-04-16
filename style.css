@@ -1085,13 +1085,21 @@ font-weight:600;
 
 /* ADMIN */
 
+#adminTable{
+  margin:0 auto; /* 🔥 CENTER TABLE */
+}
+
 #adminTable td,
 #adminTable th{
-
   padding:8px;
   font-size:13px;
   line-height:1.3;
+  text-align:center; /* 🔥 CENTER TEXT */
+}
 
+#adminTable td{
+  text-align:center;
+  vertical-align:middle;
 }
 
 .status-active{
