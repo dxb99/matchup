@@ -69,8 +69,6 @@ blitzToggle.addEventListener("change", () => {
 
 /* 🔥 MATCH MAKER CYCLER */
 
-/* 🔥 MATCH MAKER CYCLER (CSS VERSION) */
-
 const matchMakers = [
   "Arshad",
   "Basith",
@@ -80,35 +78,6 @@ const matchMakers = [
   "Sameer"
 ];
 
-let currentMakerIndex = 0;
-
-const header = document.querySelector(".sessionMapsHeading");
-
-if(header){
-
-  // 🔥 initial set
-  header.style.setProperty(
-    "--match-maker-text",
-    `"Match Maker: ${matchMakers[currentMakerIndex]}"`
-  );
-
-  // 🔥 click to cycle
-  header.addEventListener("click", () => {
-
-    currentMakerIndex++;
-
-    if(currentMakerIndex >= matchMakers.length){
-      currentMakerIndex = 0;
-    }
-
-    header.style.setProperty(
-      "--match-maker-text",
-      `"Match Maker: ${matchMakers[currentMakerIndex]}"`
-    );
-
-  });
-
-}
 let currentMakerIndex = 0;
 
 const cycleEl = document.getElementById("matchMakerCycle");
@@ -1972,7 +1941,6 @@ deleteBtns.forEach(btn => btn.style.display = "none");
 const wrapper = document.createElement("div");
 wrapper.style.padding = "30px";
 wrapper.style.background = "#000";
-wrapper.style.borderRadius = "12px";
 
 /* 🔥 FIX WIDTH */
 wrapper.style.width = sessionCard.offsetWidth + "px";
