@@ -2077,8 +2077,12 @@ line-height:1.2;
   flex-direction:column;
   gap:14px;
 
-  width:100%;              /* 🔥 match card width */
-  max-width:380px;         /* 🔥 same as left column */
+  width:100%;
+  max-width:380px;
+}
+
+#sessionControls .btn{
+  width:100%;
 }
 
 #sessionControls .btn{
@@ -2227,12 +2231,29 @@ line-height:1.2;
     margin:0 auto;
   }
 
+  #sessionCaptureArea{
+  width:100%;
+}
+
+#sessionMapsUnifiedCard{
+  width:100%;
+}
+
 .sessionMapsHeading{
   font-size:18px;
   font-weight:bold;
   margin:0 0 16px 0;
   text-align:center;
   letter-spacing:1px;
+}
+
+#sessionControls{
+  width:100%;
+  max-width:100%;
+}
+
+#sessionControls .btn{
+  width:100%;
 }
 
 }
