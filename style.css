@@ -1085,6 +1085,11 @@ font-weight:600;
 
 /* ADMIN */
 
+#adminTable{
+  margin: 0 auto;        /* 🔥 centers the table */
+  width: auto;           /* keeps it tight instead of full width */
+}
+
 #adminTable td,
 #adminTable th{
 
