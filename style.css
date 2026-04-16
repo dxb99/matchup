@@ -1731,8 +1731,8 @@ line-height:1.2;
 /* 🔥 HISTORY TABLE STYLE */
 
 #historyTable {
-  width: 95%;
-  margin: 20px auto;
+  width: auto;            /* 🔥 THIS is the key change */
+  margin: 20px auto;      /* keeps it centered */
   border-collapse: collapse;
   font-size: 14px;
 }
