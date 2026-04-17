@@ -108,8 +108,6 @@ document.addEventListener("click", (e) => {
 
 });
 
-}
-  
 });
 
 async function api(data){
