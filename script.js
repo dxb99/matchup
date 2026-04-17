@@ -76,6 +76,7 @@ blitzToggle.addEventListener("change", () => {
 /* 🔥 MATCH MAKER CYCLER */
 
 const matchMakers = [
+  "Not Selected",
   "Arshad",
   "Basith",
   "Bijo",
