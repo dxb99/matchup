@@ -1997,7 +1997,14 @@ wrapper.appendChild(sessionCard);
 
 const canvas = await html2canvas(wrapper, {
   backgroundColor: null,
-  scale: 2
+
+  scale: window.devicePixelRatio * 2, // 🔥 SUPER SHARP
+
+  useCORS: true, // 🔥 fixes font/image rendering
+  allowTaint: true,
+
+  width: wrapper.offsetWidth,
+  height: wrapper.offsetHeight
 });
 
 // 🔥 move card back to original place
