@@ -1989,10 +1989,25 @@ wrapper.style.background = "#000";
 wrapper.style.borderRadius = "12px"; // 🔥 ADD THIS
     
 /* 🔥 FIX WIDTH */
-wrapper.style.width = sessionCard.offsetWidth + "px";
+wrapper.style.width = "800px";
 wrapper.style.display = "block";
 
 sessionCard.parentNode.insertBefore(wrapper, sessionCard);
+sessionCard.style.transform = "scale(1.4)";
+sessionCard.style.transformOrigin = "top center";
+    
+// 🔥 ADD TITLE
+const title = document.createElement("div");
+
+title.innerText = "DXB99 SESSION MAPS";
+title.style.color = "#ffffff";
+title.style.fontSize = "28px";
+title.style.fontWeight = "700";
+title.style.textAlign = "center";
+title.style.marginBottom = "20px";
+
+wrapper.appendChild(title);
+    
 wrapper.appendChild(sessionCard);
 
 const canvas = await html2canvas(wrapper, {
