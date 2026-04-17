@@ -1700,7 +1700,7 @@ const matchupContainer = document.getElementById("matchupSessionMaps");
 
 if(matchupContainer){
 
-  const source = document.getElementById("sessionMapsUnifiedCard");
+  const source = document.getElementById("sessionCaptureArea");
 
   if(source){
     matchupContainer.innerHTML = source.outerHTML;
