@@ -1989,8 +1989,13 @@ wrapper.style.background = "#000";
 wrapper.style.borderRadius = "12px"; // 🔥 ADD THIS
     
 /* 🔥 FIX WIDTH */
-wrapper.style.width = sessionCard.offsetWidth + "px";
-wrapper.style.display = "block";
+/* 🔥 FORCE DISCORD FRIENDLY WIDTH */
+wrapper.style.width = "900px";
+wrapper.style.display = "flex";
+wrapper.style.justifyContent = "center";
+
+/* 🔥 ADD VERTICAL SPACE */
+wrapper.style.padding = "40px 0";
 
 sessionCard.parentNode.insertBefore(wrapper, sessionCard);
 wrapper.appendChild(sessionCard);
