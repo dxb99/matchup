@@ -635,7 +635,12 @@ overlay.querySelector(".generatingText").innerHTML = "SAVED ✓";
 // 🔥 LOAD EVERYTHING IN PARALLEL (FAST)
 await Promise.all([
   loadInitialData(),
-  loadSessionMaps()
+  loadSessionMaps(),
+  api({ action: "getHistory" }).then(res => {
+    if(res.ok){
+      matchHistory = res.history || [];
+    }
+  })
 ]);
   
   // 🔥 NOW SWITCH TAB (READY STATE)
