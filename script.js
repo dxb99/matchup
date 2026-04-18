@@ -23,9 +23,13 @@ window.addEventListener("load", async () => {
 sessionStorage.removeItem("selectedMatchMaker");
 sessionStorage.removeItem("selectedPlayers");
 
-  try {
+try {
 
-    await loadInitialData();
+  // 🔥 LOAD MAPS FIRST (CRITICAL)
+  await loadSessionMaps();
+
+  // 🔥 THEN LOAD MATCH DATA
+  await loadInitialData();
 
 /* 🔥 HIDE BLITZ ON LOAD */
 
@@ -33,9 +37,6 @@ const blitzContainer = document.querySelector(".blitzToggle");
 if(blitzContainer){
   blitzContainer.style.display = "none";
 }
-
-// 🔥 WAIT UNTIL SESSION MAPS ACTUALLY EXIST IN DOM
-await waitForMapsReady();
 
 document.getElementById("loadingScreen").style.display = "none";
 document.getElementById("app").classList.remove("hidden");
