@@ -1347,6 +1347,16 @@ if(data.ok){
     ? getMatchKey(newMatch.redTeam, newMatch.blueTeam)
     : null;
 
+// 🔥 HANDLE NULL MATCH ONLY IF STATE CHANGED
+if(!newMatch && currentMatchKeyFromServer !== null){
+  renderMatchup(null);
+  currentMatchKeyFromServer = null;
+
+  await loadSessionMaps();
+  return;
+}
+
+// 🔥 ONLY UPDATE IF MATCH CHANGED
 if(newKey !== currentMatchKeyFromServer){
   renderMatchup(newMatch);
 
