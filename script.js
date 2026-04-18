@@ -673,9 +673,11 @@ function startCountdown(expiry){
   clearInterval(countdownTimer);
 }
 
-  const el=document.getElementById("matchCountdown");
+  const el = document.getElementById("matchCountdownInline");
 
   countdownTimer = setInterval(()=>{
+
+  if(!el) return;
 
     const now=new Date();
 
@@ -698,7 +700,7 @@ function startCountdown(expiry){
     const mins=Math.floor((diff%3600000)/60000);
     const secs=Math.floor((diff%60000)/1000);
 
-    el.innerHTML=`MATCHUP EXPIRES IN ${hours}:${mins}:${secs}`;
+    el.innerHTML = `Expires in: ${hours}:${mins}:${secs}`;
 
   },1000);
 
