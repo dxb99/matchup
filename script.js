@@ -1331,11 +1331,20 @@ function startMatchAutoRefresh(){
         action:"getInitialData"
       });
 
-      if(data.ok){
+if(data.ok){
 
-        renderMatchup(data.currentMatchup);
+  const newMatch = data.currentMatchup;
 
-      }
+  // 🔥 only re-render if match actually changed
+  const newKey = newMatch
+    ? getMatchKey(newMatch.redTeam, newMatch.blueTeam)
+    : null;
+
+  if(newKey !== currentMatchKeyFromServer){
+    renderMatchup(newMatch);
+  }
+
+}
 
     }catch(e){
 
