@@ -34,13 +34,11 @@ if(blitzContainer){
   blitzContainer.style.display = "none";
 }
 
-// 🔥 SMALL DELAY TO ENSURE DOM FULLY RENDERS
-setTimeout(() => {
+// 🔥 WAIT UNTIL SESSION MAPS ACTUALLY EXIST IN DOM
+await waitForMapsReady();
 
-  document.getElementById("loadingScreen").style.display = "none";
-  document.getElementById("app").classList.remove("hidden");
-
-}, 1000);
+document.getElementById("loadingScreen").style.display = "none";
+document.getElementById("app").classList.remove("hidden");
 
 /* 🔥 FORCE SCROLL TO TOP ON LOAD */
 window.scrollTo({
@@ -1262,6 +1260,28 @@ function formatDate(date){
   const d = new Date(date);
 
   return d.toLocaleString();
+
+}
+
+async function waitForMapsReady(){
+
+  return new Promise(resolve => {
+
+    const interval = setInterval(() => {
+
+      const maps = document.querySelector("#sessionMapsUnifiedCard");
+
+      // 🔥 check if maps exist AND have content
+      if(maps && maps.innerHTML.trim() !== ""){
+
+        clearInterval(interval);
+        resolve();
+
+      }
+
+    }, 50); // check every 50ms
+
+  });
 
 }
 
