@@ -1689,11 +1689,16 @@ const source = document.getElementById("sessionCaptureArea");
 
 if(source){
 
-  // 🔥 CLONE (not direct copy)
   const clone = source.cloneNode(true);
 
   // 🔥 REMOVE DELETE BUTTONS
   clone.querySelectorAll(".mapDeleteMini").forEach(btn => btn.remove());
+
+  // 🔥 REMOVE MATCH MAKER TEXT FOR MATCHUP CARD
+  const makerEl = clone.querySelector("#matchMakerCycle");
+  if(makerEl){
+    makerEl.remove();
+  }
 
   // 🔥 REMOVE DUPLICATE ID (VERY IMPORTANT)
   clone.removeAttribute("id");
