@@ -671,6 +671,9 @@ applyGapFilter();
   // 🔥 REFRESH CURRENT MATCH DISPLAY
   await loadInitialData();
 
+  // 🔥 FORCE RELOAD SESSION MAPS INTO CARD
+  await loadSessionMaps();
+
 }, 1000);
 
 }
