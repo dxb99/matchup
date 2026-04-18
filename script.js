@@ -601,7 +601,7 @@ overlay.querySelector(".generatingText").innerHTML = "SAVED ✓";
 
 /* WAIT 1 SECOND THEN REDIRECT */
 
-setTimeout(async () => {
+;setTimeout(async () => {
 
   // 🔥 UPDATE COUNTS BEFORE SWITCH
   lastGeneratedMatchups.forEach(m => {
