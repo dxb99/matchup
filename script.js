@@ -157,13 +157,6 @@ if(lastGeneratedMatchups.length === 0){
 
 renderMatchup(data.currentMatchup);
 
-/* LOAD MATCH HISTORY */
-
-const historyData = await api({action:"getHistory"});
-if(historyData.ok){
-  matchHistory = historyData.history || [];
-}
-
 }
 
 function populatePlayers(players){
@@ -610,14 +603,6 @@ overlay.querySelector(".generatingText").innerHTML = "SAVED ✓";
 
 setTimeout(async () => {
 
-  // 🔥 KEEP OVERLAY VISIBLE WHILE LOADING
-
-  // 🔥 REFRESH HISTORY
-  const historyData = await api({ action: "getHistory" });
-  if(historyData.ok){
-    matchHistory = historyData.history || [];
-  }
-
   // 🔥 UPDATE COUNTS BEFORE SWITCH
   lastGeneratedMatchups.forEach(m => {
 
@@ -647,10 +632,12 @@ setTimeout(async () => {
   updateGapCounts();
   applyGapFilter();
 
-  // 🔥 LOAD EVERYTHING FIRST
-  await loadInitialData();
-  await loadSessionMaps();
-
+// 🔥 LOAD EVERYTHING IN PARALLEL (FAST)
+await Promise.all([
+  loadInitialData(),
+  loadSessionMaps()
+]);
+  
   // 🔥 NOW SWITCH TAB (READY STATE)
   const matchupBtn = document.querySelector('.tabButton[onclick*="matchupTab"]');
   showTab("matchupTab", matchupBtn);
@@ -658,7 +645,7 @@ setTimeout(async () => {
   // 🔥 NOW HIDE OVERLAY LAST
   document.getElementById("savingMatchOverlay").style.display = "none";
 
-}, 1000);
+})();
 
 }
 
@@ -1287,7 +1274,7 @@ overlay.querySelector("div:last-child").innerHTML = "CLEARED & SESSION RESET ✓
 
 /* WAIT THEN RESET UI */
 
-setTimeout(async () => {
+(async () => {
 
   overlay.style.display = "none";
 
