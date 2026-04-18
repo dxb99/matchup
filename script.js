@@ -1264,28 +1264,6 @@ function formatDate(date){
 
 }
 
-async function waitForMapsReady(){
-
-  return new Promise(resolve => {
-
-    const interval = setInterval(() => {
-
-      const maps = document.querySelector("#sessionMapsUnifiedCard");
-
-      // 🔥 check if maps exist AND have content
-      if(maps && maps.innerHTML.trim() !== ""){
-
-        clearInterval(interval);
-        resolve();
-
-      }
-
-    }, 50); // check every 50ms
-
-  });
-
-}
-
 function getSessionMapsHTML(){
 
   const source = document.getElementById("sessionMapsUnifiedCard");
@@ -1293,9 +1271,6 @@ function getSessionMapsHTML(){
   if(!source) return "";
 
   const clone = source.cloneNode(true);
-
-  // 🔥 remove delete buttons
-  clone.querySelectorAll(".mapDeleteMini").forEach(btn => btn.remove());
 
   // 🔥 remove ID
   clone.removeAttribute("id");
