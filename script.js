@@ -16,7 +16,6 @@ let currentHistorySort = {
   key: "date",
   direction: "desc"
 };
-let armedMatchKey = null; // 🔥 tracks first click before confirm
 
 window.addEventListener("load", async () => {
 
@@ -440,8 +439,6 @@ function renderGeneratedMatchups(matchups){
 
   const container=document.getElementById("generatedMatchups");
 
-  armedMatchKey = null; // 🔥 reset when rendering new matchups
-
   container.innerHTML="";
 
   matchups.forEach(m=>{
@@ -587,15 +584,13 @@ const data = await api({
 currentMatchKeyFromServer = key; // 🔥 FORCE SYNC IMMEDIATELY
 
 document.querySelectorAll(".matchOption").forEach(card=>{
-  card.classList.remove("armedCard");
   card.classList.remove("selectedCard");
 });
 
 document.querySelectorAll(".selectMatch").forEach(b=>{
   b.classList.remove("selected");
-  b.classList.remove("confirming"); // 🔥 ADD
   b.innerText = "CLICK TO SELECT";
-  b.disabled = false; // 🔥 reset disabled state
+  b.disabled = false;
   b.style.cursor = "pointer";
 });
 
