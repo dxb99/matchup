@@ -340,12 +340,6 @@ el.innerHTML = `
       startCountdown(expiry);
     }
   }
-
-// 🔥 ALWAYS RE-INJECT SESSION MAPS AFTER RENDER
-setTimeout(() => {
-  loadSessionMaps();
-}, 0);
-  
 }
 
 document.getElementById("generateButton").onclick = generateMatchups;
