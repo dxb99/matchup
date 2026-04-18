@@ -1700,28 +1700,28 @@ function renderSessionMaps(data){
   // Render new visible single-card layout
   renderUnifiedSessionMaps(data);
 
-// 🔥 ALSO RENDER INTO MATCHUP TAB
+// 🔥 ALSO RENDER INTO MATCHUP TAB (CLEAN VERSION)
 const matchupContainer = document.getElementById("matchupSessionMapsInline");
 
 if(matchupContainer){
 
-const source = document.getElementById("sessionCaptureArea");
+  const source = document.getElementById("sessionMapsUnifiedCard");
 
-if(source){
+  if(source){
 
-  // 🔥 CLONE (not direct copy)
-  const clone = source.cloneNode(true);
+    // 🔥 CLONE ONLY THE CLEAN MAP CARD
+    const clone = source.cloneNode(true);
 
-  // 🔥 REMOVE DELETE BUTTONS
-  clone.querySelectorAll(".mapDeleteMini").forEach(btn => btn.remove());
+    // 🔥 REMOVE DELETE BUTTONS
+    clone.querySelectorAll(".mapDeleteMini").forEach(btn => btn.remove());
 
-  // 🔥 REMOVE DUPLICATE ID (VERY IMPORTANT)
-  clone.removeAttribute("id");
+    // 🔥 REMOVE ID TO AVOID DUPLICATES
+    clone.removeAttribute("id");
 
-  matchupContainer.innerHTML = "";
-  matchupContainer.appendChild(clone);
+    matchupContainer.innerHTML = "";
+    matchupContainer.appendChild(clone);
 
-}
+  }
 
 }
 
