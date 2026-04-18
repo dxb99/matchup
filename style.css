@@ -953,6 +953,10 @@ transform:none;
 
 }
 
+.unifiedMatchCard .mapDeleteMini{
+  display:none !important;
+}
+
 .matchHeader{
   font-size:18px;
   margin-bottom:15px;
