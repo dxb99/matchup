@@ -645,7 +645,7 @@ await Promise.all([
   // 🔥 NOW HIDE OVERLAY LAST
   document.getElementById("savingMatchOverlay").style.display = "none";
 
-})();
+}, 1000);
 
 }
 
