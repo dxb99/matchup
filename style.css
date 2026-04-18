@@ -922,6 +922,22 @@ transform:none;
   width:clamp(320px, 90%, 650px);
   margin:20px auto;
   box-shadow:0 0 15px rgba(0,0,0,0.6);
+
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+
+.matchDivider{
+  width:100%;
+  height:1px;
+  background:linear-gradient(
+    to right,
+    transparent,
+    rgba(255,255,255,0.2),
+    transparent
+  );
+  margin:6px 0;
 }
 
 .matchHeader{
@@ -1007,9 +1023,9 @@ transform:none;
 }
 
 .matchFooter{
-  margin-top:15px;
+  margin-top:8px;
   font-size:14px;
-  }
+}
 
 /* HISTORY */
 
