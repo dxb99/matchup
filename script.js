@@ -325,7 +325,7 @@ el.innerHTML = `
 
   <div class="sessionMapsHeader">SESSION MAPS</div>
 
-  <div id="matchupSessionMapsInline"></div>
+  ${getSessionMapsHTML()}
 
 </div>
 
@@ -1258,6 +1258,23 @@ function formatDate(date){
 
   return d.toLocaleString();
 
+}
+
+function getSessionMapsHTML(){
+
+  const source = document.getElementById("sessionMapsUnifiedCard");
+
+  if(!source) return "";
+
+  const clone = source.cloneNode(true);
+
+  // 🔥 remove delete buttons
+  clone.querySelectorAll(".mapDeleteMini").forEach(btn => btn.remove());
+
+  // 🔥 remove ID
+  clone.removeAttribute("id");
+
+  return clone.outerHTML;
 }
 
 document.getElementById("clearHistoryBtn").onclick = clearHistory;
