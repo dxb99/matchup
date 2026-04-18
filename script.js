@@ -34,8 +34,13 @@ if(blitzContainer){
   blitzContainer.style.display = "none";
 }
 
-    document.getElementById("loadingScreen").style.display = "none";
-    document.getElementById("app").classList.remove("hidden");
+// 🔥 SMALL DELAY TO ENSURE DOM FULLY RENDERS
+setTimeout(() => {
+
+  document.getElementById("loadingScreen").style.display = "none";
+  document.getElementById("app").classList.remove("hidden");
+
+}, 200);
 
 /* 🔥 FORCE SCROLL TO TOP ON LOAD */
 window.scrollTo({
