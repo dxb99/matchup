@@ -2397,7 +2397,7 @@ history.forEach(match => {
 row.innerHTML = `
   <td>
     <span class="expandIcon">▶</span>
-    ${formatDate(match.selectedAt)}
+    ${match.selectedAtDisplay || formatDate(match.selectedAt)}
   </td>
   <td>${match.MID ? "MID_" + String(match.MID).replace("MID_","").padStart(4,"0") : "----"}</td>
   <td>${match.matchMaker}</td>
