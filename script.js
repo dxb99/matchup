@@ -112,10 +112,22 @@ let pass = await showModal(
 // ❌ user cancelled
 if(!pass) return null;
 
-const test = await api({
-  action:"verifyAdminPassword",
-  password: pass
-});
+showBusy("VERIFYING PASSWORD");
+
+let test = null;
+
+try{
+
+  test = await api({
+    action:"verifyAdminPassword",
+    password: pass
+  });
+
+}finally{
+
+  hideBusy();
+
+}
 
 if(test && test.ok){
   sessionStorage.setItem("adminPass", pass);
@@ -1062,6 +1074,10 @@ if(mapMaker){
 
     const selectedName = this.value;
 
+    showBusy("SAVING MATCH MAKER");
+
+    try{
+
     const res = await api({
       action:"saveGlobalMapMatchMaker",
       matchMaker: selectedName
@@ -1075,6 +1091,12 @@ if(mapMaker){
     globalMapMatchMaker = res.matchMaker || "";
 
     renderUpcomingSessionCard(getActiveSessionMaps());
+
+    }finally{
+
+      hideBusy();
+
+    }
 
   };
 
@@ -1405,6 +1427,8 @@ async function setupRatingSheets(){
   const pass = await getAdminPassword();
   if(!pass) return;
 
+  showBusy("SETTING UP RATINGS");
+
   try{
 
     const res = await api({
@@ -1425,6 +1449,10 @@ async function setupRatingSheets(){
   }catch(err){
 
     showModal("Rating sheet setup is not connected in this deployed version yet.", "alert");
+
+  }finally{
+
+    hideBusy();
 
   }
 
@@ -1449,6 +1477,8 @@ async function toggleManualVotingWindow(){
   const confirmed = await showModal(message, "confirm");
   if(!confirmed) return;
 
+  showBusy("UPDATING VOTING");
+
   try{
 
     const res = await api({
@@ -1472,6 +1502,10 @@ async function toggleManualVotingWindow(){
 
     showModal("Manual voting control is not connected in this deployed version yet.", "alert");
 
+  }finally{
+
+    hideBusy();
+
   }
 
 }
@@ -1492,6 +1526,8 @@ async function applyRatingsToPlayers(){
 
   const pass = await getAdminPassword();
   if(!pass) return;
+
+  showBusy("APPLYING RATINGS");
 
   try{
 
@@ -1517,6 +1553,10 @@ async function applyRatingsToPlayers(){
   }catch(err){
 
     showModal("Apply ratings is not connected in this deployed version yet.", "alert");
+
+  }finally{
+
+    hideBusy();
 
   }
 
@@ -1573,6 +1613,8 @@ async function addRatingsPlayer(){
     return;
   }
 
+  showBusy("ADDING PLAYER");
+
   try{
 
     const res = await api({
@@ -1596,6 +1638,10 @@ async function addRatingsPlayer(){
   }catch(err){
 
     showModal("Add player is not connected in this deployed version yet.", "alert");
+
+  }finally{
+
+    hideBusy();
 
   }
 
@@ -1623,6 +1669,8 @@ async function removeRatingsPlayer(){
 
   if(!name) return;
 
+  showBusy("REMOVING PLAYER");
+
   try{
 
     const res = await api({
@@ -1645,6 +1693,10 @@ async function removeRatingsPlayer(){
   }catch(err){
 
     showModal("Remove player is not connected in this deployed version yet.", "alert");
+
+  }finally{
+
+    hideBusy();
 
   }
 
@@ -2333,6 +2385,8 @@ async function openHistoryTab(btn){
   });
 
   if(!data.ok){
+
+    document.getElementById("historyLoadingOverlay").style.display = "none";
 
     showModal("Could not load history", "alert");
     return;
@@ -3368,6 +3422,10 @@ row.querySelector(".mapDeleteMini").onclick = async () => {
   const pass = await getAdminPassword();
   if(!pass) return;
 
+  showBusy("DELETING MAP");
+
+  try{
+
   const res = await api({
     action:"deleteSessionMap",
     mode: section.mode,
@@ -3389,6 +3447,12 @@ row.querySelector(".mapDeleteMini").onclick = async () => {
   setTimeout(()=>{
     handleSessionHighlightUpdate();
   }, 50);
+
+  }finally{
+
+    hideBusy();
+
+  }
 
 };
       
@@ -3451,6 +3515,10 @@ row.querySelector(".mapDeleteMini").onclick = async () => {
   const pass = await getAdminPassword();
   if(!pass) return;
 
+  showBusy("DELETING MAP");
+
+  try{
+
   const res = await api({
     action:"deleteSessionMap",
     mode: mode,
@@ -3472,6 +3540,12 @@ row.querySelector(".mapDeleteMini").onclick = async () => {
   setTimeout(()=>{
     handleSessionHighlightUpdate();
   }, 50);
+
+  }finally{
+
+    hideBusy();
+
+  }
 
 };
     
@@ -3547,6 +3621,10 @@ if(generateBtn){
 const pass = await getAdminPassword();
 if(!pass) return;
 
+    showBusy("GENERATING SESSION MAPS");
+
+    try{
+
     const res = await api({
       action:"generateSessionMaps",
       password: pass
@@ -3567,6 +3645,12 @@ setTimeout(()=>{
   handleSessionHighlightUpdate();
 }, 50);
 
+    }finally{
+
+      hideBusy();
+
+    }
+
   };
 }
 
@@ -3580,6 +3664,10 @@ saveBtn.onclick = async () => {
 
   const pass = await getAdminPassword();
   if(!pass) return;
+
+  showBusy("SAVING SESSION PROGRESS");
+
+  try{
 
   const res = await api({
     action:"saveSessionProgress",
@@ -3598,6 +3686,12 @@ saveBtn.onclick = async () => {
   showModal("Session progress saved", "alert");
 
   handleSessionHighlightUpdate();
+
+  }finally{
+
+    hideBusy();
+
+  }
 
 };
 }
@@ -3627,6 +3721,10 @@ if(clearSessionBtn){
     const pass = await getAdminPassword();
     if(!pass) return;
 
+    showBusy("CLEARING SESSION MAPS");
+
+    try{
+
     const res = await api({
       action:"clearSessionMaps",
       password: pass
@@ -3644,6 +3742,12 @@ if(clearSessionBtn){
     renderAllSessionViews();
 
     showModal("Session maps cleared", "alert");
+
+    }finally{
+
+      hideBusy();
+
+    }
 
   };
 }
@@ -3678,6 +3782,10 @@ if(saveCustomBtn){
     const pass = await getAdminPassword();
     if(!pass) return;
 
+    showBusy("SAVING CUSTOM SESSION");
+
+    try{
+
     const res = await api({
       action:"saveCustomSession",
       password: pass,
@@ -3700,6 +3808,12 @@ if(saveCustomBtn){
 
     showModal("Custom session saved", "alert");
 
+    }finally{
+
+      hideBusy();
+
+    }
+
   };
 }
 
@@ -3713,6 +3827,10 @@ if(clearCustomBtn){
 
     const pass = await getAdminPassword();
     if(!pass) return;
+
+    showBusy("EXITING CUSTOM SESSION");
+
+    try{
 
     const res = await api({
       action:"clearCustomSession",
@@ -3735,6 +3853,12 @@ if(clearCustomBtn){
 
     showModal("Exited custom session", "alert");
 
+    }finally{
+
+      hideBusy();
+
+    }
+
   };
 }
   
@@ -3755,6 +3879,7 @@ if(copyBtn){
     buildCopySessionCard(sessionData, matchMaker);
 
     copyCard.classList.add("show");
+    showBusy("COPYING IMAGE");
 
     try{
 
@@ -3786,6 +3911,7 @@ if(copyBtn){
     }finally{
 
       copyCard.classList.remove("show");
+      hideBusy();
 
     }
 
