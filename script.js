@@ -1492,6 +1492,27 @@ function updateManualVotingButton(){
 
 }
 
+function updateRatingsSubmitButton(isSubmitted = false){
+
+  const submitBtn = document.getElementById("submitRatingsBtn");
+
+  if(!submitBtn) return;
+
+  submitBtn.classList.toggle("ratingsSubmitBtnSubmitted", isSubmitted);
+  submitBtn.disabled = isSubmitted;
+
+  submitBtn.innerHTML = isSubmitted
+    ? `
+      <span class="ratingsSubmitIcon">✓</span>
+      <span>RATINGS SUBMITTED</span>
+    `
+    : `
+      <span class="ratingsSubmitIcon">✓</span>
+      <span>SUBMIT RATINGS</span>
+    `;
+
+}
+
 async function refreshRatingStatus(rater = ""){
 
   try{
@@ -1889,12 +1910,14 @@ function renderRatingsPreview(){
   const isVotingOpen = currentRatingStatus
     ? !!currentRatingStatus.isOpen
     : !!status.isOpen;
+  const hasSubmittedRatings = !!(currentRatingStatus && currentRatingStatus.hasVoted);
 
   if(statusText) statusText.textContent = status.title;
   if(statusDate) statusDate.textContent = status.detail;
   if(tableShell) tableShell.classList.toggle("ratingsReadOnlyMode", !isVotingOpen);
   if(raterCard) raterCard.style.display = isVotingOpen ? "" : "none";
   if(submitWrap) submitWrap.style.display = isVotingOpen ? "" : "none";
+  updateRatingsSubmitButton(hasSubmittedRatings);
   if(tableHeader){
     tableHeader.innerHTML = isVotingOpen
       ? `
@@ -2205,6 +2228,7 @@ async function submitRatings(){
     sessionStorage.removeItem("ratingsPreview");
 
     await refreshRatingStatus(formData.rater);
+    updateRatingsSubmitButton(true);
 
     showModal(
       `Ratings submitted successfully. ${res.submittedCount || formData.ratings.length} players rated.`,
