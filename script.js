@@ -3714,8 +3714,9 @@ if(!pass) return;
     sessionStorage.setItem("adminPass", pass);
     updateAdminBar();
     sessionProgressHasUnsavedChanges = false;
+    currentSessionMaps = normalizeSessionData(res);
 
-renderSessionMaps(res);
+renderAllSessionViews();
 
 /* 🔥 RE-RUN HIGHLIGHT AFTER GENERATE */
 setTimeout(()=>{
