@@ -1481,7 +1481,7 @@ function formatBackendRatingStatus(status){
     return {
       isOpen: true,
       title: "Manual voting is open",
-      detail: `Admin override closes ${closeDate}.`
+      detail: "Admin override is active until manually locked."
     };
   }
 
@@ -1531,7 +1531,7 @@ function updateManualVotingButton(){
 
   const manualOpen = currentRatingStatus && currentRatingStatus.manualOverride;
 
-  btn.textContent = manualOpen ? "END 2H OVERRIDE" : "UNLOCK VOTING 2H";
+  btn.textContent = manualOpen ? "LOCK VOTING" : "UNLOCK VOTING";
   btn.classList.toggle("btn-orange", !!manualOpen);
   btn.classList.toggle("btn-blue", !manualOpen);
 
@@ -1704,8 +1704,8 @@ async function toggleManualVotingWindow(){
   const manualOpen = currentRatingStatus && currentRatingStatus.manualOverride;
   const enabled = !manualOpen;
   const message = enabled
-    ? "Unlock voting for 2 hours?"
-    : "End the 2-hour voting override?";
+    ? "Unlock voting until an admin manually locks it?"
+    : "Lock manual voting now?";
 
   const confirmed = await showModal(message, "confirm");
   if(!confirmed) return;
@@ -1729,7 +1729,7 @@ async function toggleManualVotingWindow(){
     updateAdminBar();
     await refreshRatingStatus(document.getElementById("ratingsRaterSelect")?.value || "");
 
-    showModal(enabled ? "Voting unlocked for 2 hours." : "Manual override ended.", "alert");
+    showModal(enabled ? "Voting unlocked until manually locked." : "Manual voting locked.", "alert");
 
   }catch(err){
 
