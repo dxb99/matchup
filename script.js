@@ -2112,10 +2112,19 @@ function updateCategoryControl(cell, slider){
   const option = getScaleOptionByIndex(slider.value);
   const box = cell.querySelector(".ratingsValueBox");
   const label = cell.querySelector(".ratingsCategoryLabel");
+  const scoreClass = "ratingsScore-" + slider.value;
 
   slider.dataset.rated = "true";
   slider.dataset.value = option.value;
   cell.classList.remove("ratingsUntouched");
+  cell.classList.remove(
+    "ratingsScore-0",
+    "ratingsScore-1",
+    "ratingsScore-2",
+    "ratingsScore-3",
+    "ratingsScore-4"
+  );
+  cell.classList.add(scoreClass);
 
   if(box){
     box.textContent = option.value;
