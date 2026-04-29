@@ -233,7 +233,7 @@ CLICK TO GENERATE MATCHUP
   <div class="ratingsHeaderRow">
     <div class="ratingsTitleBlock">
       <div class="ratingsKicker"><span class="ratingsTitleStar">★</span> PLAYER RATINGS</div>
-      <p>Rate all players based on their overall performance in each game mode. You can submit your ratings once every 6 months.</p>
+      <p>Rate all players using six overall gameplay categories. You can submit your ratings once every 6 months.</p>
     </div>
 
     <div id="ratingsStatusCard" class="ratingsStatusCard">
@@ -285,40 +285,31 @@ CLICK TO GENERATE MATCHUP
   <div class="ratingsInfoBar">
     <div class="ratingsInfoMain">
       <button id="ratingsInfoBtn" class="ratingsInfoIcon" type="button">i</button>
-      <span>Rate each player from 0 (weak) to 10 (elite) for both Blitz and CTF.</span>
+      <span>Rate each player across six gameplay categories. Untouched sliders must be completed before submitting.</span>
       <div id="ratingsInfoTooltip" class="ratingsInfoTooltip">
         <div class="ratingsInfoPanel">
           <div class="ratingsInfoPanelTop">
-            <div class="ratingsInfoPanelTitle">How Ratings Are Calculated</div>
+            <div class="ratingsInfoPanelTitle">How Ratings Work</div>
             <button id="ratingsInfoCloseBtn" class="ratingsInfoIcon ratingsInfoCloseBtn" type="button">x</button>
           </div>
           <p>Each voting cycle starts fresh. Old votes from previous cycles are not reused.</p>
-          <p>For each player, the system looks at the scores they received from other players.</p>
-          <p>First, Blitz scores are sorted from low to high and the middle number becomes that player's Blitz median.</p>
-          <p><strong>Example:</strong> if a player's Blitz scores are:</p>
-          <div class="ratingsInfoExample">5, 3, 7, 6, 8, 10, 10, 9, 3</div>
-          <p>The sorted order is:</p>
-          <div class="ratingsInfoExample">3, 3, 5, 6, 7, 8, 9, 10, 10</div>
-          <p>There are 9 scores, so the middle score is the 5th number: <strong>7</strong>. So that player's Blitz median is <strong>7</strong>.</p>
-          <p>The same thing is done separately for CTF scores to get the CTF median.</p>
-          <p>To create one final skill number, the system combines all Blitz and CTF scores together and finds the median again.</p>
-          <p><strong>Combined sorted Blitz + CTF example:</strong></p>
-          <div class="ratingsInfoExample">3, 3, 5, 6, 7, 7, 8, 8, 8, 9, 9, 9, 9, 10, 10, 10, 10, 10</div>
-          <p>There are 18 scores, so the middle is between the 9th and 10th numbers: <strong>8</strong> and <strong>9</strong>.</p>
-          <p>Average of the two middle numbers: <strong>(8 + 9) / 2 = 8.5</strong>.</p>
-          <p>Final skill number: <strong>9</strong>.</p>
-          <p>Using the median helps protect players from one unusually low or unusually high vote.</p>
+          <p>Each player is rated in six categories: <strong>Comms</strong>, <strong>Combat</strong>, <strong>Movement</strong>, <strong>Awareness</strong>, <strong>Objective</strong>, and <strong>Impact</strong>.</p>
+          <div class="ratingsInfoExample">Poor = 0 | Below Average = 2.5 | Average = 5 | Above Average = 7.5 | Good = 10</div>
+          <p>Untouched sliders are not counted. Every category must be rated before submitting.</p>
+          <p>The system averages the six category scores for each player. That decimal number becomes the player's overall skill level used by the matchup generator.</p>
+          <p><strong>Example:</strong></p>
+          <div class="ratingsInfoExample">5 + 10 + 7.5 + 5 + 7.5 + 10 = 45<br>45 / 6 = 7.5</div>
+          <p>That player's skill becomes <strong>7.5</strong>.</p>
         </div>
       </div>
     </div>
-    <div class="ratingsScaleText">0 = Weak&nbsp;&nbsp; | &nbsp;&nbsp;5 = Average&nbsp;&nbsp; | &nbsp;&nbsp;10 = Elite</div>
+    <div class="ratingsScaleText">Poor&nbsp;&nbsp; | &nbsp;&nbsp;Below Average&nbsp;&nbsp; | &nbsp;&nbsp;Average&nbsp;&nbsp; | &nbsp;&nbsp;Above Average&nbsp;&nbsp; | &nbsp;&nbsp;Good</div>
   </div>
 
   <div class="ratingsTableShell">
-    <div class="ratingsTableHeader">
-      <div>PLAYER</div>
-      <div class="ratingsBlitzHeader">BLITZ <span>0-10</span></div>
-      <div class="ratingsCtfHeader">CTF <span>0-10</span></div>
+      <div class="ratingsTableHeader">
+        <div>PLAYER</div>
+      <div class="ratingsCategoryHeader">OVERALL CATEGORIES <span>Poor to Good</span></div>
     </div>
     <div id="ratingsRows"></div>
   </div>
@@ -339,7 +330,7 @@ CLICK TO GENERATE MATCHUP
         <span class="ratingsSubmitIcon">✓</span>
         <span>SUBMIT RATINGS</span>
       </button>
-      <div class="ratingsSubmitNote">Make sure all players are rated before submitting.</div>
+      <div class="ratingsSubmitNote">Make sure every category is rated before submitting.</div>
     </div>
   </div>
 
