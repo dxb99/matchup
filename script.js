@@ -52,37 +52,37 @@ const RATING_CATEGORIES = [
   {
     key: "combat",
     label: "Combat Skills",
-    tip: "Aim, weapon use, ammo conservation.",
+    tip: "Aim, weapon control, ammo use, and winning fights.",
     theme: "green"
   },
   {
     key: "comms",
     label: "Communication / Status Updates",
-    tip: "Clear and useful updates.",
+    tip: "Clear, useful updates without cluttering comms.",
     theme: "purple"
   },
   {
     key: "objective",
     label: "Decision Making",
-    tip: "On-the-fly decisions, such as whether to defend the flag or head out for backup.",
+    tip: "Smart choices on when to attack, defend, rotate, or support.",
     theme: "gold"
   },
   {
     key: "awareness",
     label: "Map Awareness",
-    tip: "Overall map knowledge, pickup locations, routes.",
+    tip: "Knowledge of routes, pickups, player positions, and pressure.",
     theme: "blue"
   },
   {
     key: "movement",
     label: "Movement / Speed",
-    tip: "Dodging, wall runs, escaping, chasing, and positioning.",
+    tip: "Dodging, wall runs, chasing, escaping, and reaching key areas quickly.",
     theme: "green"
   },
   {
     key: "impact",
     label: "Team Impact",
-    tip: "Contribution to team game wins.",
+    tip: "Overall contribution to team control, momentum, and wins.",
     theme: "purple"
   }
 ];
