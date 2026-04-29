@@ -1992,7 +1992,8 @@ body.admin-unlocked .ratingsAdminCard{
 .ratingsTableHeader,
 .ratingsRow{
   display:grid;
-  grid-template-columns:minmax(170px, 0.55fr) minmax(0, 1.45fr);
+  grid-template-columns:minmax(145px, 180px) minmax(0, 1fr);
+  column-gap:14px;
   align-items:center;
 }
 
@@ -2142,7 +2143,7 @@ body.admin-unlocked .ratingsAdminCard{
 
 .ratingsCategoriesGrid{
   display:grid;
-  grid-template-columns:repeat(6, minmax(108px, 1fr));
+  grid-template-columns:repeat(3, minmax(140px, 1fr));
   gap:10px;
 }
 
@@ -3432,6 +3433,10 @@ body.admin-unlocked .mapDeleteMini {
 
   .ratingsSubmitBtn{
     font-size:18px;
+  }
+
+  .ratingsCategoriesGrid{
+    grid-template-columns:1fr;
   }
 
   .blitzToggle{
