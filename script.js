@@ -42,11 +42,11 @@ const RATINGS_TIME_ZONE = "Asia/Dubai";
 const RATINGS_TIME_ZONE_LABEL = "GST";
 const API_TIMEOUT_MS = 30000;
 const RATING_SCALE_OPTIONS = [
-  { label: "Poor", value: 0 },
-  { label: "Below Average", value: 2.5 },
+  { label: "Low", value: 0 },
+  { label: "Fair", value: 2.5 },
   { label: "Average", value: 5 },
-  { label: "Above Average", value: 7.5 },
-  { label: "Good", value: 10 }
+  { label: "Good", value: 7.5 },
+  { label: "Excellent", value: 10 }
 ];
 const RATING_CATEGORIES = [
   {
@@ -1967,7 +1967,7 @@ function renderRatingsPreview(){
     tableHeader.innerHTML = isVotingOpen
       ? `
         <div>PLAYER</div>
-        <div class="ratingsCategoryHeader">OVERALL CATEGORIES <span>Poor to Good</span></div>
+        <div class="ratingsCategoryHeader">OVERALL CATEGORIES <span>Low to Excellent</span></div>
       `
       : `
         <div>PLAYER</div>
