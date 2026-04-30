@@ -3353,6 +3353,85 @@ background:transparent;
 margin-top:180px;
 }
 
+.blitzToggle{
+  background:
+    linear-gradient(180deg, rgba(255,236,153,0.26), rgba(250,204,21,0.18)),
+    linear-gradient(135deg, rgba(250,204,21,0.30), rgba(120,73,0,0.44));
+  border:1px solid rgba(250,204,21,0.90);
+  box-shadow:
+    0 0 14px rgba(250,204,21,0.45),
+    0 0 34px rgba(250,204,21,0.18),
+    inset 0 1px 0 rgba(255,255,255,0.18);
+  padding:12px 14px;
+}
+
+.blitzToggle.show{
+  animation:blitzWarningPulse 1.15s ease-in-out infinite;
+}
+
+.blitzToggle label{
+  display:grid;
+  grid-template-columns:24px minmax(0, 1fr) 24px;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  width:100%;
+}
+
+.blitzToggle label::after{
+  content:"";
+}
+
+#blitzToggle{
+  grid-column:1;
+  justify-self:center;
+  accent-color:#facc15;
+}
+
+.blitzScroll{
+  grid-column:2;
+  min-width:0;
+  width:100%;
+}
+
+.blitzTrack{
+  width:100%;
+}
+
+.blitzText{
+  display:block;
+  width:100%;
+  color:#fff8d6;
+  font-size:15px;
+  font-weight:800;
+  line-height:1.25;
+  letter-spacing:0.2px;
+  text-align:center;
+  text-shadow:
+    0 0 8px rgba(250,204,21,0.70),
+    0 1px 2px rgba(0,0,0,0.75);
+}
+
+@keyframes blitzWarningPulse{
+  0%, 100%{
+    border-color:rgba(250,204,21,0.62);
+    box-shadow:
+      0 0 10px rgba(250,204,21,0.34),
+      0 0 24px rgba(250,204,21,0.12),
+      inset 0 1px 0 rgba(255,255,255,0.14);
+    filter:brightness(1);
+  }
+
+  50%{
+    border-color:rgba(255,248,214,1);
+    box-shadow:
+      0 0 22px rgba(250,204,21,0.90),
+      0 0 46px rgba(250,204,21,0.34),
+      inset 0 1px 0 rgba(255,255,255,0.30);
+    filter:brightness(1.18);
+  }
+}
+
 @media(max-width:900px){
 
   body{
