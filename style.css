@@ -3303,6 +3303,21 @@ background:
 background:transparent;
 }
 
+.eliminationHeader{
+  color:#ff4b4b;
+  background:linear-gradient(180deg, rgba(255,75,75,0.18), rgba(255,75,75,0.06));
+}
+
+.blitzHeader{
+  color:#facc15;
+  background:linear-gradient(180deg, rgba(250,204,21,0.18), rgba(250,204,21,0.06));
+}
+
+.ctfHeader{
+  color:#4ba3ff;
+  background:linear-gradient(180deg, rgba(75,163,255,0.18), rgba(75,163,255,0.06));
+}
+
 .tabContent{
 margin-top:180px;
 }
