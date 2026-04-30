@@ -3324,6 +3324,19 @@ background:
   radial-gradient(circle at 90% 50%, rgba(75,163,255,0.25), transparent 40%);
 }
 
+.historyDetailRow .matchCard{
+background:
+  linear-gradient(90deg,
+    rgba(255,75,75,0.30) 0%,
+    rgba(255,75,75,0.18) 28%,
+    rgba(17,17,17,1) 50%,
+    rgba(75,163,255,0.18) 72%,
+    rgba(75,163,255,0.30) 100%
+  ),
+  radial-gradient(circle at 10% 50%, rgba(255,75,75,0.25), transparent 40%),
+  radial-gradient(circle at 90% 50%, rgba(75,163,255,0.25), transparent 40%);
+}
+
 #matchupDashboardCard{
 background:
   linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.015)),
@@ -3466,6 +3479,19 @@ margin-top:180px;
   .tabContent{
     margin-top:86px;
     padding:12px 10px 96px 10px;
+  }
+
+  .historyDetailRow td{
+    text-align:left;
+    white-space:normal;
+    padding:8px 4px;
+  }
+
+  .historyDetailRow .matchCard{
+    width:clamp(280px, 82vw, 330px);
+    min-width:0;
+    margin:8px 0 8px 4px;
+    padding:12px 8px;
   }
 
   .tabs{
