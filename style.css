@@ -10,6 +10,7 @@
 --dxb-dark-blue:#1e3a8a;
 }
 
+
 body{
 
 background:
@@ -22,7 +23,7 @@ text-align:center;
 padding-bottom:90px;
 
 min-height:100vh;
-min-height:100dvh; /* 🔥 MOBILE FIX */
+min-height:100dvh; /* ðŸ”¥ MOBILE FIX */
 
 }
 
@@ -42,14 +43,14 @@ border-bottom:1px solid var(--dxb-border);
 backdrop-filter:blur(14px);
 box-shadow:0 10px 28px rgba(0,0,0,0.45);
 
-/* 🔥 KEEP STICKY */
+/* ðŸ”¥ KEEP STICKY */
 position:fixed;
 top:0;
 left:0;
 width:100%;
 z-index:1500;
 
-/* 🔥 CLEAN VERTICAL STACK */
+/* ðŸ”¥ CLEAN VERTICAL STACK */
 display:flex;
 flex-direction:column;
 align-items:center;
@@ -65,7 +66,7 @@ text-shadow:0 0 18px rgba(30,58,138,0.40);
 
 }
 
-/* 🔥 ADMIN BAR */
+/* ðŸ”¥ ADMIN BAR */
 
 #adminBar{
 
@@ -114,13 +115,13 @@ opacity:1;
 visibility:visible;
 }
 
-/* 🔥 STATUS TEXT */
+/* ðŸ”¥ STATUS TEXT */
 #adminStatus{
   font-weight:600;
   cursor:pointer;
 }
 
-/* 🔥 LOCK BUTTON */
+/* ðŸ”¥ LOCK BUTTON */
 #adminLockBtn{
 
 background:#dc2626;
@@ -218,7 +219,7 @@ box-shadow:0 0 12px rgba(255,255,255,0.45);
 display:none;
 padding:25px;
 
-/* 🔥 PUSH CONTENT BELOW FIXED HEADER */
+/* ðŸ”¥ PUSH CONTENT BELOW FIXED HEADER */
 margin-top:130px;
 
 }
@@ -250,22 +251,22 @@ overflow:hidden;
 #logo{
 position:absolute;
 
-/* 🔥 center the logo */
+/* ðŸ”¥ center the logo */
 top:50%;
 left:50%;
 transform:translate(-50%,-50%);
 
-/* 🔥 control size */
+/* ðŸ”¥ control size */
 width:90%;
 height:90%;
 
-/* 🔥 image */
+/* ðŸ”¥ image */
 background-image:url("DXB99.MATCHUP.png?v=2");
 background-size:contain;
 background-position:center;
 background-repeat:no-repeat;
 
-/* 🔥 bring ABOVE blurred background */
+/* ðŸ”¥ bring ABOVE blurred background */
 z-index:2;
 }
 
@@ -276,7 +277,7 @@ left:0;
 width:100%;
 height:100%;
 
-/* 🔥 solid black background */
+/* ðŸ”¥ solid black background */
 background:#000;
 
 z-index:1;
@@ -286,7 +287,7 @@ z-index:1;
 
 font-size:20px;
 
-/* 🔥 position at bottom */
+/* ðŸ”¥ position at bottom */
 position:absolute;
 bottom:40px;
 left:50%;
@@ -338,19 +339,19 @@ font-weight:bold;
 box-shadow:0 4px 12px rgba(34,197,94,0.4);
 transition:all 0.15s ease;
 
-/* 🔥 ADD THIS */
+/* ðŸ”¥ ADD THIS */
 animation:generateGlow 2s infinite;
 
 }
 
-/* 🔥 GET STARTED BUTTON (BACKGROUND MATCH + AUTO SHINE) */
+/* ðŸ”¥ GET STARTED BUTTON (BACKGROUND MATCH + AUTO SHINE) */
 
 .getStartedBtn{
 
 position:relative;
 overflow:hidden;
 
-/* 🔥 MATCH BACKGROUND */
+/* ðŸ”¥ MATCH BACKGROUND */
 background:transparent;
 border:1px solid rgba(255,255,255,0.15);
 
@@ -367,7 +368,7 @@ transition:all 0.2s ease;
 
 }
 
-/* 🔥 SHINE EFFECT */
+/* ðŸ”¥ SHINE EFFECT */
 .getStartedBtn::before{
 content:"";
 position:absolute;
@@ -383,12 +384,12 @@ background:linear-gradient(
   transparent
 );
 
-/* 🔥 AUTO LOOP */
+/* ðŸ”¥ AUTO LOOP */
 animation:shineMove 3s ease-in-out infinite;
 
 }
 
-/* 🔥 SHINE ANIMATION */
+/* ðŸ”¥ SHINE ANIMATION */
 @keyframes shineMove{
 
 0%{
@@ -439,7 +440,7 @@ text-align:center;
 
 }
 
-/* 🔥 CUSTOM TOOLTIP */
+/* ðŸ”¥ CUSTOM TOOLTIP */
 
 .btn[data-tooltip]{
   position:relative;
@@ -3048,4 +3049,316 @@ body.admin-unlocked .mapDeleteMini {
     margin:0 auto 20px auto;
   }
   
+}
+
+/* GLASS POLISH OVERRIDES */
+
+:root{
+--glass-panel:rgba(12,18,32,0.64);
+--glass-panel-strong:rgba(13,22,39,0.82);
+--glass-panel-soft:rgba(255,255,255,0.055);
+--glass-border:rgba(255,255,255,0.16);
+--glass-border-soft:rgba(255,255,255,0.09);
+--glass-highlight:rgba(255,255,255,0.22);
+--glass-shadow:0 22px 60px rgba(0,0,0,0.46);
+--glass-inset:inset 0 1px 0 rgba(255,255,255,0.12);
+}
+
+body{
+background:
+radial-gradient(circle at 15% -10%, rgba(75,163,255,0.18), transparent 32%),
+radial-gradient(circle at 88% 10%, rgba(30,58,138,0.24), transparent 34%),
+radial-gradient(circle at 50% 115%, rgba(34,197,94,0.08), transparent 35%),
+linear-gradient(180deg, #030712 0%, #07101c 42%, #05070d 100%);
+}
+
+header{
+background:
+linear-gradient(180deg, rgba(10,16,28,0.86), rgba(4,8,14,0.72));
+border-bottom:1px solid rgba(255,255,255,0.13);
+box-shadow:0 14px 38px rgba(0,0,0,0.46), var(--glass-inset);
+backdrop-filter:blur(22px) saturate(150%);
+}
+
+h1{
+font-weight:800;
+letter-spacing:0.8px;
+text-shadow:0 0 24px rgba(75,163,255,0.34), 0 1px 0 rgba(255,255,255,0.18);
+}
+
+.tabs{
+max-width:1180px;
+padding:3px;
+box-sizing:border-box;
+border:1px solid rgba(255,255,255,0.08);
+border-radius:10px;
+background:rgba(255,255,255,0.035);
+box-shadow:inset 0 1px 0 rgba(255,255,255,0.08);
+}
+
+.tabButton{
+position:relative;
+overflow:hidden;
+border-radius:8px;
+background:
+linear-gradient(180deg, rgba(255,255,255,0.105), rgba(255,255,255,0.035));
+border:1px solid rgba(255,255,255,0.10);
+box-shadow:inset 0 1px 0 rgba(255,255,255,0.10), 0 8px 20px rgba(0,0,0,0.18);
+}
+
+.tabButton::before,
+.btn::before,
+#generateButton::before,
+.selectMatch::before,
+.getStartedBtn::before{
+content:"";
+position:absolute;
+left:10%;
+right:10%;
+top:0;
+height:1px;
+background:linear-gradient(90deg, transparent, rgba(255,255,255,0.65), transparent);
+opacity:0.75;
+pointer-events:none;
+}
+
+.tabButton:hover{
+background:
+linear-gradient(180deg, rgba(255,255,255,0.16), rgba(255,255,255,0.055));
+border-color:rgba(255,255,255,0.24);
+box-shadow:0 0 16px rgba(75,163,255,0.20), inset 0 1px 0 rgba(255,255,255,0.14);
+}
+
+.tabButton.active{
+background:
+linear-gradient(180deg, rgba(59,130,246,0.38), rgba(30,58,138,0.30)),
+linear-gradient(180deg, rgba(255,255,255,0.14), rgba(255,255,255,0.04));
+border-color:rgba(96,165,250,0.58);
+box-shadow:0 0 20px rgba(59,130,246,0.36), inset 0 1px 0 rgba(255,255,255,0.18);
+}
+
+#matchupDashboardCard,
+.matchCard,
+.matchOption,
+.mapMasterColumn,
+.mapSessionSection,
+.copySessionShell,
+.modalBox,
+.blitzToggle,
+#playersCheckboxes label,
+table,
+.historyDetailRow .matchCard{
+background:
+linear-gradient(180deg, rgba(255,255,255,0.095), rgba(255,255,255,0.035)),
+var(--glass-panel);
+border:1px solid var(--glass-border);
+box-shadow:var(--glass-shadow), var(--glass-inset);
+backdrop-filter:blur(18px) saturate(135%);
+}
+
+#matchupDashboardCard,
+.copySessionShell{
+border-radius:18px;
+}
+
+.matchCard,
+.matchOption,
+.mapMasterColumn,
+.mapSessionSection{
+border-radius:12px;
+}
+
+#matchupDashboardCard #matchCountdown,
+th,
+.sessionUnifiedHeader,
+.mapModeHeader,
+.copySessionSectionHeader{
+background:
+linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.035));
+border-color:rgba(255,255,255,0.10);
+}
+
+.playerRow,
+.mapMasterRow,
+.sessionUnifiedRow,
+.mapSessionCompactRow,
+.copySessionRow,
+td{
+background:rgba(255,255,255,0.026);
+border-color:rgba(255,255,255,0.075);
+}
+
+.btn,
+#generateButton,
+.selectMatch,
+.getStartedBtn,
+#adminLockBtn,
+select,
+.skillValueCell,
+.modalInput{
+position:relative;
+border:1px solid rgba(255,255,255,0.14);
+box-shadow:inset 0 1px 0 rgba(255,255,255,0.16), 0 8px 18px rgba(0,0,0,0.22);
+backdrop-filter:blur(12px);
+}
+
+select,
+.skillValueCell,
+.modalInput{
+background:
+linear-gradient(180deg, rgba(255,255,255,0.09), rgba(255,255,255,0.025)),
+rgba(8,13,22,0.86);
+}
+
+.btn:hover,
+#generateButton:hover,
+.selectMatch:hover,
+.getStartedBtn:hover{
+filter:brightness(1.08);
+}
+
+.modalOverlay,
+#generatingOverlay,
+#historyLoadingOverlay,
+#clearHistoryOverlay,
+#savingOverlay,
+#savingMatchOverlay,
+#mapListLoadingOverlay{
+background:rgba(1,5,12,0.78);
+backdrop-filter:blur(8px);
+}
+
+.modalBox{
+background:
+linear-gradient(180deg, rgba(59,130,246,0.16), rgba(255,255,255,0.04)),
+rgba(8,13,22,0.88);
+}
+
+@media(max-width:900px){
+
+  body{
+    padding-bottom:86px;
+  }
+
+  header{
+    padding:10px 12px 8px 12px;
+    backdrop-filter:none;
+    -webkit-backdrop-filter:none;
+  }
+
+  h1{
+    font-size:clamp(18px, 5vw, 24px);
+    line-height:1.1;
+    white-space:nowrap;
+  }
+
+  #adminBar{
+    font-size:11px;
+    gap:8px;
+    padding:0;
+    margin-top:6px;
+  }
+
+  .customSessionBadge{
+    font-size:10px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+
+  .tabContent{
+    margin-top:86px;
+    padding:12px 10px 96px 10px;
+  }
+
+  .tabs{
+    position:fixed;
+    left:10px;
+    right:10px;
+    bottom:calc(8px + env(safe-area-inset-bottom));
+    width:auto;
+    height:62px;
+    margin:0;
+    padding:5px;
+    display:grid;
+    grid-template-columns:repeat(6, minmax(0, 1fr));
+    gap:4px;
+    z-index:2500;
+    border-radius:16px;
+    background:
+      linear-gradient(180deg, rgba(15,23,42,0.88), rgba(2,6,23,0.82));
+    border:1px solid rgba(255,255,255,0.16);
+    box-shadow:0 18px 46px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.12);
+    backdrop-filter:blur(22px) saturate(155%);
+  }
+
+  .tabButton{
+    min-width:0;
+    width:100%;
+    height:100%;
+    padding:0 2px;
+    margin:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:12px;
+    font-size:0;
+    line-height:1;
+    letter-spacing:0;
+    white-space:nowrap;
+  }
+
+  .tabButton::after{
+    content:attr(data-mobile-label);
+    position:static;
+    width:auto;
+    height:auto;
+    background:none;
+    box-shadow:none;
+    color:#dbeafe;
+    font-size:clamp(9px, 2.55vw, 12px);
+    font-weight:800;
+    letter-spacing:0.3px;
+  }
+
+  .tabButton.active::after{
+    content:attr(data-mobile-label);
+    position:static;
+    width:auto;
+    height:auto;
+    background:none;
+    box-shadow:none;
+    color:#ffffff;
+  }
+
+  .tabIcon{
+    display:none !important;
+  }
+
+}
+
+@media(max-width:420px){
+
+  .tabs{
+    left:6px;
+    right:6px;
+    height:58px;
+    gap:3px;
+    padding:4px;
+  }
+
+  .tabButton::after{
+    font-size:9px;
+  }
+
+  .tabButton[data-mobile-label="PLAYERS"]::after{
+    content:"PLYR";
+  }
+
+  #adminStatus{
+    max-width:120px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+  }
+
 }
