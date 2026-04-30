@@ -3261,6 +3261,10 @@ linear-gradient(180deg, rgba(59,130,246,0.16), rgba(255,255,255,0.04)),
 rgba(8,13,22,0.88);
 }
 
+.tabContent{
+margin-top:180px;
+}
+
 @media(max-width:900px){
 
   body{
