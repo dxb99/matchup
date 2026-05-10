@@ -26,6 +26,11 @@ let customSessionHasUnsavedChanges = false;
 let sessionProgressHasUnsavedChanges = false;
 let sessionProgressSnapshot = null;
 let sessionProgressDraftMaps = null;
+let sessionProgressSkippedMaps = {
+  elimination: [],
+  blitz: [],
+  ctf: []
+};
 let sessionMapsNeedSelection = false;
 let customSessionData = {
   elimination: [],
@@ -491,6 +496,11 @@ async function canLeaveCurrentTab(nextTab){
       sessionProgressHasUnsavedChanges = false;
       sessionProgressSnapshot = null;
       sessionProgressDraftMaps = null;
+      sessionProgressSkippedMaps = {
+        elimination: [],
+        blitz: [],
+        ctf: []
+      };
       renderAllSessionViews();
       return true;
     }
@@ -2334,6 +2344,11 @@ function clearSessionProgressDirty(){
   sessionProgressHasUnsavedChanges = false;
   sessionProgressSnapshot = null;
   sessionProgressDraftMaps = null;
+  sessionProgressSkippedMaps = {
+    elimination: [],
+    blitz: [],
+    ctf: []
+  };
 
 }
 
@@ -2351,9 +2366,17 @@ function removeSessionMapLocally(mode, index){
   }else{
     const maps = normalizeSessionData(sessionProgressDraftMaps || currentSessionMaps);
     const list = [...(maps[mode] || [])];
+    const skippedMap = list[index];
 
     list.splice(index, 1);
     maps[mode] = list;
+
+    if(skippedMap){
+      sessionProgressSkippedMaps[mode] = [
+        ...(sessionProgressSkippedMaps[mode] || []),
+        skippedMap
+      ].filter((mapName, mapIndex, source) => source.indexOf(mapName) === mapIndex);
+    }
 
     sessionProgressDraftMaps = maps;
     markSessionProgressDirty();
@@ -2974,7 +2997,8 @@ saveBtn.onclick = async () => {
   const res = await api({
     action:"saveSessionProgress",
     password: pass,
-    session: sessionProgressDraftMaps || currentSessionMaps
+    session: sessionProgressDraftMaps || currentSessionMaps,
+    skippedSessionMaps: sessionProgressSkippedMaps
   });
 
   if(!res.ok){
