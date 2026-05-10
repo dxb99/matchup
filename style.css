@@ -2888,6 +2888,7 @@ body.admin-unlocked .mapDeleteMini {
   #matchupDashboardCard .matchHeader{
     font-size:15px;
     line-height:1.2;
+    padding-left:0;
     padding-right:0;
     text-align:center;
 
