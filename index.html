@@ -196,6 +196,10 @@ CLICK TO GENERATE MATCHUP
 
 <div class="historyControls">
 
+<button id="toggleHistoryRangeBtn" class="btn btn-blue">LOAD ALL HISTORY</button>
+
+<span id="historyRangeStatus" class="historyRangeStatus">Showing last 3 months</span>
+
 <button id="clearHistoryBtn" class="btn btn-red">CLEAR MATCHUP HISTORY</button>
 
 </div>
@@ -304,6 +308,12 @@ CLICK TO GENERATE MATCHUP
     <div class="mapSessionSection">
       <div class="mapSessionSectionTitle ctfHeader">CTF</div>
       <div id="ctfSessionList" class="mapSessionList"></div>
+    </div>
+
+    <!-- BONUS -->
+    <div class="mapSessionSection">
+      <div class="mapSessionSectionTitle bonusHeader">Bonus</div>
+      <div id="bonusSessionList" class="mapSessionList"></div>
     </div>
 
   </div>
