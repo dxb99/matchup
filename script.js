@@ -5,6 +5,7 @@ let adminLoaded = false;
 let countdownTimer = null;
 let lastMatchTimestamp = null;
 let lastGeneratedMatchups = [];
+let generatedMatchupSelectionPending = false;
 let selectedMatchKey = null;
 let matchHistory = [];
 let lastSelectedPlayers = [];
@@ -15,7 +16,14 @@ let currentHistorySort = {
   key: "date",
   direction: "desc"
 };
+let historyShowingAll = false;
+let historyPlayedMapsHasUnsavedChanges = false;
 let globalMapMatchMaker = "";
+let globalMapList = {
+  elimination: [],
+  blitz: [],
+  ctf: []
+};
 let adminHasUnsavedChanges = false;
 let currentAdminSort = {
   key: "name",
@@ -29,18 +37,27 @@ let sessionProgressDraftMaps = null;
 let sessionProgressSkippedMaps = {
   elimination: [],
   blitz: [],
-  ctf: []
+  ctf: [],
+  bonus: []
 };
 let sessionMapsNeedSelection = false;
 let customSessionData = {
   elimination: [],
   blitz: [],
-  ctf: []
+  ctf: [],
+  bonus: []
 };
 let currentSessionMaps = {
   elimination: [],
   blitz: [],
-  ctf: []
+  ctf: [],
+  bonus: []
+};
+let currentSessionLastPlayed = {
+  elimination: "",
+  blitz: "",
+  ctf: "",
+  bonus: ""
 };
 const API_TIMEOUT_MS = 30000;
 
@@ -450,6 +467,29 @@ async function canLeaveCurrentTab(nextTab){
 
   if(!activeTabId || activeTabId === nextTab) return true;
 
+  if(historyPlayedMapsHasUnsavedChanges){
+    const leave = await showModal(
+      "You have unsaved played-map changes. Leave without saving?",
+      "confirm"
+    );
+
+    if(leave){
+      closeHistoryPlayedMapsEditor(true);
+      return true;
+    }
+
+    return false;
+  }
+
+  if(activeTabId === "generatorTab" && generatedMatchupSelectionPending){
+    await showModal(
+      "You generated matchups but have not selected and saved one yet.",
+      "alert"
+    );
+
+    return false;
+  }
+
   if(activeTabId === "adminTab" && adminHasUnsavedChanges){
     const leave = await showModal(
       "You have unsaved player changes. Leave without saving?",
@@ -499,7 +539,8 @@ async function canLeaveCurrentTab(nextTab){
       sessionProgressSkippedMaps = {
         elimination: [],
         blitz: [],
-        ctf: []
+        ctf: [],
+        bonus: []
       };
       renderAllSessionViews();
       return true;
@@ -525,6 +566,30 @@ async function canLeaveCurrentTab(nextTab){
 
 }
 
+window.canLeaveCurrentTab = canLeaveCurrentTab;
+
+function hasProtectedUnsavedWork(){
+
+  return (
+    generatedMatchupSelectionPending ||
+    adminHasUnsavedChanges ||
+    customSessionHasUnsavedChanges ||
+    sessionProgressHasUnsavedChanges ||
+    sessionMapsNeedSelection ||
+    historyPlayedMapsHasUnsavedChanges
+  );
+
+}
+
+window.addEventListener("beforeunload", (event) => {
+
+  if(!hasProtectedUnsavedWork()) return;
+
+  event.preventDefault();
+  event.returnValue = "";
+
+});
+
 async function loadInitialData(){
 
 const data = await api({action:"getInitialData"});
@@ -535,6 +600,7 @@ if(!data.ok){
 
 allPlayers = data.players || [];
 globalMapMatchMaker = data.mapMatchMaker || "";
+globalMapList = normalizeSessionData(data.mapList || globalMapList);
 
 populatePlayers(allPlayers);
 
@@ -559,7 +625,10 @@ renderMatchup(data.currentMatchup);
 
 /* LOAD MATCH HISTORY */
 
-const historyData = await api({action:"getHistory"});
+const historyData = await api({
+  action:"getHistory",
+  includeAll:true
+});
 if(historyData.ok){
   matchHistory = historyData.history || [];
 }
@@ -844,6 +913,7 @@ requestAnimationFrame(() => {
 matchups.sort((a,b)=>a.skillGap - b.skillGap);
 
 lastGeneratedMatchups = matchups;
+generatedMatchupSelectionPending = matchups.length > 0;
 lastSelectedPlayers = selectedPlayers.slice();
 
 /* Force overlay to stay visible for 1 seconds */
@@ -991,8 +1061,10 @@ async function selectMatchup(match, key, btn, div){
     showModal("Select Match Maker first.", "alert");
     return;
   }
+const overlay = document.getElementById("savingMatchOverlay");
 
-document.getElementById("savingMatchOverlay").style.display = "flex";
+overlay.querySelector(".generatingText").innerHTML = "SAVING<span class=\"dots\"></span>";
+overlay.style.display = "flex";
 
 const data = await api({
 
@@ -1008,7 +1080,7 @@ const data = await api({
 
   if(!data.ok){
 
-  document.getElementById("savingMatchOverlay").style.display = "none";
+  overlay.style.display = "none";
 
   showModal(data.error, "alert");
 
@@ -1018,6 +1090,7 @@ const data = await api({
 
 // 🔥 ONLY mark selected AFTER SUCCESS
 currentMatchKeyFromServer = key; // 🔥 FORCE SYNC IMMEDIATELY
+generatedMatchupSelectionPending = false;
 
 document.querySelectorAll(".matchOption").forEach(card=>{
   card.classList.remove("armedCard");
@@ -1039,8 +1112,6 @@ btn.disabled = true;
 btn.style.cursor = "not-allowed";
 
 /* CHANGE OVERLAY TEXT TO SAVED */
-
-const overlay = document.getElementById("savingMatchOverlay");
 
 overlay.querySelector(".generatingText").innerHTML = "SAVED ✓";
 
@@ -1071,7 +1142,10 @@ setTimeout(async () => {
   }
 
   // 🔥 Refresh generator/history details quietly after the user is already on Matchup.
-  api({ action: "getHistory" }).then(historyData => {
+  api({
+    action: "getHistory",
+    includeAll: true
+  }).then(historyData => {
     if(historyData.ok){
       matchHistory = historyData.history || [];
       const updatedMatchups = generateMatchupsLocal(lastSelectedPlayers, "all");
@@ -1620,10 +1694,31 @@ async function openHistoryTab(btn){
 
   if(!(await showTab("historyTab", btn))) return;
 
+  historyShowingAll = false;
+  await loadHistoryRange(false);
+
+}
+
+async function loadHistoryRange(includeAll){
+
+  historyShowingAll = includeAll;
+
+  const toggleBtn = document.getElementById("toggleHistoryRangeBtn");
+  const status = document.getElementById("historyRangeStatus");
+
+  if(toggleBtn){
+    toggleBtn.innerText = includeAll ? "SHOW LAST 3 MONTHS" : "LOAD ALL HISTORY";
+  }
+
+  if(status){
+    status.innerText = includeAll ? "Showing all history" : "Showing last 3 months";
+  }
+
   document.getElementById("historyLoadingOverlay").style.display = "flex";
 
   const data = await api({
-    action:"getHistory"
+    action:"getHistory",
+    includeAll:includeAll
   });
 
   if(!data.ok){
@@ -1822,12 +1917,23 @@ ${match.blueTeam
         </span>
       </div>
 
+      ${renderHistorySessionMaps(match)}
+
     </div>
 
   </td>
 `;
 
   /* 🔥 CLICK TO TOGGLE */
+
+const editMapsBtn = detailRow.querySelector(".editHistoryMapsBtn");
+
+if(editMapsBtn){
+  editMapsBtn.onclick = (event) => {
+    event.stopPropagation();
+    openHistoryPlayedMapsEditor(match);
+  };
+}
 
 row.onclick = () => {
 
@@ -1847,6 +1953,368 @@ row.onclick = () => {
   tbody.appendChild(detailRow);
 
 });
+}
+
+function renderHistorySessionMaps(match){
+
+  const sections = [
+    {
+      label: "Elimination",
+      className: "eliminationHeader",
+      maps: match.playedElimination
+    },
+    {
+      label: "Blitz",
+      className: "blitzHeader",
+      maps: match.playedBlitz
+    },
+    {
+      label: "CTF",
+      className: "ctfHeader",
+      maps: match.playedCtf
+    },
+    {
+      label: "Bonus",
+      className: "bonusHeader",
+      maps: match.playedBonus
+    }
+  ].filter(section => section.maps);
+
+  if(!sections.length && !isAdminUnlocked()){
+    return "";
+  }
+
+  return `
+    <div class="historySessionMaps">
+      <div class="historySessionTitleRow">
+        <div class="historySessionTitle">SESSION MAPS PLAYED</div>
+        <button type="button" class="btn btn-blue editHistoryMapsBtn">EDIT PLAYED MAPS</button>
+      </div>
+      <div class="historySessionGrid" style="grid-template-columns:repeat(${sections.length}, minmax(0,1fr));">
+        ${sections.map(section => `
+          <div class="historySessionSection">
+            <div class="historySessionHeader ${section.className}">${section.label}</div>
+            <div class="historySessionList">
+              ${section.maps.split(",").map(mapName => `
+                <div class="historySessionMap">${mapName.trim()}</div>
+              `).join("")}
+            </div>
+          </div>
+        `).join("")}
+      </div>
+    </div>
+  `;
+
+}
+
+function splitHistoryMapText(value){
+
+  if(!value) return [];
+
+  return String(value)
+    .split(",")
+    .map(mapName => mapName.trim())
+    .filter(Boolean);
+
+}
+
+function escapeHtml(value){
+
+  return String(value || "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+
+}
+
+function getHistoryPlayedMapsFromMatch(match){
+
+  return {
+    elimination: splitHistoryMapText(match.playedElimination),
+    blitz: splitHistoryMapText(match.playedBlitz),
+    ctf: splitHistoryMapText(match.playedCtf),
+    bonus: splitHistoryMapText(match.playedBonus)
+  };
+
+}
+
+function getHistoryModeLabel(mode){
+
+  if(mode === "ctf") return "CTF";
+  if(mode === "bonus") return "Bonus";
+
+  return mode.charAt(0).toUpperCase() + mode.slice(1);
+
+}
+
+function ensureHistoryPlayedMapsModal(){
+
+  let modal = document.getElementById("historyPlayedMapsModal");
+
+  if(modal) return modal;
+
+  modal = document.createElement("div");
+  modal.id = "historyPlayedMapsModal";
+  modal.className = "historyPlayedMapsModal";
+  modal.innerHTML = `
+    <div class="historyPlayedMapsBox">
+      <div class="historyPlayedMapsHeader">
+        <div>
+          <div class="historyPlayedMapsEyebrow">HISTORY</div>
+          <div class="historyPlayedMapsTitle">EDIT PLAYED MAPS</div>
+        </div>
+        <button type="button" class="historyPlayedMapsClose">✕</button>
+      </div>
+      <div id="historyPlayedMapsBody" class="historyPlayedMapsBody"></div>
+      <div class="historyPlayedMapsActions">
+        <button type="button" class="btn btn-red" id="cancelHistoryPlayedMapsBtn">CANCEL</button>
+        <button type="button" class="btn btn-green" id="saveHistoryPlayedMapsBtn">SAVE PLAYED MAPS</button>
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+
+  modal.querySelector(".historyPlayedMapsClose").onclick = () => {
+    closeHistoryPlayedMapsEditor();
+  };
+
+  modal.querySelector("#cancelHistoryPlayedMapsBtn").onclick = () => {
+    closeHistoryPlayedMapsEditor();
+  };
+
+  modal.onclick = (event) => {
+    if(event.target === modal){
+      closeHistoryPlayedMapsEditor();
+    }
+  };
+
+  return modal;
+
+}
+
+function renderHistoryPlayedMapsEditor(state){
+
+  const body = document.getElementById("historyPlayedMapsBody");
+
+  if(!body) return;
+
+  const modes = ["elimination", "blitz", "ctf", "bonus"];
+
+  body.innerHTML = modes.map(mode => {
+
+    const maps = state.session[mode] || [];
+    const masterMaps = mode === "bonus"
+      ? (globalMapList.elimination || [])
+      : (globalMapList[mode] || []);
+
+    return `
+      <div class="historyEditSection" data-mode="${mode}">
+        <div class="historyEditHeader ${mode === "elimination" ? "eliminationHeader" : mode === "blitz" ? "blitzHeader" : mode === "bonus" ? "bonusHeader" : "ctfHeader"}">
+          ${getHistoryModeLabel(mode)}
+        </div>
+
+        <div class="historyEditAddRow">
+          <select class="historyEditSelect">
+            <option value="">Select map</option>
+            ${masterMaps.map(mapName => `
+              <option value="${escapeHtml(mapName)}">${escapeHtml(mapName)}</option>
+            `).join("")}
+          </select>
+          <button type="button" class="btn btn-blue historyEditAddBtn">ADD</button>
+        </div>
+
+        <div class="historyEditAddRow">
+          <input class="historyEditCustomInput" type="text" placeholder="Type custom map name">
+          <button type="button" class="btn btn-blue historyEditCustomBtn">ADD CUSTOM</button>
+        </div>
+
+        <div class="historyEditRows">
+          ${maps.length ? maps.map((mapName, index) => `
+            <div class="historyEditMapRow">
+              <span class="historyEditMapName">${escapeHtml(mapName)}</span>
+              <button type="button" class="historyEditIconBtn historyEditUpBtn" ${index === 0 ? "disabled" : ""}>▲</button>
+              <button type="button" class="historyEditIconBtn historyEditDownBtn" ${index === maps.length - 1 ? "disabled" : ""}>▼</button>
+              <button type="button" class="historyEditIconBtn historyEditRemoveBtn">✕</button>
+            </div>
+          `).join("") : `
+            <div class="historyEditEmpty">No maps saved for ${getHistoryModeLabel(mode)}.</div>
+          `}
+        </div>
+      </div>
+    `;
+
+  }).join("");
+
+  body.querySelectorAll(".historyEditSection").forEach(section => {
+
+    const mode = section.getAttribute("data-mode");
+    const select = section.querySelector(".historyEditSelect");
+    const customInput = section.querySelector(".historyEditCustomInput");
+
+    section.querySelector(".historyEditAddBtn").onclick = () => {
+      addHistoryPlayedMap(state, mode, select.value);
+    };
+
+    section.querySelector(".historyEditCustomBtn").onclick = () => {
+      addHistoryPlayedMap(state, mode, customInput.value);
+    };
+
+    section.querySelectorAll(".historyEditMapRow").forEach((row, index) => {
+
+      const upBtn = row.querySelector(".historyEditUpBtn");
+      const downBtn = row.querySelector(".historyEditDownBtn");
+      const removeBtn = row.querySelector(".historyEditRemoveBtn");
+
+      if(upBtn){
+        upBtn.onclick = () => moveHistoryPlayedMap(state, mode, index, -1);
+      }
+
+      if(downBtn){
+        downBtn.onclick = () => moveHistoryPlayedMap(state, mode, index, 1);
+      }
+
+      if(removeBtn){
+        removeBtn.onclick = () => removeHistoryPlayedMap(state, mode, index);
+      }
+
+    });
+
+  });
+
+}
+
+function addHistoryPlayedMap(state, mode, mapName){
+
+  const cleanName = String(mapName || "").trim();
+
+  if(!cleanName) return;
+
+  const list = state.session[mode] || [];
+
+  if(!list.includes(cleanName)){
+    state.session[mode] = [...list, cleanName];
+    markHistoryPlayedMapsDirty();
+  }
+
+  renderHistoryPlayedMapsEditor(state);
+
+}
+
+function moveHistoryPlayedMap(state, mode, index, direction){
+
+  const list = [...(state.session[mode] || [])];
+  const nextIndex = index + direction;
+
+  if(nextIndex < 0 || nextIndex >= list.length) return;
+
+  const [mapName] = list.splice(index, 1);
+  list.splice(nextIndex, 0, mapName);
+
+  state.session[mode] = list;
+  markHistoryPlayedMapsDirty();
+  renderHistoryPlayedMapsEditor(state);
+
+}
+
+function removeHistoryPlayedMap(state, mode, index){
+
+  const list = [...(state.session[mode] || [])];
+  list.splice(index, 1);
+
+  state.session[mode] = list;
+  markHistoryPlayedMapsDirty();
+  renderHistoryPlayedMapsEditor(state);
+
+}
+
+function markHistoryPlayedMapsDirty(){
+  historyPlayedMapsHasUnsavedChanges = true;
+}
+
+async function openHistoryPlayedMapsEditor(match){
+
+  if(!isAdminUnlocked()){
+    showModal("Unlock admin mode first.", "alert");
+    return;
+  }
+
+  const modal = ensureHistoryPlayedMapsModal();
+  const state = {
+    selectedAt: match.selectedAt,
+    session: getHistoryPlayedMapsFromMatch(match)
+  };
+
+  modal._historyPlayedMapsState = state;
+  historyPlayedMapsHasUnsavedChanges = false;
+  modal.style.display = "flex";
+
+  renderHistoryPlayedMapsEditor(state);
+
+  document.getElementById("saveHistoryPlayedMapsBtn").onclick = async () => {
+    await saveHistoryPlayedMapsEditor(state);
+  };
+
+}
+
+async function closeHistoryPlayedMapsEditor(force = false){
+
+  const modal = document.getElementById("historyPlayedMapsModal");
+
+  if(!modal) return;
+
+  if(historyPlayedMapsHasUnsavedChanges && !force){
+    const discard = await showModal(
+      "You have unsaved played-map changes. Close without saving?",
+      "confirm"
+    );
+
+    if(!discard) return;
+  }
+
+  historyPlayedMapsHasUnsavedChanges = false;
+  modal.style.display = "none";
+
+}
+
+async function saveHistoryPlayedMapsEditor(state){
+
+  const pass = await getAdminPassword();
+  if(!pass) return;
+
+  showBusy("SAVING PLAYED MAPS");
+
+  try{
+
+    const res = await api({
+      action:"updateHistoryPlayedMaps",
+      password:pass,
+      selectedAt:state.selectedAt,
+      session:state.session
+    });
+
+    if(!res || !res.ok){
+      showModal((res && res.error) || "Could not save played maps.", "alert");
+      return;
+    }
+
+    sessionStorage.setItem("adminPass", pass);
+    updateAdminBar();
+    historyPlayedMapsHasUnsavedChanges = false;
+    closeHistoryPlayedMapsEditor(true);
+
+    await loadHistoryRange(historyShowingAll);
+
+    showModal(`Played maps saved. ${res.updatedCount || 0} history rows updated.`, "alert");
+
+  }finally{
+
+    hideBusy();
+
+  }
+
 }
 
 function setupHistorySorting(){
@@ -1932,6 +2400,10 @@ function formatDate(date){
   }).format(d);
 
 }
+
+document.getElementById("toggleHistoryRangeBtn").onclick = () => {
+  loadHistoryRange(!historyShowingAll);
+};
 
 document.getElementById("clearHistoryBtn").onclick = clearHistory;
 
@@ -2286,6 +2758,7 @@ function resetGeneratedMatchups(){
 
   // Reset stored data
   lastGeneratedMatchups = [];
+  generatedMatchupSelectionPending = false;
   selectedMatchKey = null;
 
   // Disable radio buttons again
@@ -2319,8 +2792,23 @@ function normalizeSessionData(data = {}){
   return {
     elimination: Array.isArray(data.elimination) ? data.elimination.filter(Boolean) : [],
     blitz: Array.isArray(data.blitz) ? data.blitz.filter(Boolean) : [],
-    ctf: Array.isArray(data.ctf) ? data.ctf.filter(Boolean) : []
+    ctf: Array.isArray(data.ctf) ? data.ctf.filter(Boolean) : [],
+    bonus: Array.isArray(data.bonus) ? data.bonus.filter(Boolean) : []
   };
+}
+
+function normalizeLastPlayedMaps(data = {}){
+  return {
+    elimination: data && data.elimination ? data.elimination : "",
+    blitz: data && data.blitz ? data.blitz : "",
+    ctf: data && data.ctf ? data.ctf : "",
+    bonus: data && data.bonus ? data.bonus : ""
+  };
+}
+
+function syncSessionStateFromResponse(data){
+  currentSessionMaps = normalizeSessionData(data);
+  currentSessionLastPlayed = normalizeLastPlayedMaps(data && data.lastPlayed);
 }
 
 function getActiveSessionMaps(){
@@ -2347,7 +2835,8 @@ function clearSessionProgressDirty(){
   sessionProgressSkippedMaps = {
     elimination: [],
     blitz: [],
-    ctf: []
+    ctf: [],
+    bonus: []
   };
 
 }
@@ -2372,8 +2861,10 @@ function removeSessionMapLocally(mode, index){
     maps[mode] = list;
 
     if(skippedMap){
-      sessionProgressSkippedMaps[mode] = [
-        ...(sessionProgressSkippedMaps[mode] || []),
+      const skippedMode = mode === "bonus" ? "elimination" : mode;
+
+      sessionProgressSkippedMaps[skippedMode] = [
+        ...(sessionProgressSkippedMaps[skippedMode] || []),
         skippedMap
       ].filter((mapName, mapIndex, source) => source.indexOf(mapName) === mapIndex);
     }
@@ -2440,10 +2931,18 @@ function getCustomSessionLimit(mode){
   if(mode === "elimination") return 2;
   if(mode === "blitz") return 2;
   if(mode === "ctf") return 5;
+  if(mode === "bonus") return 2;
   return 0;
 }
 
 function isMapSelectedInCustomSession(mode, mapName){
+  if(mode === "elimination"){
+    return (
+      (customSessionData.elimination || []).includes(mapName) ||
+      (customSessionData.bonus || []).includes(mapName)
+    );
+  }
+
   const list = customSessionData[mode] || [];
   return list.includes(mapName);
 }
@@ -2454,18 +2953,30 @@ async function toggleCustomSessionMap(mode, mapName){
     return;
   }
 
-  const current = [...(customSessionData[mode] || [])];
+  let targetMode = mode;
+
+  if(mode === "elimination"){
+    if((customSessionData.elimination || []).includes(mapName)){
+      targetMode = "elimination";
+    }else if((customSessionData.bonus || []).includes(mapName)){
+      targetMode = "bonus";
+    }else if((customSessionData.elimination || []).length >= getCustomSessionLimit("elimination")){
+      targetMode = "bonus";
+    }
+  }
+
+  const current = [...(customSessionData[targetMode] || [])];
   const existingIndex = current.indexOf(mapName);
 
   if(existingIndex !== -1){
     current.splice(existingIndex, 1);
   }else{
-    const limit = getCustomSessionLimit(mode);
+    const limit = getCustomSessionLimit(targetMode);
 
     if(current.length >= limit){
       const modeLabel =
-        mode === "ctf" ? "CTF" :
-        mode.charAt(0).toUpperCase() + mode.slice(1);
+        targetMode === "ctf" ? "CTF" :
+        targetMode.charAt(0).toUpperCase() + targetMode.slice(1);
 
       await showModal(`${modeLabel} already has ${limit} maps selected.`, "alert");
       return;
@@ -2476,7 +2987,7 @@ async function toggleCustomSessionMap(mode, mapName){
 
   customSessionData = {
     ...customSessionData,
-    [mode]: current
+    [targetMode]: current
   };
   customSessionHasUnsavedChanges = true;
 
@@ -2498,12 +3009,13 @@ function updateCustomMapHighlights(){
       customSessionActive && isMapSelectedInCustomSession(mode, mapName)
     );
 
-    row.classList.remove("customSelectedElimination", "customSelectedBlitz", "customSelectedCtf");
+    row.classList.remove("customSelectedElimination", "customSelectedBlitz", "customSelectedCtf", "customSelectedBonus");
 
     if(customSessionActive && isMapSelectedInCustomSession(mode, mapName)){
       if(mode === "elimination") row.classList.add("customSelectedElimination");
       if(mode === "blitz") row.classList.add("customSelectedBlitz");
       if(mode === "ctf") row.classList.add("customSelectedCtf");
+      if((customSessionData.bonus || []).includes(mapName)) row.classList.add("customSelectedBonus");
     }
   });
 
@@ -2548,13 +3060,14 @@ if(overlay){
   }
 
   await loadCustomSessionState();
-  currentSessionMaps = normalizeSessionData(sessionData);
+  syncSessionStateFromResponse(sessionData);
 
   const initialData = await api({
   action:"getInitialData"
 });
 
 if(initialData.ok && initialData.mapList){
+  globalMapList = normalizeSessionData(initialData.mapList);
   renderMasterMapList(initialData.mapList);
 }
 
@@ -2575,6 +3088,7 @@ function renderSessionMaps(data){
   renderModeSessionList("eliminationSessionList", data.elimination || [], "elimination");
   renderModeSessionList("blitzSessionList", data.blitz || [], "blitz");
   renderModeSessionList("ctfSessionList", data.ctf || [], "ctf");
+  renderModeSessionList("bonusSessionList", data.bonus || [], "bonus");
 
   // Render new visible single-card layout
   renderUnifiedSessionMaps(data);
@@ -2683,6 +3197,12 @@ function renderUnifiedSessionMaps(data){
       mode: "ctf",
       headerClass: "ctfHeader",
       maps: data.ctf || []
+    },
+    {
+      label: "Bonus",
+      mode: "bonus",
+      headerClass: "bonusHeader",
+      maps: data.bonus || []
     }
   ];
 
@@ -2705,7 +3225,8 @@ function renderUnifiedSessionMaps(data){
      const row = document.createElement("div");
      row.className = "mapMasterRow sessionUnifiedRow";
       
-     const masterContainer = document.getElementById(section.mode + "MasterList");
+     const masterMode = section.mode === "bonus" ? "elimination" : section.mode;
+     const masterContainer = document.getElementById(masterMode + "MasterList");
 
 let masterIndex = "";
 
@@ -2803,7 +3324,8 @@ function renderModeSessionList(containerId, maps, mode){
     const row = document.createElement("div");
     row.className = "mapSessionCompactRow";
 
-    const masterContainer = document.getElementById(mode + "MasterList");
+    const masterMode = mode === "bonus" ? "elimination" : mode;
+    const masterContainer = document.getElementById(masterMode + "MasterList");
 
 let masterIndex = "";
 
@@ -2961,7 +3483,7 @@ if(!pass) return;
     updateAdminBar();
     clearSessionProgressDirty();
     sessionMapsNeedSelection = false;
-    currentSessionMaps = normalizeSessionData(res);
+    syncSessionStateFromResponse(res);
 
 renderAllSessionViews();
 
@@ -3010,7 +3532,7 @@ saveBtn.onclick = async () => {
   sessionStorage.setItem("adminPass", pass);
   updateAdminBar();
   clearSessionProgressDirty();
-  currentSessionMaps = normalizeSessionData(res);
+  syncSessionStateFromResponse(res);
 
   showModal("Session progress saved", "alert");
 
@@ -3039,7 +3561,8 @@ if(clearSessionBtn){
       customSessionData = normalizeSessionData({
         elimination: [],
         blitz: [],
-        ctf: []
+        ctf: [],
+        bonus: []
       });
       customSessionHasUnsavedChanges = true;
 
@@ -3071,7 +3594,7 @@ if(clearSessionBtn){
     clearSessionProgressDirty();
     sessionMapsNeedSelection = true;
 
-    currentSessionMaps = normalizeSessionData(res);
+    syncSessionStateFromResponse(res);
     renderAllSessionViews();
 
     showModal("Session maps cleared", "alert");
@@ -3295,6 +3818,11 @@ function buildCopySessionCard(data, matchMaker, options = {}){
       label: "CTF",
       className: "ctfHeader",
       maps: (data.ctf || []).filter(Boolean)
+    },
+    {
+      label: "Bonus",
+      className: "bonusHeader",
+      maps: (data.bonus || []).filter(Boolean)
     }
   ];
 
@@ -3343,6 +3871,22 @@ const sessionMaps = Array.from(
 masterContainer.querySelectorAll(".mapMasterRow").forEach(row=>{
   row.classList.remove("lastPlayedMap");
 });
+
+if(sessionMaps.length === 0) return;
+
+const savedLastPlayedMap = !customSessionActive && currentSessionLastPlayed
+  ? currentSessionLastPlayed[mode]
+  : "";
+
+if(savedLastPlayedMap){
+  masterContainer.querySelectorAll(".mapMasterRow").forEach(row => {
+    if(row.innerText.trim() === savedLastPlayedMap){
+      row.classList.add("lastPlayedMap");
+    }
+  });
+
+  return;
+}
 
 /* 🔥 IF NO SESSION MAPS → STOP HERE (NO HIGHLIGHT) */
 if(sessionMaps.length === 0) return;
