@@ -407,6 +407,10 @@ document.getElementById(tab).classList.add("active");
 
 if(btn) btn.classList.add("active");
 
+if(tab === "mapListTab" && window.loadMapListTabData){
+  window.loadMapListTabData();
+}
+
 /* 🔥 ALWAYS SCROLL TO TOP ON TAB CHANGE */
 window.scrollTo({
   top: 0,
@@ -447,6 +451,20 @@ SAVING<span class="dots"></span>
 
 <div class="generatingText">
 LOADING<span class="dots"></span>
+</div>
+
+</div>
+
+</div>
+
+<div id="mapListLoadingOverlay">
+
+<div class="generatingBox">
+
+<div class="spinner"></div>
+
+<div class="generatingText">
+LOADING MAPS<span class="dots"></span>
 </div>
 
 </div>
@@ -494,8 +512,8 @@ SAVING<span class="dots"></span>
 
     <div class="modalButtons">
 
-    <button id="modalCancel" class="btn btn-red modalIconBtn">✕</button>
-    <button id="modalConfirm" class="btn btn-green modalIconBtn">✓</button>
+    <button id="modalCancel" class="btn btn-red modalIconBtn">NO</button>
+    <button id="modalConfirm" class="btn btn-green modalIconBtn">OK</button>
 
     </div>
 
