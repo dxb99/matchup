@@ -2849,6 +2849,17 @@ body.admin-unlocked .mapDeleteMini {
   background-image:url("PLAYERS.M.png?v=1");
 }
 
+body{
+  background:
+  linear-gradient(180deg, rgba(0,0,0,0.74) 0%, rgba(5,5,5,0.82) 44%, rgba(0,0,0,0.90) 100%),
+  linear-gradient(90deg, rgba(255,75,75,0.08), transparent 32%, transparent 68%, rgba(75,163,255,0.08)),
+  url("PLAYERS.M.png?v=1");
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+  background-attachment:fixed;
+}
+
 #adminBar{
   width:100%;
   box-sizing:border-box;
@@ -3441,8 +3452,14 @@ body.admin-unlocked .mapDeleteMini {
 
 body{
 background:
-linear-gradient(180deg, #050505 0%, #0b0b0b 44%, #070707 100%),
-linear-gradient(90deg, rgba(255,75,75,0.06), transparent 32%, transparent 68%, rgba(75,163,255,0.06));
+linear-gradient(180deg, rgba(0,0,0,0.86) 0%, rgba(3,3,3,0.90) 44%, rgba(0,0,0,0.94) 100%),
+linear-gradient(90deg, rgba(0,0,0,0.34), rgba(0,0,0,0.48), rgba(0,0,0,0.34)),
+linear-gradient(90deg, rgba(255,75,75,0.035), transparent 32%, transparent 68%, rgba(75,163,255,0.035)),
+url("PLAYERS.png?v=1");
+background-size:cover;
+background-position:center;
+background-repeat:no-repeat;
+background-attachment:fixed;
 }
 
 header{
@@ -3742,6 +3759,20 @@ margin-top:180px;
       0 0 46px rgba(250,204,21,0.34),
       inset 0 1px 0 rgba(255,255,255,0.30);
     filter:brightness(1.18);
+  }
+}
+
+@media(max-width:700px){
+  body{
+    background:
+    linear-gradient(180deg, rgba(0,0,0,0.76) 0%, rgba(5,5,5,0.84) 44%, rgba(0,0,0,0.90) 100%),
+    linear-gradient(90deg, rgba(0,0,0,0.16), rgba(0,0,0,0.28), rgba(0,0,0,0.16)),
+    linear-gradient(90deg, rgba(255,75,75,0.06), transparent 32%, transparent 68%, rgba(75,163,255,0.06)),
+    url("PLAYERS.M.png?v=1");
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+    background-attachment:fixed;
   }
 }
 
