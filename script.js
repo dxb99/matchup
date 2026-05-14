@@ -6,7 +6,6 @@ let countdownTimer = null;
 let lastMatchTimestamp = null;
 let lastGeneratedMatchups = [];
 let generatedMatchupSelectionPending = false;
-let matchupTabChangeAfterSave = false;
 let selectedMatchKey = null;
 let matchHistory = [];
 let lastSelectedPlayers = [];
@@ -468,10 +467,6 @@ function getActionErrorMessage(err, fallback = "Action failed."){
 
 }
 
-function hasVisibleGeneratedMatchups(){
-  return document.querySelectorAll("#generatedMatchups .matchOption").length > 0;
-}
-
 async function canLeaveCurrentTab(nextTab){
 
   const activeTab = document.querySelector(".tabContent.active");
@@ -493,20 +488,9 @@ async function canLeaveCurrentTab(nextTab){
     return false;
   }
 
-  if(activeTabId === "generatorTab" && matchupTabChangeAfterSave){
-    return true;
-  }
-
-  if(
-    activeTabId === "generatorTab" &&
-    (generatedMatchupSelectionPending || (currentMatchKeyFromServer && hasVisibleGeneratedMatchups()))
-  ){
-    const message = currentMatchKeyFromServer
-      ? "Leave without changing matchup?\nCurrent matchup will stay active."
-      : "Leave without selecting matchup?\nNo matchup will be saved.";
-
+  if(activeTabId === "generatorTab" && generatedMatchupSelectionPending){
     const leave = await showModal(
-      message,
+      "Leave without selecting matchup?\nNo matchup will be saved.",
       "confirm"
     );
 
@@ -604,11 +588,6 @@ function hasProtectedUnsavedWork(){
 
   return (
     generatedMatchupSelectionPending ||
-    (
-      activeTabId === "generatorTab" &&
-      !!currentMatchKeyFromServer &&
-      hasVisibleGeneratedMatchups()
-    ) ||
     adminHasUnsavedChanges ||
     customSessionHasUnsavedChanges ||
     sessionProgressHasUnsavedChanges ||
@@ -1189,8 +1168,6 @@ const data = await api({
 
 // 🔥 ONLY mark selected AFTER SUCCESS
 currentMatchKeyFromServer = key; // 🔥 FORCE SYNC IMMEDIATELY
-generatedMatchupSelectionPending = false;
-
 document.querySelectorAll(".matchOption").forEach(card=>{
   card.classList.remove("armedCard");
   card.classList.remove("selectedCard");
@@ -1210,6 +1187,8 @@ btn.innerText = "SELECTED";
 btn.disabled = true;
 btn.style.cursor = "not-allowed";
 
+resetGeneratedMatchups();
+
 /* CHANGE OVERLAY TEXT TO SAVED */
 
 overlay.querySelector(".generatingText").innerHTML = "SAVED ✓";
@@ -1220,9 +1199,7 @@ setTimeout(async () => {
 
   // 🔥 Switch while overlay is still visible, so Generator never flashes back onscreen.
   const matchupBtn = document.querySelector('.tabButton[onclick*="matchupTab"]');
-  matchupTabChangeAfterSave = true;
   await showTab("matchupTab", matchupBtn);
-  matchupTabChangeAfterSave = false;
 
   try{
 
@@ -1242,12 +1219,6 @@ setTimeout(async () => {
 
   // 🔥 Refresh generator/history details quietly after the user is already on Matchup.
   resetMatchupPickCounts();
-  ensureMatchupPickCounts().then(() => {
-    const updatedMatchups = generateMatchupsLocal(lastSelectedPlayers, "all");
-    lastGeneratedMatchups = updatedMatchups;
-    updateGapCounts();
-    applyGapFilter();
-  }).catch(() => {});
 
 }, 1000);
 
