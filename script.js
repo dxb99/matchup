@@ -318,6 +318,155 @@ function isAdminUnlocked(){
   return !!sessionStorage.getItem("adminPass");
 }
 
+function setupHelpGuide(){
+
+  const searchInput = document.getElementById("helpSearchInput");
+  const countEl = document.getElementById("helpSearchCount");
+  const sections = Array.from(document.querySelectorAll(".helpSection"));
+  const topicButtons = Array.from(document.querySelectorAll(".helpTopicBtn"));
+  const sectionWrap = document.querySelector(".helpSections");
+  let activeHelpTarget = topicButtons[0] ? topicButtons[0].dataset.helpTarget : "";
+
+  if(!sectionWrap || sections.length === 0) return;
+
+  sections.forEach(section => {
+    section.dataset.originalHtml = section.innerHTML;
+  });
+
+  let noResults = document.getElementById("helpNoResults");
+
+  if(!noResults){
+    noResults = document.createElement("div");
+    noResults.id = "helpNoResults";
+    noResults.className = "helpNoResults hidden";
+    noResults.textContent = "No help topics found. Try a simpler word.";
+    sectionWrap.appendChild(noResults);
+  }
+
+  topicButtons.forEach(btn => {
+    btn.onclick = () => {
+      activeHelpTarget = btn.dataset.helpTarget;
+
+      if(searchInput){
+        searchInput.value = "";
+      }
+
+      renderHelpGuide("");
+    };
+  });
+
+  function escapeRegExp(value){
+    return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  }
+
+  function highlightHelpTerm(section, term){
+    section.innerHTML = section.dataset.originalHtml || section.innerHTML;
+
+    if(!term) return;
+
+    const regex = new RegExp(`(${escapeRegExp(term)})`, "gi");
+    const walker = document.createTreeWalker(
+      section,
+      NodeFilter.SHOW_TEXT,
+      {
+        acceptNode(node){
+          if(!node.nodeValue || !regex.test(node.nodeValue)){
+            regex.lastIndex = 0;
+            return NodeFilter.FILTER_REJECT;
+          }
+
+          regex.lastIndex = 0;
+          return NodeFilter.FILTER_ACCEPT;
+        }
+      }
+    );
+
+    const textNodes = [];
+
+    while(walker.nextNode()){
+      textNodes.push(walker.currentNode);
+    }
+
+    textNodes.forEach(node => {
+      const fragment = document.createDocumentFragment();
+      const parts = node.nodeValue.split(regex);
+
+      parts.forEach(part => {
+        if(part.toLowerCase() === term.toLowerCase()){
+          const mark = document.createElement("mark");
+          mark.className = "helpSearchHighlight";
+          mark.textContent = part;
+          fragment.appendChild(mark);
+        }else{
+          fragment.appendChild(document.createTextNode(part));
+        }
+      });
+
+      node.parentNode.replaceChild(fragment, node);
+    });
+  }
+
+  function renderHelpGuide(rawTerm){
+    const term = rawTerm.trim();
+    const normalizedTerm = term.toLowerCase();
+    let visibleCount = 0;
+    let firstMatchId = "";
+
+    sections.forEach(section => {
+      highlightHelpTerm(section, term);
+
+      const haystack = [
+        section.innerText,
+        section.dataset.helpKeywords || ""
+      ].join(" ").toLowerCase();
+
+      const isMatch = !normalizedTerm || haystack.includes(normalizedTerm);
+      const isActive = section.id === activeHelpTarget;
+      const shouldShow = term ? isMatch : isActive;
+
+      section.classList.toggle("hidden", !shouldShow);
+
+      if(isMatch){
+        visibleCount++;
+
+        if(!firstMatchId){
+          firstMatchId = section.id;
+        }
+      }
+    });
+
+    topicButtons.forEach(btn => {
+      const target = document.getElementById(btn.dataset.helpTarget);
+      const haystack = target
+        ? [target.innerText, target.dataset.helpKeywords || ""].join(" ").toLowerCase()
+        : "";
+      const isMatch = !normalizedTerm || haystack.includes(normalizedTerm);
+
+      btn.classList.toggle("hidden", !isMatch);
+      btn.classList.toggle("active", !term && btn.dataset.helpTarget === activeHelpTarget);
+    });
+
+    noResults.classList.toggle("hidden", !term || visibleCount !== 0);
+
+    if(countEl){
+      countEl.textContent = term
+        ? `${visibleCount} help ${visibleCount === 1 ? "topic" : "topics"} found`
+        : "Select a help topic";
+    }
+
+    if(term && firstMatchId){
+      activeHelpTarget = firstMatchId;
+    }
+  }
+
+  if(searchInput){
+    searchInput.oninput = () => renderHelpGuide(searchInput.value);
+  }
+
+  renderHelpGuide("");
+
+}
+
 window.addEventListener("load", async () => {
 
 sessionStorage.removeItem("selectedGeneratorMatchMaker");
@@ -327,6 +476,7 @@ sessionStorage.removeItem("adminPass");
   try {
 
     await loadInitialData();
+    setupHelpGuide();
 
 /* 🔥 HIDE BLITZ ON LOAD */
 
@@ -3977,16 +4127,25 @@ function processMode(mode, sessionId, masterId){
   if(!sessionContainer || !masterContainer) return;
 
   // 🔥 get session maps
-const sessionMaps = Array.from(
-  sessionContainer.querySelectorAll(".mapSessionName")
-).map(el => el.innerText.trim());
+const sessionContainers = [sessionContainer];
+
+if(mode === "elimination"){
+  const bonusContainer = document.getElementById("bonusSessionList");
+
+  if(bonusContainer){
+    sessionContainers.push(bonusContainer);
+  }
+}
+
+const sessionMaps = sessionContainers.flatMap(container =>
+  Array.from(container.querySelectorAll(".mapSessionName"))
+    .map(el => el.innerText.trim())
+);
 
 /* 🔥 ALWAYS CLEAR OLD HIGHLIGHTS FIRST */
 masterContainer.querySelectorAll(".mapMasterRow").forEach(row=>{
   row.classList.remove("lastPlayedMap");
 });
-
-if(sessionMaps.length === 0) return;
 
 const savedLastPlayedMap = !customSessionActive && currentSessionLastPlayed
   ? currentSessionLastPlayed[mode]
